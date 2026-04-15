@@ -1,0 +1,187 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Sun, Moon, Menu, X, Download } from "lucide-react";
+import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
+
+const sectionIds = ["about", "experience", "projects", "skills", "contact"];
+
+const navLinks = [
+  { label: "About", href: "#about" },
+  { label: "Experience", href: "#experience" },
+  { label: "Projects", href: "#projects" },
+  { label: "Skills", href: "#skills" },
+  { label: "Contact", href: "#contact" },
+];
+
+export function Nav() {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
+        });
+      },
+      { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
+    );
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  const handleNavClick = (href: string) => {
+    setMobileOpen(false);
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
+  return (
+    <>
+      <motion.nav
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className={cn(
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          scrolled
+            ? "bg-background/90 backdrop-blur-xl border-b border-border"
+            : "bg-transparent"
+        )}
+      >
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <a
+              href="#hero"
+              onClick={(e) => { e.preventDefault(); handleNavClick("#hero"); }}
+              className="flex items-center gap-2.5 group"
+            >
+              <div className="w-7 h-7 rounded border border-violet-500/40 flex items-center justify-center text-violet-400 font-display font-bold text-xs group-hover:border-violet-400/70 group-hover:text-violet-300 transition-colors duration-200">
+                ET
+              </div>
+              <span className="font-display font-semibold text-foreground hidden sm:block text-sm tracking-tight">
+                Elizabeth Tran
+              </span>
+            </a>
+
+            {/* Desktop nav links */}
+            <div className="hidden md:flex items-center gap-0.5">
+              {navLinks.map((link) => {
+                const sectionId = link.href.slice(1);
+                const isActive = activeSection === sectionId;
+                return (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }}
+                    className={cn(
+                      "relative px-4 py-2 text-sm font-medium transition-colors duration-200",
+                      isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    {link.label}
+                    {isActive && (
+                      <motion.div
+                        layoutId="nav-active-indicator"
+                        className="absolute bottom-0.5 left-3 right-3 h-px bg-violet-500"
+                        transition={{ type: "spring", stiffness: 400, damping: 38 }}
+                      />
+                    )}
+                  </a>
+                );
+              })}
+            </div>
+
+            {/* Right actions */}
+            <div className="flex items-center gap-2">
+              {mounted && (
+                <button
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                  className="p-2 text-muted-foreground hover:text-foreground transition-colors duration-200"
+                  aria-label="Toggle theme"
+                >
+                  {theme === "dark" ? (
+                    <Sun className="w-4 h-4" />
+                  ) : (
+                    <Moon className="w-4 h-4" />
+                  )}
+                </button>
+              )}
+
+              <a
+                href="/resume.pdf"
+                download
+                className="hidden sm:flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-violet-600 hover:bg-violet-500 rounded-md transition-colors duration-200"
+              >
+                <Download className="w-3.5 h-3.5" />
+                Resume
+              </a>
+
+              <button
+                onClick={() => setMobileOpen(!mobileOpen)}
+                className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors duration-200"
+                aria-label="Toggle menu"
+              >
+                {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.nav>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed top-16 left-0 right-0 z-40 bg-background/95 backdrop-blur-xl border-b border-border md:hidden"
+          >
+            <div className="max-w-6xl mx-auto px-4 py-4 space-y-1">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => { e.preventDefault(); handleNavClick(link.href); }}
+                  className="block px-3 py-2.5 text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium text-sm"
+                >
+                  {link.label}
+                </a>
+              ))}
+              <a
+                href="/resume.pdf"
+                download
+                className="flex items-center gap-2 px-3 py-2.5 mt-2 text-sm font-medium text-white bg-violet-600 rounded-md w-fit"
+              >
+                <Download className="w-4 h-4" />
+                Download Resume
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
