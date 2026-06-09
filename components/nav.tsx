@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sun, Moon, Menu, X, Download } from "lucide-react";
+import { Sun, Moon, Menu, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 
@@ -128,15 +128,6 @@ export function Nav() {
                 </button>
               )}
 
-              <a
-                href="/resume.pdf"
-                download
-                className="hidden sm:flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-violet-600 hover:bg-violet-500 rounded-md transition-colors duration-200"
-              >
-                <Download className="w-3.5 h-3.5" />
-                Resume
-              </a>
-
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
                 className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors duration-200"
@@ -170,14 +161,6 @@ export function Nav() {
                   {link.label}
                 </a>
               ))}
-              <a
-                href="/resume.pdf"
-                download
-                className="flex items-center gap-2 px-3 py-2.5 mt-2 text-sm font-medium text-white bg-violet-600 rounded-md w-fit"
-              >
-                <Download className="w-4 h-4" />
-                Download Resume
-              </a>
             </div>
           </motion.div>
         )}

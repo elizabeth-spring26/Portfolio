@@ -53,7 +53,7 @@ const projects = [
     title: "Small Business AI Consulting",
     icon: GraduationCap,
     description:
-      "Consulting 60+ small businesses on integrating AI into daily operations through the G1000 AI Bootcamp. Demonstrated live AI applications using API keys and MCPs, from automating customer responses to building marketing workflows.",
+      "Consulting 80+ small businesses on integrating AI into daily operations through the G1000 AI Bootcamp. Demonstrated live AI applications using API keys and MCPs, from automating customer responses to building marketing workflows.",
     tags: ["AI Consulting", "API Keys", "MCPs", "Small Business"],
     glowColor: "rgba(139, 92, 246, 0.28)",
     iconColor: "text-violet-400",

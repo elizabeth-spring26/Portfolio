@@ -8,7 +8,7 @@ const stats = [
   { numericValue: 5,    prefix: "",  suffix: "M+", label: "TikTok Views" },
   { numericValue: 100,  prefix: "$", suffix: "K",  label: "Solutions Built" },
   { numericValue: 3000, prefix: "",  suffix: "+",  label: "Students Reached" },
-  { numericValue: 60,   prefix: "",  suffix: "+",  label: "Businesses Consulted" },
+  { numericValue: 80,   prefix: "",  suffix: "+",  label: "Businesses Consulted" },
 ];
 
 function AnimatedStatValue({
@@ -116,12 +116,12 @@ export function AboutSection() {
               <br />one agent at a time.
             </motion.h2>
 
-            <motion.p variants={itemVariants} className="text-foreground/80 leading-relaxed" style={{ maxWidth: "58ch" }}>
-              I build AI agents and automate workflows that save real time for real people. At Babson College studying Technology Entrepreneurship, I don&apos;t just study AI. I ship it. From training sales agents that follow up after discovery calls to automating C-suite newsletters, my tools run in production.
+            <motion.p variants={itemVariants} className="text-muted-foreground leading-relaxed" style={{ maxWidth: "58ch" }}>
+              As a Technology Entrepreneurship student at Babson College, I don&apos;t just study how technology can improve businesses, I build and deploy solutions. From AI-powered sales agents that automatically follow up after discovery calls to financial dashboards that aggregate balances across multiple accounts and deliver daily cash-flow updates, I focus on turning ideas into systems people actually use.
             </motion.p>
 
             <motion.p variants={itemVariants} className="text-muted-foreground leading-relaxed" style={{ maxWidth: "58ch" }}>
-              I&apos;m the External Partnerships Lead at The Generator (Babson&apos;s AI Lab), where I secured sponsorships from Anthropic, OpenAI, Cursor, and more, then co-hosted a buildathon that brought the AI ecosystem to campus. I&apos;m also a Student Lead in the G1000 AI Bootcamp, consulting 60+ small businesses on actually using AI in their operations.
+              Beyond building products, I have spent the past three years helping grow AI startups across partnerships, marketing and product management. As External Partnerships Lead at The Generator, Babson&apos;s AI Lab, I secured sponsorships from Anthropic, OpenAI, Cursor, and other leading AI companies, helping bring industry leaders to campus through our flagship AI Buildathon. I also serve as a Student Lead for the G1000 AI Bootcamp, where I&apos;ve helped more than 60 small businesses adopt AI and automation in their operations.
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex flex-wrap gap-2 pt-2">
