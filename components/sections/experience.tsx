@@ -1,79 +1,80 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { GlowCard } from "@/components/ui/spotlight-card";
 
-const experiences = [
+type Experience = {
+  role: string;
+  company: string;
+  dates: string;
+  current: boolean;
+  summary: string;
+  bullets: string[];
+};
+
+const experiences: Experience[] = [
   {
     role: "Co-founder & CEO",
     company: "STEALTH",
-    dates: "Jan 2026 – Present · Part-time",
-    glowColor: "rgba(139, 92, 246, 0.3)",
-    accent: "text-violet-400",
-    badge: "Current",
+    dates: "2026 → Present",
+    current: true,
+    summary: "AI automation studio building agents for coaching and finance workflows.",
     bullets: [
-      "Building AI-powered email automations on n8n and Claude Code for a coaching business — post-discovery call follow-ups and client outreach, fully hands-off.",
-      "Built a financial dashboard that aggregates 6+ bank accounts via Plaid, auto-calculates cash on hand, and pushes a daily Slack report.",
-      "Delivering custom AI workflow solutions for 2 paying clients, $2,000+ in early revenue.",
+      "Six bank accounts, one number: a Plaid-backed agent aggregates balances nightly and posts a cash position to Slack each morning.",
+      "Follow-up email for a coaching client runs unattended on n8n and Claude Code. Two paying clients, $2,000 in early revenue.",
     ],
   },
   {
     role: "External Partnerships Lead",
     company: "The Generator, Babson College AI Lab",
-    dates: "Jan 2025 – Present",
-    glowColor: "rgba(139, 92, 246, 0.35)",
-    accent: "text-violet-400",
-    badge: "Current",
+    dates: "2025 → Present",
+    current: true,
+    summary: "Babson's AI lab. Industry partnerships and campus programming.",
     bullets: [
-      "Secured sponsorships and partnerships with Anthropic, OpenAI, Cursor, Loveable, Tripo AI, Orchestra, and Harvard.",
-      "Co-organized the AI Buildathon — bringing the broader AI ecosystem onto campus.",
+      "Sponsorships and partnerships with Anthropic, OpenAI, Cursor, Lovable, Tripo AI, Orchestra, and Harvard.",
+      "Co-organized the AI Buildathon, which brought that ecosystem onto campus for a full day of building.",
     ],
   },
   {
     role: "Student Lead, AI & Small Business Bootcamp",
     company: "G1000 Program",
-    dates: "Apr 2025 – Present",
-    glowColor: "rgba(167, 139, 250, 0.3)",
-    accent: "text-violet-300",
-    badge: "Current",
+    dates: "2025 → Present",
+    current: true,
+    summary: "Hands-on AI adoption for owners who just need things to work.",
     bullets: [
-      "Consulting 80+ small businesses on using AI in daily operations — demos, API integrations, and hands-on tool adoption.",
-      "Bridging the gap between state-of-the-art AI tools and owners who just need things to work.",
+      "80+ small businesses advised on putting AI into daily operations: live demos, API setup, tool adoption.",
+      "Most of the job is translation. State-of-the-art tooling on one side, an owner with a scheduling problem on the other.",
     ],
   },
   {
     role: "Product Management Intern",
     company: "AI Technology Partners",
-    dates: "May 2024 – Jun 2025",
-    glowColor: "rgba(109, 40, 217, 0.3)",
-    accent: "text-purple-400",
-    badge: null,
+    dates: "2024 – 2025",
+    current: false,
+    summary: "B2B AI solutions for enterprise teams.",
     bullets: [
-      "Built AI agents that automated newsletter curation for C-suite executives and qualified inbound sales leads.",
-      "Helped bring $100,000 in technical AI solutions to market in a B2B environment.",
+      "Agents that curated newsletters for C-suite readers and qualified inbound sales leads.",
+      "$100,000 in technical AI solutions brought to market.",
     ],
   },
   {
     role: "Marketing Manager",
     company: "ProDream AI",
-    dates: "Dec 2023 – Jan 2025",
-    glowColor: "rgba(124, 58, 237, 0.25)",
-    accent: "text-violet-400",
-    badge: null,
+    dates: "2023 – 2025",
+    current: false,
+    summary: "AI college counselor, backed by Harvard Innovation Labs and Microsoft for Startups.",
     bullets: [
-      "Produced TikTok content that hit 5M+ views and ran Instagram and LinkedIn strategy for an AI-powered college counselor backed by Harvard Innovation Labs and Microsoft for Startups.",
-      "Reached 3,000+ students from under-resourced schools.",
+      "TikTok content crossed 5M views, with Instagram and LinkedIn strategy running alongside it.",
+      "3,000+ students from under-resourced schools found the product through that work.",
     ],
   },
   {
     role: "COO",
     company: "DrinkDock (Babson FME Venture)",
-    dates: "Nov 2024 – Jun 2025",
-    glowColor: "rgba(91, 33, 182, 0.3)",
-    accent: "text-purple-300",
-    badge: null,
+    dates: "2024 – 2025",
+    current: false,
+    summary: "Student-founded beverage venture out of Babson FME.",
     bullets: [
-      "Ran operations end-to-end for a real student startup — supply chain, international manufacturer negotiations, inventory, and breakeven.",
+      "Operations end to end: supply chain, international manufacturer negotiations, inventory. Reached breakeven.",
     ],
   },
 ];
@@ -113,45 +114,53 @@ export function ExperienceSection() {
           Where I&apos;ve shipped.
         </motion.h2>
 
-        <div className="space-y-5">
+        <div className="border-b border-border">
           {experiences.map((exp, i) => (
-            <motion.div
+            <motion.article
               key={exp.company}
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.08, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ delay: i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="grid grid-cols-1 sm:grid-cols-[7.5rem_1fr] gap-x-8 gap-y-2 border-t border-border py-8"
             >
-              <GlowCard glowColor={exp.glowColor} className="p-6 sm:p-8">
-                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2.5 mb-1 flex-wrap">
-                      <h3 className="text-base sm:text-lg font-display font-bold text-foreground">
-                        {exp.role}
-                      </h3>
-                      {exp.badge && (
-                        <span className="px-2 py-0.5 text-xs rounded-full bg-violet-500/12 text-violet-300 border border-violet-500/25 font-medium">
-                          {exp.badge}
-                        </span>
-                      )}
-                    </div>
-                    <p className={`text-sm font-semibold ${exp.accent}`}>{exp.company}</p>
-                  </div>
-                  <span className="text-xs text-muted-foreground shrink-0 sm:text-right pt-0.5">
-                    {exp.dates}
-                  </span>
-                </div>
+              <div className="flex items-center gap-2 sm:pt-1">
+                {exp.current && (
+                  <span
+                    className="w-1.5 h-1.5 rounded-full bg-violet-400 shrink-0"
+                    aria-hidden="true"
+                  />
+                )}
+                <span className="font-mono text-xs text-muted-foreground whitespace-nowrap">
+                  {exp.dates}
+                </span>
+              </div>
 
-                <ul className="space-y-2">
+              <div>
+                <h3 className="font-display font-semibold text-foreground text-lg leading-snug">
+                  {exp.role}
+                </h3>
+                <p className="text-sm text-muted-foreground mt-0.5">{exp.company}</p>
+                <p className="text-[0.9375rem] text-foreground/75 mt-3 leading-relaxed max-w-[65ch]">
+                  {exp.summary}
+                </p>
+
+                <ul className="mt-3 space-y-1.5 max-w-[65ch]">
                   {exp.bullets.map((bullet) => (
-                    <li key={bullet} className="flex gap-3 text-sm text-foreground/65 leading-relaxed">
-                      <span className="mt-2 w-1 h-1 rounded-full bg-violet-500/50 shrink-0 flex-none" />
+                    <li
+                      key={bullet}
+                      className="flex gap-3 text-sm text-muted-foreground leading-relaxed"
+                    >
+                      <span
+                        className="mt-[0.5em] w-1 h-px bg-muted-foreground/50 shrink-0 flex-none"
+                        aria-hidden="true"
+                      />
                       {bullet}
                     </li>
                   ))}
                 </ul>
-              </GlowCard>
-            </motion.div>
+              </div>
+            </motion.article>
           ))}
         </div>
       </div>
