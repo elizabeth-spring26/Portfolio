@@ -1,7 +1,14 @@
 "use client";
 
-import { motion, useMotionValue, useTransform, animate, useInView } from "framer-motion";
-import { useEffect, useRef } from "react";
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+  animate,
+  useInView,
+  useReducedMotion,
+} from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 const stats = [
@@ -10,6 +17,12 @@ const stats = [
   { numericValue: 3000, prefix: "",  suffix: "+",  label: "Students Reached" },
   { numericValue: 80,   prefix: "",  suffix: "+",  label: "Businesses Consulted" },
 ];
+
+function formatStat(value: number, prefix: string, suffix: string) {
+  const rounded = Math.round(value);
+  const formatted = rounded >= 1000 ? rounded.toLocaleString() : String(rounded);
+  return `${prefix}${formatted}${suffix}`;
+}
 
 function AnimatedStatValue({
   numericValue,
@@ -22,18 +35,27 @@ function AnimatedStatValue({
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true });
+  const prefersReducedMotion = useReducedMotion();
+  const [animating, setAnimating] = useState(false);
   const motionVal = useMotionValue(0);
-  const display = useTransform(motionVal, (v) => {
-    const rounded = Math.round(v);
-    const formatted = rounded >= 1000 ? rounded.toLocaleString() : String(rounded);
-    return `${prefix}${formatted}${suffix}`;
-  });
+  const display = useTransform(motionVal, (v) => formatStat(v, prefix, suffix));
 
   useEffect(() => {
-    if (isInView) {
-      animate(motionVal, numericValue, { duration: 1.8, ease: [0.22, 1, 0.36, 1] });
-    }
-  }, [isInView, motionVal, numericValue]);
+    if (!isInView || prefersReducedMotion) return;
+    setAnimating(true);
+    const controls = animate(motionVal, numericValue, {
+      duration: 1.8,
+      ease: [0.22, 1, 0.36, 1],
+      onComplete: () => setAnimating(false),
+    });
+    return () => controls.stop();
+  }, [isInView, prefersReducedMotion, motionVal, numericValue]);
+
+  // The final value is what renders on the server and before the tween starts,
+  // so the markup never ships a zero if JS is slow, blocked, or reduced-motion.
+  if (!animating) {
+    return <span ref={ref}>{formatStat(numericValue, prefix, suffix)}</span>;
+  }
 
   return <motion.span ref={ref}>{display}</motion.span>;
 }
@@ -121,7 +143,7 @@ export function AboutSection() {
             </motion.p>
 
             <motion.p variants={itemVariants} className="text-muted-foreground leading-relaxed" style={{ maxWidth: "58ch" }}>
-              Beyond building products, I have spent the past three years helping grow AI startups across partnerships, marketing and product management. As External Partnerships Lead at The Generator, Babson&apos;s AI Lab, I secured sponsorships from Anthropic, OpenAI, Cursor, and other leading AI companies, helping bring industry leaders to campus through our flagship AI Buildathon. I also serve as a Student Lead for the G1000 AI Bootcamp, where I&apos;ve helped more than 60 small businesses adopt AI and automation in their operations.
+              Beyond building products, I have spent the past three years helping grow AI startups across partnerships, marketing and product management. As External Partnerships Lead at The Generator, Babson&apos;s AI Lab, I secured sponsorships from Anthropic, OpenAI, Cursor, and other leading AI companies, helping bring industry leaders to campus through our flagship AI Buildathon. I also serve as a Student Lead for the G1000 AI Bootcamp, where I&apos;ve helped more multiple small businesses adopt AI and automation in their operations.
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex flex-wrap gap-2 pt-2">
