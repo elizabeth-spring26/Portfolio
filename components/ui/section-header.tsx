@@ -1,3 +1,6 @@
+"use client";
+
+import { Reveal } from "@/components/ui/reveal";
 import { cn } from "@/lib/utils";
 
 interface SectionHeaderProps {
@@ -12,6 +15,7 @@ interface SectionHeaderProps {
   className?: string;
 }
 
+/** Eyebrow, heading, and subheading read as one unit and reveal together. */
 export function SectionHeader({
   index,
   label,
@@ -20,23 +24,31 @@ export function SectionHeader({
   className,
 }: SectionHeaderProps) {
   return (
-    <div className={cn("mb-14", className)}>
-      <p className="font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted-foreground mb-5">
-        <span className="tnum">{index}</span>
-        <span className="mx-1.5 opacity-40">/</span>
-        {label}
-      </p>
-      <h2
-        className="font-display text-foreground leading-[1.08]"
-        style={{ fontSize: "clamp(1.875rem, 3.4vw, 2.625rem)" }}
-      >
-        {title}
-      </h2>
-      {description && (
-        <p className="text-muted-foreground leading-relaxed mt-4 max-w-[58ch]">
-          {description}
+    <Reveal className={cn(className)}>
+      <div style={{ marginBottom: "var(--space-block)" }}>
+        <p
+          className="font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted-foreground"
+          style={{ marginBottom: "var(--space-tight)" }}
+        >
+          <span className="tnum">{index}</span>
+          <span className="mx-1.5 opacity-40">/</span>
+          {label}
         </p>
-      )}
-    </div>
+        <h2
+          className="font-display text-foreground leading-[1.08]"
+          style={{ fontSize: "clamp(1.875rem, 3.4vw, 2.625rem)" }}
+        >
+          {title}
+        </h2>
+        {description && (
+          <p
+            className="text-muted-foreground leading-relaxed max-w-[58ch]"
+            style={{ marginTop: "calc(var(--space-tight) * 2)" }}
+          >
+            {description}
+          </p>
+        )}
+      </div>
+    </Reveal>
   );
 }

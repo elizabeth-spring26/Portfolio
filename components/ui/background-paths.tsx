@@ -1,8 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
+/**
+ * Decorative background. The paths draw themselves in once on load via CSS and
+ * then hold still — no idle loop, and no JS animation library.
+ */
 function FloatingPaths({ position }: { position: number }) {
   const paths = Array.from({ length: 36 }, (_, i) => ({
     id: i,
@@ -14,7 +17,6 @@ function FloatingPaths({ position }: { position: number }) {
       684 - i * 5 * position
     } ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`,
     width: 0.5 + i * 0.03,
-    duration: 20 + (i % 7) * 3,
   }));
 
   return (
@@ -26,23 +28,15 @@ function FloatingPaths({ position }: { position: number }) {
       >
         <title>Background Paths</title>
         {paths.map((path) => (
-          <motion.path
+          <path
             key={path.id}
+            className="hero-path"
             d={path.d}
             stroke="currentColor"
             strokeWidth={path.width}
             strokeOpacity={0.1 + path.id * 0.03}
-            initial={{ pathLength: 0.3, opacity: 0.6 }}
-            animate={{
-              pathLength: 1,
-              opacity: [0.3, 0.6, 0.3],
-              pathOffset: [0, 1, 0],
-            }}
-            transition={{
-              duration: path.duration,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "linear",
-            }}
+            pathLength={1}
+            style={{ animationDelay: `${path.id * 12}ms` }}
           />
         ))}
       </svg>
@@ -57,11 +51,8 @@ export function BackgroundPaths({
   title?: string;
   onCTAClick?: () => void;
 }) {
-  const words = title.split(" ");
-
   const scrollToProjects = () => {
-    const el = document.querySelector("#projects");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -74,96 +65,56 @@ export function BackgroundPaths({
         <FloatingPaths position={-1} />
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 md:px-6 text-center">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 2 }}
-          className="max-w-4xl mx-auto"
-        >
+      <div className="relative z-10 container mx-auto px-6 md:px-8 text-center">
+        <div className="max-w-4xl mx-auto">
+          {/* Load sequence: name -> tagline -> CTA, 540ms end to end. */}
           <h1
-            className="font-display mb-6 tracking-tight"
+            className="hero-item hero-item-1 font-display mb-6 tracking-tight text-foreground"
             style={{ fontSize: "clamp(3rem, 9vw, 7rem)" }}
           >
-            {words.map((word, wordIndex) => (
-              <span key={wordIndex} className="inline-block mr-4 last:mr-0">
-                {word.split("").map((letter, letterIndex) => (
-                  <motion.span
-                    key={`${wordIndex}-${letterIndex}`}
-                    initial={{ y: 100, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{
-                      delay: wordIndex * 0.1 + letterIndex * 0.03,
-                      type: "spring",
-                      stiffness: 150,
-                      damping: 25,
-                    }}
-                    className="inline-block text-foreground"
-                  >
-                    {letter}
-                  </motion.span>
-                ))}
-              </span>
-            ))}
+            {title}
           </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.8 }}
-            className="text-foreground/80 mb-4"
+          <p
+            className="hero-item hero-item-2 text-foreground/80 mb-4"
             style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.5rem)" }}
           >
             I build AI that works for people.
-          </motion.p>
+          </p>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.0, duration: 0.8 }}
-            className="font-mono text-[0.6875rem] text-muted-foreground mb-10 tracking-[0.18em] uppercase"
-          >
+          <p className="hero-item hero-item-2 font-mono text-[0.6875rem] text-muted-foreground mb-10 tracking-[0.18em] uppercase">
             AI Agent Builder&nbsp;&nbsp;•&nbsp;&nbsp;Automation Expert&nbsp;&nbsp;•&nbsp;&nbsp;Entrepreneur
-          </motion.p>
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 0.8 }}
-            className="flex items-center justify-center gap-6 flex-wrap"
-          >
+          <div className="hero-item hero-item-3 flex items-center justify-center gap-6 flex-wrap">
             <Button
               variant="ghost"
               onClick={onCTAClick ?? scrollToProjects}
-              className="group rounded-lg border border-border bg-card px-7 py-5 text-sm text-foreground transition-colors duration-200 hover:border-foreground/25 hover:bg-card"
+              className="group rounded-lg border border-border bg-card px-7 py-5 text-sm text-foreground transition-colors hover:border-primary hover:bg-card focus-visible:ring-2 focus-visible:ring-ring"
+              style={{ transitionDuration: "var(--dur-base)" }}
             >
               See My Work
               <span
-                className="ml-3 text-muted-foreground transition-transform duration-200 group-hover:translate-x-1"
+                className="ml-3 text-muted-foreground transition-transform group-hover:translate-x-1"
+                style={{ transitionDuration: "var(--dur-base)" }}
                 aria-hidden="true"
               >
                 →
               </span>
             </Button>
-
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2.2, duration: 0.8 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+      <div
+        className="hero-item hero-item-3 absolute bottom-8 left-0 right-0 mx-auto w-fit flex flex-col items-center gap-2"
         aria-hidden="true"
       >
-        <span className="font-mono text-[0.625rem] text-muted-foreground tracking-[0.18em] uppercase">Scroll</span>
-        <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          className="w-px h-8 bg-border"
-        />
-      </motion.div>
+        <span className="font-mono text-[0.625rem] text-muted-foreground tracking-[0.18em] uppercase">
+          Scroll
+        </span>
+        <span className="w-px h-8 bg-border" />
+      </div>
     </section>
   );
 }

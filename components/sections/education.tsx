@@ -1,6 +1,7 @@
 "use client";
 
 import { SectionHeader } from "@/components/ui/section-header";
+import { Reveal } from "@/components/ui/reveal";
 
 const awards = [
   "Diversity Leadership Scholarship",
@@ -40,6 +41,7 @@ export function EducationSection() {
       <div className="max-w-content mx-auto">
         <SectionHeader index="05" label="Education" title="Where I'm learning" />
 
+        <Reveal>
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] gap-10 lg:gap-14 border-t border-border pt-10">
           <div>
             <h3 className="font-display text-2xl text-foreground leading-tight">Babson College</h3>
@@ -102,6 +104,7 @@ export function EducationSection() {
             </ul>
           </div>
         </div>
+        </Reveal>
       </div>
     </section>
   );

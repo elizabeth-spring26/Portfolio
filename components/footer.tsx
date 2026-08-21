@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Mail, Linkedin } from "lucide-react";
 
 export function Footer() {
@@ -11,11 +10,7 @@ export function Footer() {
       <div className="max-w-content mx-auto px-5 sm:px-6 lg:px-8 py-10">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           {/* Brand */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+          <div
             className="flex items-center gap-3"
           >
             <div className="w-7 h-7 rounded-md border border-border flex items-center justify-center text-foreground font-mono text-[0.625rem]">
@@ -27,14 +22,10 @@ export function Footer() {
                 AI Agent Builder &amp; Automation Expert
               </p>
             </div>
-          </motion.div>
+          </div>
 
           {/* Social links */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.08, duration: 0.5 }}
+          <div
             className="flex items-center gap-3"
           >
             <a
@@ -53,18 +44,14 @@ export function Footer() {
             >
               <Linkedin className="w-4 h-4" />
             </a>
-          </motion.div>
+          </div>
 
           {/* Copyright */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.15, duration: 0.5 }}
+          <p
             className="font-mono text-[0.6875rem] text-muted-foreground"
           >
             © {currentYear} Elizabeth Tran. Built with Next.js.
-          </motion.p>
+          </p>
         </div>
       </div>
     </footer>

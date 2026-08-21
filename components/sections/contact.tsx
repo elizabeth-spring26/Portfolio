@@ -2,6 +2,7 @@
 
 import { Mail, Linkedin, ArrowUpRight } from "lucide-react";
 import { SectionHeader } from "@/components/ui/section-header";
+import { Reveal } from "@/components/ui/reveal";
 
 const contactLinks = [
   {
@@ -29,6 +30,7 @@ export function ContactSection() {
           collaborate on something new. Let&apos;s talk.
         </p>
 
+        <Reveal>
         <div className="border-t border-border">
           {contactLinks.map(({ label, value, href, icon: Icon }) => {
             const external = href.startsWith("http");
@@ -55,6 +57,7 @@ export function ContactSection() {
             );
           })}
         </div>
+        </Reveal>
       </div>
     </section>
   );

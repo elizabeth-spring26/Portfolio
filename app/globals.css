@@ -25,26 +25,46 @@
     --input: 240 5% 14%;
     --ring: 265 85% 68%;
     --radius: 5px;
+
+    /* Spacing scale. --space-section is the gap BETWEEN two sections;
+       each section contributes half of it, so adjacent padding sums to it. */
+    --space-section: 64px;
+    --space-block: 40px;
+    --space-tight: 8px;
+
+    /* Motion scale. Never linear, never the browser default ease. */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --dur-fast: 150ms;
+    --dur-base: 250ms;
+    --dur-slow: 400ms;
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --space-section: 96px;
+      --space-block: 48px;
+    }
   }
 
   .light {
-    --background: 40 12% 97%;
+    --background: 40 14% 96%;
     --foreground: 240 10% 9%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 9%;
-    --primary: 265 70% 52%;
+    --primary: 265 70% 48%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 8% 93%;
+    --secondary: 40 10% 91%;
     --secondary-foreground: 240 10% 9%;
-    --muted: 240 8% 93%;
-    --muted-foreground: 240 5% 42%;
-    --accent: 240 8% 93%;
+    --muted: 40 10% 91%;
+    --muted-foreground: 240 6% 36%;
+    --accent: 40 10% 91%;
     --accent-foreground: 240 10% 9%;
-    --border: 240 8% 87%;
-    --input: 240 8% 87%;
-    --ring: 265 70% 52%;
+    --border: 40 8% 84%;
+    --input: 40 8% 84%;
+    --ring: 265 70% 48%;
   }
 }
 
@@ -74,6 +94,10 @@
     border-radius: 2px;
   }
 
+  .light ::-webkit-scrollbar-thumb {
+    background: hsl(240 6% 72%);
+  }
+
   ::-webkit-scrollbar-thumb:hover {
     background: hsl(240 5% 34%);
   }
@@ -85,15 +109,73 @@
 }
 
 @layer utilities {
-  /* More air between sections so the page has rhythm, not even stacking */
   .section-padding {
-    @apply py-28 md:py-36 px-5 sm:px-6 lg:px-8;
+    padding-block: calc(var(--space-section) / 2);
+    @apply px-6 sm:px-8 lg:px-12;
   }
 
   .tnum {
     font-variant-numeric: tabular-nums;
     font-feature-settings: "tnum";
   }
+
+  /* Scroll reveal. Applied to section-level blocks only. The end state is
+     plain opacity/transform so content is never stuck hidden if JS fails. */
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity var(--dur-slow) var(--ease-out),
+      transform var(--dur-slow) var(--ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .js .reveal-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  .animating {
+    will-change: transform, opacity;
+  }
+}
+
+/* Hero load sequence: name -> tagline -> CTA, 540ms total. */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes path-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.hero-item {
+  opacity: 0;
+  animation: hero-rise 300ms var(--ease-out) forwards;
+}
+
+.hero-item-1 { animation-delay: 0ms; }
+.hero-item-2 { animation-delay: 120ms; }
+.hero-item-3 { animation-delay: 240ms; }
+
+/* Paths draw themselves in once on load, then hold. No idle loop. */
+.hero-path {
+  pathlength: 1;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: path-draw 900ms var(--ease-out) forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -107,6 +189,23 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    animation-delay: 0ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* Resolve every motion state to its final value rather than to nothing. */
+  .js .reveal,
+  .hero-item {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .hero-path {
+    stroke-dashoffset: 0 !important;
+  }
+
+  .animating {
+    will-change: auto !important;
   }
 }

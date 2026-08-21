@@ -60,6 +60,14 @@ export default function RootLayout({
       className={`${instrumentSerif.variable} ${instrumentSans.variable} ${jetbrainsMono.variable} dark`}
       suppressHydrationWarning
     >
+      <head>
+        {/* Reveals only hide when JS can un-hide them. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
+        />
+      </head>
       <body className="antialiased">
         <ThemeProvider
           attribute="class"

@@ -2,6 +2,7 @@
 
 import { Landmark } from "lucide-react";
 import { SectionHeader } from "@/components/ui/section-header";
+import { Reveal } from "@/components/ui/reveal";
 import { cn } from "@/lib/utils";
 
 type Project = {
@@ -95,10 +96,15 @@ function ProjectCard({ project }: { project: Project }) {
   const { title, description, tags, status, featured } = project;
   return (
     <article
+      tabIndex={0}
       className={cn(
         "group h-full flex flex-col rounded-lg border border-border bg-card p-6 sm:p-7",
-        "transition-colors duration-200 hover:border-foreground/20"
+        "transition-colors hover:border-primary",
+        "focus-visible:outline-none focus-visible:border-primary",
+        "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        "focus-visible:ring-offset-background"
       )}
+      style={{ transitionDuration: "var(--dur-base)" }}
     >
       <div className="flex items-start justify-between gap-4 mb-4">
         <div className="flex items-center gap-3 min-w-0">
@@ -130,10 +136,11 @@ function ProjectCard({ project }: { project: Project }) {
       <p
         className={cn(
           "font-mono text-[0.6875rem] text-muted-foreground/80 mt-5 pt-4 border-t border-border",
-          "md:opacity-0 md:translate-y-1 md:transition-all md:duration-200",
-          "md:group-hover:opacity-100 md:group-hover:translate-y-0",
-          "md:group-focus-within:opacity-100 md:group-focus-within:translate-y-0"
+          "md:opacity-0 md:transition-opacity",
+          "md:group-hover:opacity-100 md:group-focus-visible:opacity-100",
+          "md:group-focus-within:opacity-100"
         )}
+        style={{ transitionDuration: "var(--dur-base)" }}
       >
         {tags.join("  ·  ")}
       </p>
@@ -153,10 +160,10 @@ export function ProjectsSection() {
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-          {projects.map((project) => (
-            <div key={project.title} className={project.span}>
+          {projects.map((project, i) => (
+            <Reveal key={project.title} delay={i * 60} className={project.span}>
               <ProjectCard project={project} />
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>

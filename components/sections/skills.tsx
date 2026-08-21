@@ -1,6 +1,7 @@
 "use client";
 
 import { SectionHeader } from "@/components/ui/section-header";
+import { Reveal } from "@/components/ui/reveal";
 
 const skillCategories = [
   {
@@ -54,6 +55,7 @@ export function SkillsSection() {
         <SectionHeader index="04" label="Skills" title="Tools of the trade" />
 
         {/* Hairline rows rather than cards — the list is reference material, not a showcase. */}
+        <Reveal>
         <div className="border-t border-border">
           {skillCategories.map((cat) => (
             <div
@@ -76,6 +78,7 @@ export function SkillsSection() {
             </div>
           ))}
         </div>
+        </Reveal>
       </div>
     </section>
   );

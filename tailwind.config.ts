@@ -55,7 +55,7 @@ const config: Config = {
         sm: "calc(var(--radius) - 2px)",
       },
       maxWidth: {
-        content: "64rem",
+        content: "60rem",
       },
       animation: {
         "fade-up": "fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards",
