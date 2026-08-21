@@ -1,207 +1,163 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { GlowCard } from "@/components/ui/spotlight-card";
-import { Bot, Zap, Megaphone, GraduationCap, FlaskConical, Users } from "lucide-react";
+import { Landmark } from "lucide-react";
+import { SectionHeader } from "@/components/ui/section-header";
+import { cn } from "@/lib/utils";
 
-const projects = [
+type Project = {
+  title: string;
+  description: string;
+  tags: string[];
+  status: "Production" | "Active" | "In Progress" | "Completed";
+  /** Tailwind col-span at lg. The uneven spans are what break the grid up. */
+  span: string;
+  featured?: boolean;
+};
+
+const projects: Project[] = [
   {
-    title: "Buildathon Organizer",
-    icon: Users,
+    title: "Daily Cash Bot",
     description:
-      "Personally secured partnerships with Anthropic, OpenAI, Tripo AI, Orchestra, and Cursor to sponsor a buildathon hosted at Babson's AI Lab (The Generator). Brought together students, sponsors, and builders for a full-day AI hackathon.",
-    tags: ["Anthropic", "OpenAI", "Community", "Event Organizing"],
-    glowColor: "rgba(139, 92, 246, 0.35)",
-    iconColor: "text-violet-400",
-    status: "Completed",
+      "Aggregates six separate bank accounts through Plaid into one daily message: current balance, pending charges hitting the next day, and net cash after they clear. Runs unattended and delivers the cash position every morning. Built for a Boston fuels company that was previously checking six accounts by hand.",
+    tags: ["AI Agents", "Plaid", "Fintech", "Automation"],
+    status: "Production",
+    span: "lg:col-span-7",
     featured: true,
   },
   {
     title: "AI Sales Agents",
-    icon: Bot,
     description:
       "Built AI agents that automate post-discovery-call follow-ups and stakeholder tracking for B2B sales pipelines. Agents qualify leads, draft personalized follow-up emails, and maintain context across client conversations.",
     tags: ["AI Agents", "n8n", "B2B", "Sales Automation"],
-    glowColor: "rgba(109, 40, 217, 0.32)",
-    iconColor: "text-purple-400",
     status: "Production",
-    featured: true,
+    span: "lg:col-span-5",
+  },
+  {
+    title: "Buildathon Organizer",
+    description:
+      "Personally secured partnerships with Anthropic, OpenAI, Tripo AI, Orchestra, and Cursor to sponsor a buildathon hosted at Babson's AI Lab (The Generator). Brought together students, sponsors, and builders for a full-day AI hackathon.",
+    tags: ["Anthropic", "OpenAI", "Community", "Event Organizing"],
+    status: "Completed",
+    span: "lg:col-span-5",
   },
   {
     title: "Newsletter AI Automation",
-    icon: Zap,
     description:
       "Created AI agents automating newsletter content curation for C-suite executives. The system monitors relevant sources, extracts key insights, and drafts executive-ready summaries, saving hours of manual research weekly.",
-    tags: ["AI Agents", "Claude Code", "Content Automation", "Productivity"],
-    glowColor: "rgba(124, 58, 237, 0.28)",
-    iconColor: "text-violet-300",
+    tags: ["AI Agents", "Claude Code", "Content Automation"],
     status: "Production",
-    featured: false,
-  },
-  {
-    title: "ProDream AI Growth",
-    icon: Megaphone,
-    description:
-      "Drove 5M+ TikTok views and engaged 3,000+ students from low-income schools for an AI-powered college counselor (Harvard Innovation Labs × Microsoft for Startups). Designed and executed influencer outreach strategy.",
-    tags: ["TikTok", "Growth Marketing", "EdTech", "Influencer Strategy"],
-    glowColor: "rgba(91, 33, 182, 0.28)",
-    iconColor: "text-purple-300",
-    status: "Completed",
-    featured: false,
+    span: "lg:col-span-7",
   },
   {
     title: "Small Business AI Consulting",
-    icon: GraduationCap,
     description:
       "Consulting 80+ small businesses on integrating AI into daily operations through the G1000 AI Bootcamp. Demonstrated live AI applications using API keys and MCPs, from automating customer responses to building marketing workflows.",
-    tags: ["AI Consulting", "API Keys", "MCPs", "Small Business"],
-    glowColor: "rgba(139, 92, 246, 0.28)",
-    iconColor: "text-violet-400",
+    tags: ["AI Consulting", "API Keys", "MCPs"],
     status: "Active",
-    featured: false,
+    span: "lg:col-span-4",
+  },
+  {
+    title: "ProDream AI Growth",
+    description:
+      "Drove 5M+ TikTok views and engaged 3,000+ students from low-income schools for an AI-powered college counselor (Harvard Innovation Labs × Microsoft for Startups). Designed and executed influencer outreach strategy.",
+    tags: ["TikTok", "Growth Marketing", "EdTech"],
+    status: "Completed",
+    span: "lg:col-span-4",
   },
   {
     title: "Toyota Research Collaboration",
-    icon: FlaskConical,
     description:
       "Conducting ongoing academic research conversations with Toyota Research Institute. Drafting research proposals in collaboration with Babson College faculty to explore the intersection of AI and business operations.",
-    tags: ["Research", "AI Policy", "Academic", "Industry Partnership"],
-    glowColor: "rgba(109, 40, 217, 0.25)",
-    iconColor: "text-purple-400",
+    tags: ["Research", "AI Policy", "Academic"],
     status: "In Progress",
-    featured: false,
+    span: "lg:col-span-4",
   },
 ];
 
-const statusColors: Record<string, string> = {
-  Production: "text-emerald-400 border-emerald-500/30 bg-emerald-500/8",
-  Active: "text-violet-300 border-violet-500/30 bg-violet-500/8",
-  "In Progress": "text-amber-400 border-amber-500/30 bg-amber-500/8",
-  Completed: "text-muted-foreground border-border bg-white/4",
-};
+/** Status reads as plain mono metadata — a dot plus a lowercase label, no pill. */
+function Status({ status }: { status: Project["status"] }) {
+  const live = status === "Production" || status === "Active";
+  return (
+    <span className="inline-flex items-center gap-1.5 font-mono text-[0.6875rem] lowercase tracking-wide text-muted-foreground shrink-0">
+      <span
+        className={cn(
+          "w-1 h-1 rounded-full",
+          live ? "bg-primary" : "bg-muted-foreground/45"
+        )}
+        aria-hidden="true"
+      />
+      {status}
+    </span>
+  );
+}
+
+function ProjectCard({ project }: { project: Project }) {
+  const { title, description, tags, status, featured } = project;
+  return (
+    <article
+      className={cn(
+        "group h-full flex flex-col rounded-lg border border-border bg-card p-6 sm:p-7",
+        "transition-colors duration-200 hover:border-foreground/20"
+      )}
+    >
+      <div className="flex items-start justify-between gap-4 mb-4">
+        <div className="flex items-center gap-3 min-w-0">
+          {featured && (
+            <Landmark className="w-4 h-4 text-primary shrink-0" aria-hidden="true" />
+          )}
+          <h3
+            className={cn(
+              "font-display text-foreground leading-tight truncate",
+              featured ? "text-[1.5rem]" : "text-xl"
+            )}
+          >
+            {title}
+          </h3>
+        </div>
+        <Status status={status} />
+      </div>
+
+      <p
+        className={cn(
+          "text-muted-foreground leading-relaxed flex-1 max-w-[62ch]",
+          featured ? "text-[0.9375rem]" : "text-sm"
+        )}
+      >
+        {description}
+      </p>
+
+      {/* Signature interaction: metadata surfaces on hover at desktop widths. */}
+      <p
+        className={cn(
+          "font-mono text-[0.6875rem] text-muted-foreground/80 mt-5 pt-4 border-t border-border",
+          "md:opacity-0 md:translate-y-1 md:transition-all md:duration-200",
+          "md:group-hover:opacity-100 md:group-hover:translate-y-0",
+          "md:group-focus-within:opacity-100 md:group-focus-within:translate-y-0"
+        )}
+      >
+        {tags.join("  ·  ")}
+      </p>
+    </article>
+  );
+}
 
 export function ProjectsSection() {
-  const featured = projects.filter((p) => p.featured);
-  const rest = projects.filter((p) => !p.featured);
-
   return (
     <section id="projects" className="section-padding relative">
-      <div className="max-w-6xl mx-auto">
-        {/* Section label */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="flex items-center gap-4 mb-12"
-        >
-          <span className="text-xs text-muted-foreground tracking-widest uppercase font-medium">
-            Projects
-          </span>
-          <motion.div
-            className="h-px flex-1 bg-border"
-            style={{ transformOrigin: "left" }}
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
-          />
-        </motion.div>
+      <div className="max-w-content mx-auto">
+        <SectionHeader
+          index="02"
+          label="Projects"
+          title="Things I've built"
+          description="AI agents running in production, and the partnerships that put them in front of people."
+        />
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-14 text-center"
-        >
-          <h2
-            className="font-display font-bold text-foreground mb-3"
-            style={{ fontSize: "clamp(1.75rem, 4vw, 2.75rem)" }}
-          >
-            Things I&apos;ve built.
-          </h2>
-          <p className="text-muted-foreground mx-auto" style={{ maxWidth: "55ch" }}>
-            From AI agents running in production to buildathons with the industry&apos;s biggest names. Here&apos;s where the work lives.
-          </p>
-        </motion.div>
-
-        {/* Featured — 2 columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
-          {featured.map((project, i) => {
-            const Icon = project.icon;
-            return (
-              <motion.div
-                key={project.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                className="h-full"
-              >
-                <GlowCard glowColor={project.glowColor} className="p-7 h-full flex flex-col">
-                  <div className="flex items-start justify-between mb-5">
-                    <Icon className={`w-6 h-6 ${project.iconColor}`} />
-                    <span className={`px-2.5 py-1 text-xs rounded-full border font-medium ${statusColors[project.status]}`}>
-                      {project.status}
-                    </span>
-                  </div>
-                  <h3 className="text-lg font-display font-bold text-foreground mb-3">
-                    {project.title}
-                  </h3>
-                  <p className="text-sm text-foreground/65 leading-relaxed flex-1 mb-5">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {project.tags.map((tag) => (
-                      <span key={tag} className="px-2 py-0.5 text-xs rounded-full bg-white/4 border border-white/8 text-muted-foreground">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </GlowCard>
-              </motion.div>
-            );
-          })}
-        </div>
-
-        {/* Rest — 3-column grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {rest.map((project, i) => {
-            const Icon = project.icon;
-            return (
-              <motion.div
-                key={project.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.07, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="h-full"
-              >
-                <GlowCard glowColor={project.glowColor} className="p-5 h-full flex flex-col">
-                  <div className="flex items-start justify-between mb-4">
-                    <Icon className={`w-5 h-5 ${project.iconColor}`} />
-                    <span className={`px-2 py-0.5 text-xs rounded-full border font-medium ${statusColors[project.status]}`}>
-                      {project.status}
-                    </span>
-                  </div>
-                  <h3 className="text-sm font-display font-bold text-foreground mb-2">
-                    {project.title}
-                  </h3>
-                  <p className="text-xs text-foreground/60 leading-relaxed flex-1 mb-4">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-1">
-                    {project.tags.slice(0, 2).map((tag) => (
-                      <span key={tag} className="px-2 py-0.5 text-xs rounded-full bg-white/4 border border-white/8 text-muted-foreground">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </GlowCard>
-              </motion.div>
-            );
-          })}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          {projects.map((project) => (
+            <div key={project.title} className={project.span}>
+              <ProjectCard project={project} />
+            </div>
+          ))}
         </div>
       </div>
     </section>

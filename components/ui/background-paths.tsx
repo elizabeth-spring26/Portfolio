@@ -67,7 +67,7 @@ export function BackgroundPaths({
   return (
     <section
       id="hero"
-      className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-white dark:bg-neutral-950"
+      className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-background"
     >
       <div className="absolute inset-0">
         <FloatingPaths position={1} />
@@ -82,7 +82,7 @@ export function BackgroundPaths({
           className="max-w-4xl mx-auto"
         >
           <h1
-            className="font-display font-bold mb-6 tracking-tighter"
+            className="font-display mb-6 tracking-tight"
             style={{ fontSize: "clamp(3rem, 9vw, 7rem)" }}
           >
             {words.map((word, wordIndex) => (
@@ -98,7 +98,7 @@ export function BackgroundPaths({
                       stiffness: 150,
                       damping: 25,
                     }}
-                    className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-neutral-900 to-neutral-700/80 dark:from-white dark:to-violet-400"
+                    className="inline-block text-foreground"
                   >
                     {letter}
                   </motion.span>
@@ -111,7 +111,7 @@ export function BackgroundPaths({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.8 }}
-            className="font-display font-semibold text-violet-600 dark:text-violet-400 mb-3"
+            className="text-foreground/80 mb-4"
             style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.5rem)" }}
           >
             I build AI that works for people.
@@ -121,7 +121,7 @@ export function BackgroundPaths({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.0, duration: 0.8 }}
-            className="text-sm text-neutral-500 dark:text-neutral-400 mb-10 tracking-widest uppercase"
+            className="font-mono text-[0.6875rem] text-muted-foreground mb-10 tracking-[0.18em] uppercase"
           >
             AI Agent Builder&nbsp;&nbsp;•&nbsp;&nbsp;Automation Expert&nbsp;&nbsp;•&nbsp;&nbsp;Entrepreneur
           </motion.p>
@@ -132,20 +132,19 @@ export function BackgroundPaths({
             transition={{ delay: 1.2, duration: 0.8 }}
             className="flex items-center justify-center gap-6 flex-wrap"
           >
-            <div className="inline-block group relative bg-gradient-to-b from-black/10 to-white/10 dark:from-white/10 dark:to-black/10 p-px rounded-2xl backdrop-blur-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <Button
-                variant="ghost"
-                onClick={onCTAClick ?? scrollToProjects}
-                className="rounded-[1.15rem] px-8 py-6 text-lg font-semibold backdrop-blur-md bg-white/95 hover:bg-white/100 dark:bg-black/95 dark:hover:bg-black/100 text-black dark:text-white transition-all duration-300 group-hover:-translate-y-0.5 border border-black/10 dark:border-white/10 hover:shadow-md dark:hover:shadow-neutral-800/50"
+            <Button
+              variant="ghost"
+              onClick={onCTAClick ?? scrollToProjects}
+              className="group rounded-lg border border-border bg-card px-7 py-5 text-sm text-foreground transition-colors duration-200 hover:border-foreground/25 hover:bg-card"
+            >
+              See My Work
+              <span
+                className="ml-3 text-muted-foreground transition-transform duration-200 group-hover:translate-x-1"
+                aria-hidden="true"
               >
-                <span className="opacity-90 group-hover:opacity-100 transition-opacity">
-                  See My Work
-                </span>
-                <span className="ml-3 opacity-70 group-hover:opacity-100 group-hover:translate-x-1.5 transition-all duration-300">
-                  →
-                </span>
-              </Button>
-            </div>
+                →
+              </span>
+            </Button>
 
           </motion.div>
         </motion.div>
@@ -158,11 +157,11 @@ export function BackgroundPaths({
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         aria-hidden="true"
       >
-        <span className="text-xs text-neutral-400 tracking-widest uppercase">Scroll</span>
+        <span className="font-mono text-[0.625rem] text-muted-foreground tracking-[0.18em] uppercase">Scroll</span>
         <motion.div
           animate={{ y: [0, 6, 0] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          className="w-px h-8 bg-gradient-to-b from-violet-400/60 to-transparent"
+          className="w-px h-8 bg-border"
         />
       </motion.div>
     </section>
