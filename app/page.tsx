@@ -3,6 +3,7 @@ import { Footer } from "@/components/footer";
 import { BackgroundPaths } from "@/components/ui/background-paths";
 import { AboutSection } from "@/components/sections/about";
 import { ExperienceSection } from "@/components/sections/experience";
+import { TestimonialsSection } from "@/components/sections/testimonials";
 import { ProjectsSection } from "@/components/sections/projects";
 import { SkillsSection } from "@/components/sections/skills";
 import { EducationSection } from "@/components/sections/education";
@@ -16,6 +17,7 @@ export default function Home() {
         <BackgroundPaths title="Elizabeth Tran" />
         <AboutSection />
         <ExperienceSection />
+        <TestimonialsSection />
         <ProjectsSection />
         <SkillsSection />
         <EducationSection />

@@ -6,11 +6,12 @@ import { Sun, Moon, Menu, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 
-const sectionIds = ["about", "experience", "projects", "skills", "contact"];
+const sectionIds = ["about", "experience", "testimonials", "projects", "skills", "contact"];
 
 const navLinks = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
+  { label: "Testimonials", href: "#testimonials" },
   { label: "Projects", href: "#projects" },
   { label: "Skills", href: "#skills" },
   { label: "Contact", href: "#contact" },
