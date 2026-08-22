@@ -4,32 +4,41 @@
 
 @layer base {
   :root {
-    /* Off-black base with a lifted card surface so panels read as material */
-    --background: 240 7% 6%;
-    --foreground: 240 8% 93%;
-    --card: 240 6% 9%;
-    --card-foreground: 240 8% 93%;
-    --popover: 240 7% 7%;
-    --popover-foreground: 240 8% 93%;
+    /* Charcoal base, warm off-white ink, three distinct lifted surfaces. */
+    --background: 240 9% 6%;
+    --foreground: 40 24% 93%;
+    --card: 240 8% 9%;
+    --card-foreground: 40 24% 93%;
+    --popover: 240 8% 8%;
+    --popover-foreground: 40 24% 93%;
     --primary: 265 85% 68%;
-    --primary-foreground: 240 7% 6%;
-    --secondary: 240 6% 12%;
-    --secondary-foreground: 240 8% 93%;
-    --muted: 240 6% 12%;
-    --muted-foreground: 240 5% 55%;
-    --accent: 240 6% 12%;
-    --accent-foreground: 240 8% 93%;
+    --primary-foreground: 240 9% 6%;
+    --secondary: 240 7% 11%;
+    --secondary-foreground: 40 24% 93%;
+    --muted: 240 7% 14%;
+    --muted-foreground: 240 7% 62%;
+    --accent: 240 7% 11%;
+    --accent-foreground: 40 24% 93%;
     --destructive: 0 84% 60%;
-    --destructive-foreground: 240 8% 93%;
-    --border: 240 5% 14%;
-    --input: 240 5% 14%;
+    --destructive-foreground: 40 24% 93%;
+    --border: 240 6% 15%;
+    --input: 240 6% 15%;
     --ring: 265 85% 68%;
     --radius: 5px;
+
+    /* Secondary accent. Bounded to two uses: the project "Impact" label and
+       the testimonial feedback eyebrows. Never on the same element as
+       --primary. See CLAUDE.md. */
+    --accent-cool: 205 47% 70%;
+
+    /* Scrollbar thumb, themed rather than hardcoded. */
+    --scrollbar: 240 6% 24%;
+    --scrollbar-hover: 240 6% 34%;
 
     /* Spacing scale. --space-section is the gap BETWEEN two sections;
        each section contributes half of it, so adjacent padding sums to it. */
     --space-section: 64px;
-    --space-block: 40px;
+    --space-block: 32px;
     --space-tight: 8px;
 
     /* Motion scale. Never linear, never the browser default ease. */
@@ -43,7 +52,7 @@
   @media (min-width: 768px) {
     :root {
       --space-section: 96px;
-      --space-block: 48px;
+      --space-block: 40px;
     }
   }
 
@@ -56,15 +65,21 @@
     --popover-foreground: 240 10% 9%;
     --primary: 265 70% 48%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 40 10% 91%;
+    --secondary: 40 11% 93%;
     --secondary-foreground: 240 10% 9%;
-    --muted: 40 10% 91%;
+    --muted: 40 10% 89%;
     --muted-foreground: 240 6% 36%;
-    --accent: 40 10% 91%;
+    --accent: 40 11% 93%;
     --accent-foreground: 240 10% 9%;
     --border: 40 8% 84%;
     --input: 40 8% 84%;
     --ring: 265 70% 48%;
+
+    /* Darkened so the label still passes AA on the cream ground. */
+    --accent-cool: 205 42% 34%;
+
+    --scrollbar: 240 6% 72%;
+    --scrollbar-hover: 240 6% 60%;
   }
 }
 
@@ -79,6 +94,23 @@
 
   body {
     @apply bg-background text-foreground font-body;
+    position: relative;
+  }
+
+  /* Static film grain. Sits above the ground, below all content, and never
+     animates. Purely a surface texture so the flat charcoal reads as paper. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .light body::before {
+    opacity: 0.035;
   }
 
   ::-webkit-scrollbar {
@@ -90,16 +122,12 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: hsl(240 5% 24%);
+    background: hsl(var(--scrollbar));
     border-radius: 2px;
   }
 
-  .light ::-webkit-scrollbar-thumb {
-    background: hsl(240 6% 72%);
-  }
-
   ::-webkit-scrollbar-thumb:hover {
-    background: hsl(240 5% 34%);
+    background: hsl(var(--scrollbar-hover));
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -140,7 +168,7 @@
   }
 }
 
-/* Hero load sequence: name -> tagline -> CTA, 540ms total. */
+/* Hero load sequence: name -> tagline -> CTA -> portrait, 660ms total. */
 @keyframes hero-rise {
   from {
     opacity: 0;
@@ -169,10 +197,11 @@
 .hero-item-1 { animation-delay: 0ms; }
 .hero-item-2 { animation-delay: 120ms; }
 .hero-item-3 { animation-delay: 240ms; }
+.hero-item-4 { animation-delay: 360ms; }
 
 /* Paths draw themselves in once on load, then hold. No idle loop. */
 .hero-path {
-  pathlength: 1;
+  /* Requires pathLength="1" on the <path> itself; see background-paths.tsx. */
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
   animation: path-draw 900ms var(--ease-out) forwards;

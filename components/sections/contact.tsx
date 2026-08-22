@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, Linkedin, ArrowUpRight } from "lucide-react";
+import { Mail, Linkedin, FileText, ArrowUpRight } from "lucide-react";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/ui/reveal";
 
@@ -17,18 +17,24 @@ const contactLinks = [
     href: "https://www.linkedin.com/in/elizabeth-tran-5807b2244/",
     icon: Linkedin,
   },
+  {
+    label: "Resume",
+    value: "Download PDF",
+    href: "/resume.pdf",
+    icon: FileText,
+  },
 ];
 
 export function ContactSection() {
   return (
     <section id="contact" className="section-padding relative">
       <div className="max-w-content mx-auto">
-        <SectionHeader index="06" label="Contact" title="Let's build something" />
-
-        <p className="text-muted-foreground leading-relaxed max-w-[52ch] -mt-6 mb-10">
-          Whether you&apos;re building an AI product, need automation expertise, or want to
-          collaborate on something new. Let&apos;s talk.
-        </p>
+        <SectionHeader
+          index="06"
+          label="Contact"
+          title="Let's build something"
+          description="Have an AI workflow that should exist? Building something interesting? Let's talk."
+        />
 
         <Reveal>
         <div className="border-t border-border">

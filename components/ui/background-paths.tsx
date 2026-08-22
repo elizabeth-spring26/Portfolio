@@ -1,10 +1,14 @@
 "use client";
 
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 /**
  * Decorative background. The paths draw themselves in once on load via CSS and
  * then hold still — no idle loop, and no JS animation library.
+ *
+ * pathLength={1} is required: `.hero-path` sets stroke-dasharray in the same
+ * normalized unit, so without it the dash would be one user unit wide.
  */
 function FloatingPaths({ position }: { position: number }) {
   const paths = Array.from({ length: 36 }, (_, i) => ({
@@ -34,7 +38,9 @@ function FloatingPaths({ position }: { position: number }) {
             d={path.d}
             stroke="currentColor"
             strokeWidth={path.width}
-            strokeOpacity={0.1 + path.id * 0.03}
+            // The old ramp (0.1 + i * 0.03) topped out near fully opaque and cut
+            // across the portrait. The paths are a backdrop, not a subject.
+            strokeOpacity={0.04 + path.id * 0.005}
             pathLength={1}
             style={{ animationDelay: `${path.id * 12}ms` }}
           />
@@ -58,62 +64,95 @@ export function BackgroundPaths({
   return (
     <section
       id="hero"
-      className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-background"
+      className="relative w-full flex items-center overflow-hidden bg-background pt-28 pb-20 lg:pt-24 lg:pb-24 lg:min-h-[min(86vh,900px)]"
     >
       <div className="absolute inset-0">
         <FloatingPaths position={1} />
         <FloatingPaths position={-1} />
       </div>
 
-      <div className="relative z-10 container mx-auto px-6 md:px-8 text-center">
-        <div className="max-w-4xl mx-auto">
-          {/* Load sequence: name -> tagline -> CTA, 540ms end to end. */}
-          <h1
-            className="hero-item hero-item-1 font-display mb-6 tracking-tight text-foreground"
-            style={{ fontSize: "clamp(3rem, 9vw, 7rem)" }}
-          >
-            {title}
-          </h1>
-
-          <p
-            className="hero-item hero-item-2 text-foreground/80 mb-4"
-            style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.5rem)" }}
-          >
-            I build AI that works for people.
-          </p>
-
-          <p className="hero-item hero-item-2 font-mono text-[0.6875rem] text-muted-foreground mb-10 tracking-[0.18em] uppercase">
-            AI Agent Builder&nbsp;&nbsp;•&nbsp;&nbsp;Automation Expert&nbsp;&nbsp;•&nbsp;&nbsp;Entrepreneur
-          </p>
-
-          <div className="hero-item hero-item-3 flex items-center justify-center gap-6 flex-wrap">
-            <Button
-              variant="ghost"
-              onClick={onCTAClick ?? scrollToProjects}
-              className="group rounded-lg border border-border bg-card px-7 py-5 text-sm text-foreground transition-colors hover:border-primary hover:bg-card focus-visible:ring-2 focus-visible:ring-ring"
-              style={{ transitionDuration: "var(--dur-base)" }}
+      <div className="relative z-10 w-full max-w-content mx-auto px-6 sm:px-8 lg:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-12 lg:gap-16 items-center">
+          {/* Load sequence: name -> tagline -> CTA -> portrait, 660ms end to end. */}
+          <div>
+            <h1
+              className="hero-item hero-item-1 font-display mb-5 tracking-tight text-foreground leading-[0.95]"
+              style={{ fontSize: "clamp(2.75rem, 7vw, 5.25rem)" }}
             >
-              See My Work
-              <span
-                className="ml-3 text-muted-foreground transition-transform group-hover:translate-x-1"
+              {title}
+            </h1>
+
+            <p
+              className="hero-item hero-item-2 text-foreground/80 mb-4"
+              style={{ fontSize: "clamp(1.1rem, 2.2vw, 1.5rem)" }}
+            >
+              I build AI that works for people.
+            </p>
+
+            <p className="hero-item hero-item-2 font-mono text-xs text-foreground/75 mb-9 tracking-[0.14em] uppercase max-w-[46ch]">
+              <span className="whitespace-nowrap">AI Agent Builder</span>
+              <span className="mx-2.5 text-muted-foreground" aria-hidden="true">•</span>
+              <span className="whitespace-nowrap">Automation Expert</span>
+              <span className="mx-2.5 text-muted-foreground" aria-hidden="true">•</span>
+              <span className="whitespace-nowrap">Entrepreneur</span>
+            </p>
+
+            <div className="hero-item hero-item-3 flex items-center gap-3 flex-wrap">
+              <Button
+                variant="ghost"
+                onClick={onCTAClick ?? scrollToProjects}
+                className="group rounded-lg border border-border bg-card px-6 py-5 text-sm text-foreground transition-colors hover:border-primary hover:bg-card focus-visible:ring-2 focus-visible:ring-ring"
                 style={{ transitionDuration: "var(--dur-base)" }}
-                aria-hidden="true"
               >
-                →
-              </span>
-            </Button>
+                See My Work
+                <span
+                  className="ml-3 text-muted-foreground transition-transform group-hover:translate-x-1"
+                  style={{ transitionDuration: "var(--dur-base)" }}
+                  aria-hidden="true"
+                >
+                  →
+                </span>
+              </Button>
+
+              <Button
+                asChild
+                variant="ghost"
+                className="group rounded-lg border border-transparent px-6 py-5 text-sm text-muted-foreground transition-colors hover:border-border hover:text-foreground hover:bg-transparent focus-visible:ring-2 focus-visible:ring-ring"
+                style={{ transitionDuration: "var(--dur-base)" }}
+              >
+                <a href="#contact">
+                  Contact
+                  <span
+                    className="ml-3 transition-transform group-hover:translate-x-1"
+                    style={{ transitionDuration: "var(--dur-base)" }}
+                    aria-hidden="true"
+                  >
+                    →
+                  </span>
+                </a>
+              </Button>
+            </div>
+          </div>
+
+          {/* Portrait. A hairline frame offset behind the image gives the
+              editorial crop without wrapping the photo in a heavy card. */}
+          <div className="hero-item hero-item-4 relative mx-auto w-full max-w-[300px] sm:max-w-[340px] lg:max-w-none">
+            <div
+              className="absolute inset-0 translate-x-3 translate-y-3 rounded-lg border border-primary/25"
+              aria-hidden="true"
+            />
+            <Image
+              src="/headshot.png"
+              alt="Elizabeth Tran"
+              width={700}
+              height={755}
+              priority
+              sizes="(min-width: 1024px) 30vw, (min-width: 640px) 340px, 300px"
+              className="relative w-full h-auto rounded-lg border border-border"
+              style={{ filter: "saturate(0.92)" }}
+            />
           </div>
         </div>
-      </div>
-
-      <div
-        className="hero-item hero-item-3 absolute bottom-8 left-0 right-0 mx-auto w-fit flex flex-col items-center gap-2"
-        aria-hidden="true"
-      >
-        <span className="font-mono text-[0.625rem] text-muted-foreground tracking-[0.18em] uppercase">
-          Scroll
-        </span>
-        <span className="w-px h-8 bg-border" />
       </div>
     </section>
   );

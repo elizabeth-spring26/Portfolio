@@ -5,46 +5,46 @@ import { Reveal } from "@/components/ui/reveal";
 
 const skillCategories = [
   {
-    id: "ai-agents",
-    label: "AI Agent Building",
+    id: "build",
+    label: "Build",
     subtitle: "Primary expertise",
     skills: [
+      "Claude Code",
+      "Python",
+      "n8n",
       "AI Agents",
       "Prompt Engineering",
-      "Hugging Face",
       "API Integrations",
       "MCPs",
       "Agentic Workflows",
+      "Hugging Face",
+      "Microsoft 365 Copilot",
     ],
   },
   {
-    id: "automation",
-    label: "Automation & Dev Tools",
-    subtitle: "Daily drivers",
-    skills: ["Claude Code", "n8n", "Microsoft 365 Copilot", "Python"],
-  },
-  {
-    id: "entrepreneurship",
-    label: "Entrepreneurship & Leadership",
+    id: "operate",
+    label: "Operate",
     subtitle: "Babson-built",
-    skills: ["Product Management", "B2B Sales", "Supply Chain", "Team Leadership"],
+    skills: [
+      "Product Management",
+      "B2B Sales",
+      "Supply Chain",
+      "Team Leadership",
+      "Business Analytics",
+      "Excel",
+      "Minitab",
+    ],
   },
   {
-    id: "marketing",
-    label: "Marketing & Growth",
-    subtitle: "5M+ views",
+    id: "grow",
+    label: "Grow",
+    subtitle: "Reach and partnerships",
     skills: [
       "Social Media Marketing",
       "Influencer Outreach",
       "Content Strategy",
       "TikTok / Instagram / LinkedIn",
     ],
-  },
-  {
-    id: "analytics",
-    label: "Analytics",
-    subtitle: "Data-driven",
-    skills: ["Excel", "Minitab", "Business Analytics"],
   },
 ];
 
@@ -60,7 +60,7 @@ export function SkillsSection() {
           {skillCategories.map((cat) => (
             <div
               key={cat.id}
-              className="grid grid-cols-1 sm:grid-cols-[minmax(0,14rem)_1fr] gap-x-10 gap-y-3 border-b border-border py-7"
+              className="grid grid-cols-1 sm:grid-cols-[minmax(0,14rem)_1fr] gap-x-10 gap-y-3 border-b border-border py-6"
             >
               <div>
                 <h3 className="font-display text-lg text-foreground leading-snug">{cat.label}</h3>

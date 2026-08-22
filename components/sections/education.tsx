@@ -24,6 +24,17 @@ const involvement = [
   "The Generator (AI Lab)",
 ];
 
+function InlineList({ label, items }: { label: string; items: string[] }) {
+  return (
+    <p className="text-sm leading-relaxed">
+      <span className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-muted-foreground mr-2">
+        {label}
+      </span>
+      <span className="text-foreground/75">{items.join("  ·  ")}</span>
+    </p>
+  );
+}
+
 function MetaRow({ label, value }: { label: string; value: string }) {
   return (
     <div>
@@ -42,7 +53,7 @@ export function EducationSection() {
         <SectionHeader index="05" label="Education" title="Where I'm learning" />
 
         <Reveal>
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] gap-10 lg:gap-14 border-t border-border pt-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] gap-8 lg:gap-14 border-t border-border pt-8">
           <div>
             <h3 className="font-display text-2xl text-foreground leading-tight">Babson College</h3>
             <p className="font-mono text-[0.6875rem] text-muted-foreground mt-1.5">
@@ -56,35 +67,14 @@ export function EducationSection() {
               Concentration: Technology Entrepreneurship
             </p>
 
-            <div className="flex flex-wrap gap-x-14 gap-y-5 mt-7">
+            <div className="flex flex-wrap gap-x-14 gap-y-5 mt-6">
               <MetaRow label="Expected" value="May 2028" />
               <MetaRow label="GPA" value="3.75" />
             </div>
 
-            <div className="mt-9 pt-7 border-t border-border">
-              <p className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-muted-foreground mb-3">
-                Relevant Coursework
-              </p>
-              <ul className="flex flex-wrap gap-x-5 gap-y-2">
-                {courses.map((course) => (
-                  <li key={course} className="text-sm text-foreground/75">
-                    {course}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="mt-7">
-              <p className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-muted-foreground mb-3">
-                Involvement
-              </p>
-              <ul className="flex flex-wrap gap-x-5 gap-y-2">
-                {involvement.map((org) => (
-                  <li key={org} className="text-sm text-foreground/75">
-                    {org}
-                  </li>
-                ))}
-              </ul>
+            <div className="mt-7 pt-6 border-t border-border space-y-3">
+              <InlineList label="Coursework" items={courses} />
+              <InlineList label="Involvement" items={involvement} />
             </div>
           </div>
 
@@ -96,7 +86,7 @@ export function EducationSection() {
               {awards.map((award) => (
                 <li
                   key={award}
-                  className="text-sm text-foreground/75 leading-snug border-b border-border py-3.5"
+                  className="text-sm text-foreground/75 leading-snug border-b border-border py-3"
                 >
                   {award}
                 </li>

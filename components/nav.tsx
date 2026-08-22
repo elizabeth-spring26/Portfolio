@@ -9,8 +9,6 @@ const navLinks = [
   { label: "About", href: "#about" },
   { label: "Projects", href: "#projects" },
   { label: "Testimonials", href: "#testimonials" },
-  { label: "Skills", href: "#skills" },
-  { label: "Education", href: "#education" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -40,9 +38,12 @@ export function Nav() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveSection(entry.target.id);
-        });
+        // Two sections can sit inside the band at once. Take the topmost
+        // intersecting one rather than letting the last entry win by order.
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible.length > 0) setActiveSection(visible[0].target.id);
       },
       { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
     );

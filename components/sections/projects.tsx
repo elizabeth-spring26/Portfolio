@@ -7,9 +7,16 @@ import { cn } from "@/lib/utils";
 
 type Project = {
   title: string;
-  description: string;
+  /** Mono kicker: era or domain, then category. */
+  meta: string;
+  /** What needed solving. */
+  problem: string;
+  /** What was actually made. */
+  build: string;
+  /** What changed as a result. */
+  impact: string;
   tags: string[];
-  status: "Production" | "Active" | "In Progress" | "Completed";
+  status: "production" | "active" | "completed";
   /** Tailwind col-span at lg. The uneven spans are what break the grid up. */
   span: string;
   featured?: boolean;
@@ -18,73 +25,71 @@ type Project = {
 const projects: Project[] = [
   {
     title: "Daily Cash Bot",
-    description:
-      "Aggregates six separate bank accounts through Plaid into one daily message: current balance, pending charges hitting the next day, and net cash after they clear. Runs unattended and delivers the cash position every morning. Built for a Boston fuels company that was previously checking six accounts by hand.",
+    meta: "2026 / AI Agent",
+    problem:
+      "Six bank accounts, checked by hand every morning to find a single number.",
+    build:
+      "A Plaid-backed agent that aggregates all six into one message: current balance, pending charges hitting the next day, and net cash after they clear.",
+    impact: "Six accounts, one number, delivered unattended every morning.",
     tags: ["AI Agents", "Plaid", "Fintech", "Automation"],
-    status: "Production",
+    status: "production",
     span: "lg:col-span-7",
     featured: true,
   },
   {
     title: "AI Sales Agents",
-    description:
-      "Built AI agents that automate post-discovery-call follow-ups and stakeholder tracking for B2B sales pipelines. Agents qualify leads, draft personalized follow-up emails, and maintain context across client conversations.",
+    meta: "B2B / Automation",
+    problem: "B2B pipelines lose deals in the gap after a discovery call.",
+    build:
+      "Agents that qualify leads, draft personalized follow-up emails, and hold context across client conversations.",
+    impact: "Post-call follow-up and stakeholder tracking run without a human in the loop.",
     tags: ["AI Agents", "n8n", "B2B", "Sales Automation"],
-    status: "Production",
+    status: "production",
     span: "lg:col-span-5",
   },
   {
     title: "Buildathon Organizer",
-    description:
-      "Personally secured partnerships with Anthropic, OpenAI, Tripo AI, Orchestra, and Cursor to sponsor a buildathon hosted at Babson's AI Lab (The Generator). Brought together students, sponsors, and builders for a full-day AI hackathon.",
+    meta: "2025 / Partnerships",
+    problem: "Babson's AI Lab needed industry weight behind its flagship build event.",
+    build:
+      "Personally secured sponsorships from Anthropic, OpenAI, Cursor, Tripo AI, and Orchestra.",
+    impact:
+      "A full-day AI hackathon at The Generator with students, sponsors, and builders in one room.",
     tags: ["Anthropic", "OpenAI", "Community", "Event Organizing"],
-    status: "Completed",
+    status: "completed",
     span: "lg:col-span-5",
   },
   {
     title: "Newsletter AI Automation",
-    description:
-      "Created AI agents automating newsletter content curation for C-suite executives. The system monitors relevant sources, extracts key insights, and drafts executive-ready summaries, saving hours of manual research weekly.",
+    meta: "AI Agent / Content",
+    problem: "C-suite readers needed a briefing nobody had hours to research.",
+    build:
+      "Agents that monitor relevant sources, extract key insights, and draft executive-ready summaries.",
+    impact: "Hours of manual research a week, removed.",
     tags: ["AI Agents", "Claude Code", "Content Automation"],
-    status: "Production",
+    status: "production",
     span: "lg:col-span-7",
   },
   {
     title: "Small Business AI Consulting",
-    description:
-      "Consulting 80+ small businesses on integrating AI into daily operations through the G1000 AI Bootcamp. Demonstrated live AI applications using API keys and MCPs, from automating customer responses to building marketing workflows.",
+    meta: "G1000 / Consulting",
+    problem: "Owners with real operational problems and no way into AI tooling.",
+    build:
+      "Live demos, API key setup, and MCP integrations through the AI & Small Business Bootcamp (G1000 Program), from automating customer responses to building marketing workflows.",
+    impact: "80+ small businesses advised on putting AI into daily operations.",
     tags: ["AI Consulting", "API Keys", "MCPs"],
-    status: "Active",
-    span: "lg:col-span-4",
-  },
-  {
-    title: "ProDream AI Growth",
-    description:
-      "Drove 5M+ TikTok views and engaged 3,000+ students from low-income schools for an AI-powered college counselor (Harvard Innovation Labs × Microsoft for Startups). Designed and executed influencer outreach strategy.",
-    tags: ["TikTok", "Growth Marketing", "EdTech"],
-    status: "Completed",
-    span: "lg:col-span-4",
-  },
-  {
-    title: "Toyota Research Collaboration",
-    description:
-      "Conducting ongoing academic research conversations with Toyota Research Institute. Drafting research proposals in collaboration with Babson College faculty to explore the intersection of AI and business operations.",
-    tags: ["Research", "AI Policy", "Academic"],
-    status: "In Progress",
-    span: "lg:col-span-4",
+    status: "active",
+    span: "lg:col-span-12",
   },
 ];
 
 /** Status reads as plain mono metadata — a dot plus a lowercase label, no pill. */
 function Status({ status }: { status: Project["status"] }) {
-  const live = status === "Production" || status === "Active";
+  const live = status === "production" || status === "active";
   return (
-    <span className="inline-flex items-center gap-1.5 font-mono text-[0.6875rem] lowercase tracking-wide text-muted-foreground shrink-0">
+    <span className="inline-flex items-center gap-1.5 font-mono text-[0.6875rem] tracking-wide text-muted-foreground shrink-0">
       <span
-        className={cn(
-          "w-1 h-1 rounded-full",
-          live ? "bg-primary" : "bg-muted-foreground/45"
-        )}
+        className={cn("w-1 h-1 rounded-full", live ? "bg-primary" : "bg-muted-foreground/45")}
         aria-hidden="true"
       />
       {status}
@@ -93,7 +98,8 @@ function Status({ status }: { status: Project["status"] }) {
 }
 
 function ProjectCard({ project }: { project: Project }) {
-  const { title, description, tags, status, featured } = project;
+  const { title, meta, problem, build, impact, tags, status, featured } = project;
+
   return (
     <article
       tabIndex={0}
@@ -106,44 +112,55 @@ function ProjectCard({ project }: { project: Project }) {
       )}
       style={{ transitionDuration: "var(--dur-base)" }}
     >
-      <div className="flex items-start justify-between gap-4 mb-4">
-        <div className="flex items-center gap-3 min-w-0">
-          {featured && (
-            <Landmark className="w-4 h-4 text-primary shrink-0" aria-hidden="true" />
-          )}
-          <h3
-            className={cn(
-              "font-display text-foreground leading-tight truncate",
-              featured ? "text-[1.5rem]" : "text-xl"
-            )}
-          >
-            {title}
-          </h3>
-        </div>
+      <div className="flex items-center justify-between gap-4 mb-3">
+        <p className="font-mono text-[0.625rem] uppercase tracking-[0.16em] text-muted-foreground/70 min-w-0 truncate">
+          {meta}
+        </p>
         <Status status={status} />
       </div>
 
-      <p
-        className={cn(
-          "text-muted-foreground leading-relaxed flex-1 max-w-[62ch]",
-          featured ? "text-[0.9375rem]" : "text-sm"
-        )}
-      >
-        {description}
+      <div className="flex items-center gap-3 mb-3">
+        {featured && <Landmark className="w-4 h-4 text-primary shrink-0" aria-hidden="true" />}
+        <h3
+          className={cn(
+            "font-display text-foreground leading-tight",
+            featured ? "text-[1.625rem]" : "text-xl"
+          )}
+        >
+          {title}
+        </h3>
+      </div>
+
+      <div className={cn("space-y-2 flex-1 max-w-[62ch]", featured ? "text-[0.9375rem]" : "text-sm")}>
+        <p className="text-muted-foreground leading-relaxed">{problem}</p>
+        <p className="text-foreground/85 leading-relaxed">{build}</p>
+      </div>
+
+      <p className="mt-4 text-sm leading-relaxed">
+        <span
+          className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] mr-2"
+          style={{ color: "hsl(var(--accent-cool))" }}
+        >
+          Impact →
+        </span>
+        <span className="text-foreground/85">{impact}</span>
       </p>
 
-      {/* Signature interaction: metadata surfaces on hover at desktop widths. */}
-      <p
-        className={cn(
-          "font-mono text-[0.6875rem] text-muted-foreground/80 mt-5 pt-4 border-t border-border",
-          "md:opacity-0 md:transition-opacity",
-          "md:group-hover:opacity-100 md:group-focus-visible:opacity-100",
-          "md:group-focus-within:opacity-100"
-        )}
-        style={{ transitionDuration: "var(--dur-base)" }}
-      >
+      <p className="font-mono text-[0.6875rem] text-muted-foreground/70 mt-4 pt-4 border-t border-border">
         {tags.join("  ·  ")}
       </p>
+
+      {/* Hands the reader straight to the client's own words. */}
+      {featured && (
+        <a
+          href="#testimonials"
+          className="mt-3 inline-flex items-center gap-1.5 font-mono text-[0.625rem] uppercase tracking-[0.16em] rounded-sm transition-opacity hover:opacity-70 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          style={{ color: "hsl(var(--accent-cool))", transitionDuration: "var(--dur-fast)" }}
+        >
+          Client feedback
+          <span aria-hidden="true">↓</span>
+        </a>
+      )}
     </article>
   );
 }

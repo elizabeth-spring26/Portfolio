@@ -24,6 +24,19 @@ const cardClass =
   "w-full max-w-[460px] h-full flex flex-col rounded-lg border border-border bg-card p-5";
 const quoteClass = "text-[0.875rem] text-foreground/85 leading-[1.55]";
 
+/** Names the work each quote validates, so the card reads as proof of the
+ *  case study above rather than as a second description of it. */
+function FeedbackEyebrow({ children }: { children: React.ReactNode }) {
+  return (
+    <p
+      className="font-mono text-[0.625rem] uppercase tracking-[0.16em] mb-2.5"
+      style={{ color: "hsl(var(--accent-cool))" }}
+    >
+      {children}
+    </p>
+  );
+}
+
 function prefersReducedMotion() {
   return (
     typeof window !== "undefined" &&
@@ -130,7 +143,7 @@ function Lightbox({
 
 function Attribution({ src, name, meta }: { src: string; name: string; meta: string }) {
   return (
-    <figcaption className="flex items-center gap-3 mt-5 pt-4 border-t border-border">
+    <figcaption className="flex items-center gap-3 mt-auto pt-4 border-t border-border">
       <Image
         src={src}
         alt={name}
@@ -159,12 +172,19 @@ export function TestimonialsSection() {
   return (
     <section id="testimonials" className="section-padding relative">
       <div className="max-w-content mx-auto">
-        <SectionHeader index="03" label="Testimonials" title="Who I've built for" />
+        <SectionHeader
+          index="03"
+          label="Testimonials"
+          title="Who I've built for"
+          description="The people these systems were built for, in their own words."
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 justify-items-center items-stretch">
           {/* Brandon */}
           <Reveal className="w-full flex justify-center">
             <figure className={cardClass}>
+              <FeedbackEyebrow>Student feedback / AI Agents Course</FeedbackEyebrow>
+
               <blockquote>
                 <p className={quoteClass}>
                   The course was amazing and opened my mind to different paths that I could venture
@@ -173,15 +193,14 @@ export function TestimonialsSection() {
                 </p>
               </blockquote>
 
-              {/* Footer group pins to the bottom so extra height collapses below
-                  the quote rather than opening a hole in the middle. */}
-              <div className="mt-auto pt-5">
-                <p className="text-[0.8125rem] text-muted-foreground leading-relaxed">
-                  Five sessions, about ten hours, one-on-one. Agent foundations, building with
-                  Claude Code, and the business side of selling an agent.
-                </p>
+              <p className="font-mono text-[0.6875rem] text-foreground/70 mt-4">
+                5 sessions · 10 hours · 1:1
+              </p>
+              <p className="text-[0.8125rem] text-muted-foreground leading-relaxed mt-1.5">
+                Agent fundamentals, Claude Code, and building and selling his first AI agent.
+              </p>
 
-                <ul className="mt-3 space-y-1">
+              <ul className="mt-2.5 space-y-0.5 mb-4">
                   {brandonLinks.map(({ label, href }) => (
                     <li key={href}>
                       <a
@@ -200,32 +219,37 @@ export function TestimonialsSection() {
                   ))}
                 </ul>
 
-                <Attribution
-                  src="/testimonials/brandon.png"
-                  name="Brandon"
-                  meta="High school student · AI Agents Course"
-                />
-              </div>
+              <Attribution
+                src="/testimonials/brandon.png"
+                name="Brandon"
+                meta="High school student · AI Agents Course"
+              />
             </figure>
           </Reveal>
 
           {/* David — screenshot column beside the text column */}
           <Reveal delay={60} className="w-full flex justify-center">
             <figure className={cardClass}>
-              <div className="flex flex-col min-[700px]:flex-row gap-5 h-full">
+              <div className="flex flex-col h-full">
+                <FeedbackEyebrow>Client feedback / Daily Cash Bot</FeedbackEyebrow>
+
+                {/* A controlled landscape crop of the report itself. The full
+                    1600px-tall screenshot lives in the lightbox; here it is
+                    evidence supporting the quote, not the subject of the card. */}
                 <button
                   type="button"
                   onClick={expand}
                   aria-label="Expand the daily cash report screenshot"
-                  className="group relative shrink-0 rounded-md border border-border overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-[120px] aspect-[739/1600] mx-auto min-[700px]:w-[200px] min-[700px]:mx-0"
-                  style={{ background: "hsl(240 8% 4%)" }}
+                  className="group relative w-[250px] max-w-full aspect-[739/560] mb-4 rounded-md border border-border overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  style={{ background: "hsl(var(--background))" }}
                 >
                   <Image
                     src={SHOT_SRC}
                     alt={SHOT_ALT}
                     fill
-                    sizes="200px"
-                    className="object-contain"
+                    sizes="250px"
+                    className="object-cover"
+                    style={{ objectPosition: "50% 13%" }}
                   />
                   <span
                     className="absolute bottom-1.5 right-1.5 font-mono text-[0.625rem] px-1.5 py-0.5 rounded-sm bg-background/85 text-muted-foreground opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity"
@@ -246,17 +270,11 @@ export function TestimonialsSection() {
                     </p>
                   </blockquote>
 
-                  <div className="mt-auto pt-4">
-                    <p className="text-[0.8125rem] text-muted-foreground leading-relaxed">
-                      Aggregates balances across multiple bank accounts through Plaid and delivers a
-                      daily cash position report on its own.
-                    </p>
-                    <Attribution
-                      src="/testimonials/david.png"
-                      name="David"
-                      meta="Co-founder, Metal Fuels · Boston, MA"
-                    />
-                  </div>
+                  <Attribution
+                    src="/testimonials/david.png"
+                    name="David"
+                    meta="Co-founder, Metal Fuels · Boston, MA"
+                  />
                 </div>
               </div>
             </figure>

@@ -13,8 +13,8 @@ Personal portfolio site. Next.js 14+ App Router, TypeScript, Tailwind CSS, shadc
 - `/app` — Next.js App Router pages and layouts
 - `/app/page.tsx` — Single-page portfolio (all sections)
 - `/app/globals.css` — Design tokens, spacing scale, motion scale, keyframes
-- `/components/ui` — shadcn components + custom UI (background-paths, spotlight-card, section-header, reveal)
-- `/components/sections` — Page sections (about, projects, testimonials, skills, education, contact)
+- `/components/ui` — shadcn components + custom UI (background-paths, section-header, reveal)
+- `/components/sections` — Page sections (about, metrics, projects, testimonials, skills, education, contact)
 - `/components/nav.tsx` — Sticky top navigation
 - `/hooks` — `use-reveal` (IntersectionObserver), `use-count-up` (rAF number tween)
 - `/lib/utils.ts` — cn() helper for shadcn
@@ -24,7 +24,22 @@ Personal portfolio site. Next.js 14+ App Router, TypeScript, Tailwind CSS, shadc
 
 ## Page order
 
-Hero → About → Projects → Testimonials → Skills → Education → Contact.
+Hero → **Metrics strip** → About → Projects → Testimonials → Skills → Education → Contact.
+
+The metrics strip (`metrics.tsx`, `#impact`) is a **band, not a numbered section**:
+no `SectionHeader`, no serif heading, hairline top and bottom. It sits directly
+under the hero because the numbers are a core part of the pitch and must land
+before the prose. Section numbering therefore runs 01 About → 02 Projects →
+03 Testimonials → 04 Skills → 05 Education → 06 Contact.
+
+All four metrics render through one `Stat` component at identical size, weight,
+and colour. **Never emphasise one metric over the others**, and never restate a
+metric as styled inline text elsewhere. Two of them carry source links (TikTok
+views; students reached → ProDream site + TikTok). Those links are quiet mono
+metadata *below* the label so they never change the weight of the number.
+
+Current values: **2M+** TikTok Views, $100K Solutions Built, 3,000+ Students
+Reached, 80+ Businesses Consulted. (TikTok views was corrected down from 5M+.)
 
 There is **no Experience section**. It was removed; its two orphaned facts (two
 paying clients / $3,000+ revenue, and the DrinkDock COO run to breakeven) now
@@ -32,16 +47,21 @@ live in the About blurb. Do not reintroduce a resume-style role list.
 
 ## Custom UI Components
 
-1. `background-paths.tsx` — Hero with an animated SVG background. The paths
-   **draw in once on load via CSS and then hold still**. Do not reintroduce an
-   idle loop.
-2. `spotlight-card.tsx` — GlowCard with cursor-tracking spotlight. **Currently
-   unused** — the redesign moved to flat bordered cards. Do not reintroduce it
-   without asking; its glow conflicts with the current design rules.
-3. `section-header.tsx` — The single section-header pattern. Every section uses
+1. `background-paths.tsx` — Hero. **Two-column editorial composition**: name,
+   tagline, eyebrow, and two CTAs on the left; portrait on the right inside a
+   hairline frame offset by 12px. Not centred, and **not `min-h-screen`** — it is
+   `lg:min-h-[min(86vh,900px)]` so the portrait clears the fold without wasting
+   a viewport. The SVG paths **draw in once on load via CSS and then hold
+   still**; they are a quiet backdrop (`strokeOpacity` ramps to ~0.22, not to
+   opaque). Do not reintroduce an idle loop. Each `<path>` needs
+   `pathLength={1}` for `.hero-path`'s normalized `stroke-dasharray` to work.
+2. `section-header.tsx` — The single section-header pattern. Every section uses
    it. Renders a numbered mono eyebrow, a serif heading, and an optional
    description as one revealing unit.
-4. `reveal.tsx` — Scroll-reveal wrapper around `use-reveal`.
+3. `reveal.tsx` — Scroll-reveal wrapper around `use-reveal`.
+
+`spotlight-card.tsx` was deleted (unused; its glow conflicted with these rules).
+Do not reintroduce it.
 
 ## Code Style
 
@@ -60,12 +80,23 @@ live in the About blurb. Do not reintroduce a resume-style role list.
   (eyebrows, labels, tags, numbers). Not Inter, Roboto, or Arial.
 - Section headings are **left-aligned, no trailing period**, set in the display
   serif. Hierarchy comes from the mono eyebrow, not from heading size.
-- Color: off-black ground with a lifted card surface. **One** accent (violet
-  `--primary`), used only for links, hover, the nav underline, and live status
-  dots. Never on icons, tags, and badges simultaneously.
+- Color: charcoal ground (`#0E0E11`), warm off-white ink (`#F3F0EA`), and three
+  distinct lifted surfaces (`--card` / `--secondary` / `--muted` — keep them
+  different; they were once all the same value). A static ~2.5% grain sits on
+  `body::before`.
+- **Two accents, tightly scoped.** Violet `--primary` owns links, hover, the nav
+  underline, and live status dots. Muted blue `--accent-cool` (`#8BB8D9`) is
+  bounded to exactly two uses: the `Impact →` label on project cards and the
+  `CLIENT FEEDBACK` / `STUDENT FEEDBACK` eyebrows on testimonial cards — both
+  tie a claim to its proof. **Never put both accents on one element**, and do not
+  widen `--accent-cool` beyond those two uses without asking.
 - Status is a small dot plus lowercase mono text. **No colored pill backgrounds.**
 - One radius token (`--radius`, 5px). One border color (`--border`).
 - Icons appear on the single featured project card only — never on every card.
+- **Five** projects, each a mini case study: mono kicker, serif title, Problem
+  line, Build line, `Impact →` line, then tags. Tags are **always visible** —
+  do not hide them behind hover again. ProDream AI Growth and Toyota Research
+  were removed.
 - The projects grid is deliberately asymmetric (uneven 12-column spans).
 - Banned: gradient text, glassmorphism, glow shadows, animated gradient meshes,
   `hover:scale-*` on cards.
@@ -99,9 +130,9 @@ Rules:
   `translateY(12px)`, fired once then unobserved. 60ms stagger exists only in
   the projects grid and the stats row. Nothing above the fold reveals.
 - `.reveal` is scoped under `.js` so content is never invisible without JS.
-- Hero load sequence: name → tagline → CTA, 540ms total.
-- Project cards: one hover state (border → accent, mono metadata fades in).
-  `:focus-visible` mirrors hover exactly and adds a ring.
+- Hero load sequence: name → tagline → CTA → portrait, 660ms total.
+- Project cards: one hover state (border → accent). Tags no longer fade in on
+  hover; they are always visible. `:focus-visible` mirrors hover and adds a ring.
 - Nav: one shared underline element slides via `translateX`/`scaleX`. The nav
   ground is a separate layer whose **opacity** transitions once past the hero.
 - `prefers-reduced-motion: reduce` must resolve every animation to its **final**
@@ -119,16 +150,26 @@ Rules:
 - DrinkDock must be labeled "DrinkDock (Babson FME Venture)" — never just "DrinkDock Startup"
 - Small Business Bootcamp must include "(G1000 Program)"
 - DO NOT include the hostess/server role at Old Street Hotpot anywhere
+- The Daily Cash Bot aggregates **six bank accounts** for David. It was NOT built
+  for a fuels company — do not reintroduce that attribution.
 - GPA (3.75) appears ONLY in the Education section — never in hero or stats strip
 - Testimonial quotes are **verbatim**. Do not fix grammar, shorten, or add new
   testimonials. Brandon's "venture too" and missing terminal period are intentional.
 - Voice: Confident, specific, action-oriented. Use numbers and outcomes. No "passionate about technology."
+- **Avoid em dashes in body copy.** They read as machine-written here. Use
+  commas, parentheses, or a second sentence.
 
 ## Responsive Behavior
 
 - Mobile-first
-- Testimonial cards stack to a single column; David's card goes two-column at
-  `min-[700px]`, screenshot beside text
+- Testimonial cards stack to a single column. David's card is a single column at
+  every width: a **cropped landscape band** of the report screenshot
+  (`w-[250px] aspect-[739/560]`, `object-cover`, `objectPosition: 50% 13%`) sits
+  above the quote. The full 739×1600 image stays in the lightbox. Do not let the
+  screenshot dominate the card.
+- In both testimonial cards only `<figcaption>` carries `mt-auto`. Content flows
+  from the top so the slack that equalises the two cards collects in one place
+  above the identity row, rather than opening a hole under the quote.
 - Nav collapses to hamburger on mobile
 - Verify 375px → 1920px; no horizontal scroll
 
