@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, Linkedin, FileText, ArrowUpRight } from "lucide-react";
+import { Mail, Linkedin, ArrowUpRight } from "lucide-react";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Reveal } from "@/components/ui/reveal";
 
@@ -16,12 +16,6 @@ const contactLinks = [
     value: "elizabeth-tran-5807b2244",
     href: "https://www.linkedin.com/in/elizabeth-tran-5807b2244/",
     icon: Linkedin,
-  },
-  {
-    label: "Resume",
-    value: "Download PDF",
-    href: "/resume.pdf",
-    icon: FileText,
   },
 ];
 

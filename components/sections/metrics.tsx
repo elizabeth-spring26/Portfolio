@@ -27,9 +27,15 @@ const stats: {
     prefix: "",
     suffix: "M+",
     label: "TikTok Views",
-    links: [{ label: "TikTok", href: "https://www.tiktok.com/@studywith.liz/video/7541486459501497613" }],
+    links: [{ label: "TikTok", href: "https://www.tiktok.com/@studywith.liz" }],
   },
-  { numericValue: 100, prefix: "$", suffix: "K", label: "Solutions Built" },
+  {
+    numericValue: 100,
+    prefix: "$",
+    suffix: "K",
+    label: "Solutions Supported",
+    links: [{ label: "AI Technology Partners", href: "https://www.aitp.ai/" }],
+  },
   {
     numericValue: 3000,
     prefix: "",
@@ -40,7 +46,18 @@ const stats: {
       { label: "TikTok", href: "https://www.tiktok.com/@prodream.ai" },
     ],
   },
-  { numericValue: 80, prefix: "", suffix: "+", label: "Businesses Consulted" },
+  {
+    numericValue: 80,
+    prefix: "",
+    suffix: "+",
+    label: "Businesses Consulted",
+    links: [
+      {
+        label: "The Generator",
+        href: "https://www.babson.edu/thegenerator/community/ai-innovators-bootcamp/",
+      },
+    ],
+  },
 ];
 
 function formatStat(value: number, prefix: string, suffix: string) {

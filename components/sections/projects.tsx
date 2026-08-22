@@ -52,10 +52,10 @@ const projects: Project[] = [
     meta: "2025 / Partnerships",
     problem: "Babson's AI Lab needed industry weight behind its flagship build event.",
     build:
-      "Personally secured sponsorships from Anthropic, OpenAI, Cursor, Tripo AI, and Orchestra.",
+      "Personally secured sponsorships from Anthropic, GitHub, and Cursor.",
     impact:
       "A full-day AI hackathon at The Generator with students, sponsors, and builders in one room.",
-    tags: ["Anthropic", "OpenAI", "Community", "Event Organizing"],
+    tags: ["Anthropic", "GitHub", "Cursor", "Event Organizing"],
     status: "completed",
     span: "lg:col-span-5",
   },

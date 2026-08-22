@@ -72,12 +72,12 @@ export function BackgroundPaths({
       </div>
 
       <div className="relative z-10 w-full max-w-content mx-auto px-6 sm:px-8 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-12 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] gap-10 lg:gap-12 items-center">
           {/* Load sequence: name -> tagline -> CTA -> portrait, 660ms end to end. */}
           <div>
             <h1
               className="hero-item hero-item-1 font-display mb-5 tracking-tight text-foreground leading-[0.95]"
-              style={{ fontSize: "clamp(2.75rem, 7vw, 5.25rem)" }}
+              style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)" }}
             >
               {title}
             </h1>
@@ -136,7 +136,7 @@ export function BackgroundPaths({
 
           {/* Portrait. A hairline frame offset behind the image gives the
               editorial crop without wrapping the photo in a heavy card. */}
-          <div className="hero-item hero-item-4 relative mx-auto w-full max-w-[300px] sm:max-w-[340px] lg:max-w-none">
+          <div className="hero-item hero-item-4 relative mx-auto w-full max-w-[320px] sm:max-w-[380px] lg:max-w-[460px]">
             <div
               className="absolute inset-0 translate-x-3 translate-y-3 rounded-lg border border-primary/25"
               aria-hidden="true"
@@ -147,7 +147,7 @@ export function BackgroundPaths({
               width={700}
               height={755}
               priority
-              sizes="(min-width: 1024px) 30vw, (min-width: 640px) 340px, 300px"
+              sizes="(min-width: 1024px) 460px, (min-width: 640px) 380px, 320px"
               className="relative w-full h-auto rounded-lg border border-border"
               style={{ filter: "saturate(0.92)" }}
             />

@@ -20,7 +20,6 @@ Personal portfolio site. Next.js 14+ App Router, TypeScript, Tailwind CSS, shadc
 - `/lib/utils.ts` — cn() helper for shadcn
 - `/public/headshot.png` — Elizabeth's headshot photo
 - `/public/testimonials/` — Testimonial avatars + the Daily Cash Bot screenshot
-- `/public/resume.pdf` — Downloadable resume
 
 ## Page order
 
@@ -34,12 +33,20 @@ before the prose. Section numbering therefore runs 01 About → 02 Projects →
 
 All four metrics render through one `Stat` component at identical size, weight,
 and colour. **Never emphasise one metric over the others**, and never restate a
-metric as styled inline text elsewhere. Two of them carry source links (TikTok
-views; students reached → ProDream site + TikTok). Those links are quiet mono
-metadata *below* the label so they never change the weight of the number.
+metric as styled inline text elsewhere. **All four** carry a source link, shown
+as quiet mono metadata *below* the label so it never changes the weight of the
+number.
 
-Current values: **2M+** TikTok Views, $100K Solutions Built, 3,000+ Students
-Reached, 80+ Businesses Consulted. (TikTok views was corrected down from 5M+.)
+Current values and sources:
+- **2M+** TikTok Views → her TikTok
+- **$100K** Solutions Supported → AI Technology Partners (aitp.ai)
+- **3,000+** Students Reached → ProDream site + ProDream TikTok
+- **80+** Businesses Consulted → The Generator AI Innovators Bootcamp
+
+Two corrections that must not regress: TikTok views is **2M+**, not 5M+. And the
+$100K is **"Solutions Supported"** — she made client training materials while
+interning at AI Technology Partners; she did **not** build those solutions.
+Never relabel this as "Solutions Built".
 
 There is **no Experience section**. It was removed; its two orphaned facts (two
 paying clients / $3,000+ revenue, and the DrinkDock COO run to breakeven) now

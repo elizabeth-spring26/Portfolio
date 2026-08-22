@@ -17,23 +17,17 @@ export function AboutSection() {
         <Reveal>
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-8 lg:gap-14 items-start">
             <p className="text-muted-foreground leading-relaxed">
-              As a Technology Entrepreneurship student at Babson College, I don&apos;t just study
+              As a student at Babson College studying Business with a concentration in Technology Entrepreneurship, I don&apos;t just study
               how technology can improve businesses, I build and deploy solutions. That work is now
               a business: custom AI workflows for two paying clients, with $3,000+ in early revenue.
-              Before that I ran operations end to end as COO of DrinkDock (Babson FME Venture),
-              handling supply chain, international manufacturer negotiations, and inventory, and
-              took it to breakeven.
             </p>
 
             <p className="text-muted-foreground leading-relaxed">
               I have spent the past three years helping grow AI startups across partnerships,
-              marketing, and product management. As External Partnerships Lead at The Generator,
-              Babson&apos;s AI Lab, I bring industry leaders to campus. As a Student Lead for the AI
-              &amp; Small Business Bootcamp (G1000 Program), I put AI in the hands of owners who
-              just need things to work. And at ProDream AI, an AI college counselor backed by
-              Harvard Innovation Labs and Microsoft for Startups, I reached students who had never
-              had access to one. The through-line is the same: turning ideas into systems people
-              actually use.
+              marketing, and product management. As the Outreach Lead at The Generator,
+              Babson&apos;s AI Lab, I help students build with the best AI tools and have gotten sponsorships with Anthropic, GitHub, and Cursor. As a Student Lead for the AI
+              &amp; Small Business Bootcamp (G1000 Program), I put AI in the hands of 80+ business owners
+              to automate repetitive workflows.
             </p>
           </div>
         </Reveal>

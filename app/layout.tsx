@@ -25,7 +25,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Elizabeth Tran — AI Agent Builder & Automation Expert",
   description:
-    "Elizabeth Tran builds AI agents, automates workflows with Claude Code and n8n, and leads entrepreneurial initiatives at Babson College. External Partnerships Lead at The Generator.",
+    "Elizabeth Tran builds AI agents, automates workflows with Claude Code and n8n, and leads entrepreneurial initiatives at Babson College. Outreach Lead at The Generator.",
   keywords: [
     "Elizabeth Tran",
     "AI Agent Builder",
