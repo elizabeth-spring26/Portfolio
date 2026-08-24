@@ -26,7 +26,10 @@ function FloatingPaths({ position }: { position: number }) {
   return (
     <div className="absolute inset-0 pointer-events-none">
       <svg
-        className="w-full h-full text-slate-950 dark:text-white"
+        // Light mode dims the whole set: near-black lines at full strength ran
+        // straight behind the hero name and fought the dark violet ink. Dark
+        // mode is unchanged — light strokes on charcoal never had the problem.
+        className="w-full h-full text-slate-950 opacity-[0.35] dark:text-white dark:opacity-100"
         viewBox="0 0 696 316"
         fill="none"
         aria-hidden="true"
@@ -90,9 +93,9 @@ export function BackgroundPaths({
               I build AI that works for people.
             </p>
 
-            <p className="hero-item hero-item-2 font-mono text-xs sm:text-[0.8125rem] text-heading/85 mb-9 tracking-[0.15em] uppercase">
+            <p className="hero-item hero-item-2 font-mono text-xs sm:text-[0.8125rem] text-heading mb-9 tracking-[0.15em] uppercase">
               <span className="whitespace-nowrap">Agent Automation Builder</span>
-              <span className="mx-3 text-heading/45" aria-hidden="true">•</span>
+              <span className="mx-3 text-heading/50" aria-hidden="true">•</span>
               <span className="whitespace-nowrap">Growth Expert</span>
             </p>
 

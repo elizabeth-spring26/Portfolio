@@ -123,7 +123,7 @@ function ProjectCard({ project }: { project: Project }) {
         {featured && <Landmark className="w-4 h-4 text-primary shrink-0" aria-hidden="true" />}
         <h3
           className={cn(
-            "font-display text-foreground leading-tight",
+            "font-display text-heading leading-tight",
             featured ? "text-[1.625rem]" : "text-xl"
           )}
         >

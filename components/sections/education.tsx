@@ -55,7 +55,7 @@ export function EducationSection() {
         <Reveal>
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] gap-8 lg:gap-14 border-t border-border pt-8">
           <div>
-            <h3 className="font-display text-2xl text-foreground leading-tight">Babson College</h3>
+            <h3 className="font-display text-2xl text-heading leading-tight">Babson College</h3>
             <p className="font-mono text-[0.6875rem] text-muted-foreground mt-1.5">
               Wellesley, Massachusetts
             </p>

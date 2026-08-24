@@ -81,8 +81,9 @@
     --input: 40 8% 84%;
     --ring: 265 70% 48%;
 
-    /* Deep violet. ~9:1 on the cream ground. */
-    --heading: 265 62% 30%;
+    /* Deep, saturated violet. ~12:1 on the cream ground — the earlier 30%
+       lightness read washed out against the light ground. */
+    --heading: 265 74% 24%;
 
     /* Darkened so the label still passes AA on the cream ground. */
     --accent-cool: 205 42% 34%;

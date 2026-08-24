@@ -59,9 +59,12 @@ live in the About blurb. Do not reintroduce a resume-style role list.
    hairline frame offset by 12px. Not centred, and **not `min-h-screen`** — it is
    `lg:min-h-[min(86vh,900px)]` so the portrait clears the fold without wasting
    a viewport. The SVG paths **draw in once on load via CSS and then hold
-   still**; they are a quiet backdrop (`strokeOpacity` ramps to ~0.22, not to
-   opaque). Do not reintroduce an idle loop. Each `<path>` needs
-   `pathLength={1}` for `.hero-path`'s normalized `stroke-dasharray` to work.
+   still**; they are a quiet backdrop (`strokeOpacity` ramps to ~0.48, not to
+   opaque). In light mode the whole `<svg>` drops to `opacity-[0.35]`: the
+   near-black strokes ran behind the hero name and fought the violet ink. Dark
+   mode stays at full strength. Do not reintroduce an idle loop. Each `<path>`
+   needs `pathLength={1}` for `.hero-path`'s normalized `stroke-dasharray` to
+   work.
 2. `section-header.tsx` — The single section-header pattern. Every section uses
    it. Renders a numbered mono eyebrow, a serif heading, and an optional
    description as one revealing unit.
@@ -88,7 +91,8 @@ Do not reintroduce it.
 - Section headings are **left-aligned, no trailing period**, set in the display
   serif. Hierarchy comes from the mono eyebrow, not from heading size.
 - Display ink is `--heading`, a violet-tinted ink used for the hero name,
-  tagline, role line, the four metric numbers, and every section `h2`. Light
+  tagline, role line, the four metric numbers, and every display heading
+  (`h2` and `h3` alike: project titles, skill categories, Babson College). Light
   mode is a deep violet (`265 62% 30%`), dark mode a lifted violet
   (`265 60% 80%`) since a dark purple would vanish on the charcoal ground. Body
   copy stays `--foreground` / `--muted-foreground` so the contrast between

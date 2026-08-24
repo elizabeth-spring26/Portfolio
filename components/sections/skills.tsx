@@ -63,7 +63,7 @@ export function SkillsSection() {
               className="grid grid-cols-1 sm:grid-cols-[minmax(0,14rem)_1fr] gap-x-10 gap-y-3 border-b border-border py-6"
             >
               <div>
-                <h3 className="font-display text-lg text-foreground leading-snug">{cat.label}</h3>
+                <h3 className="font-display text-lg text-heading leading-snug">{cat.label}</h3>
                 <p className="font-mono text-[0.6875rem] text-muted-foreground mt-1">
                   {cat.subtitle}
                 </p>
