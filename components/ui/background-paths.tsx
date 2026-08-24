@@ -29,8 +29,9 @@ function FloatingPaths({ position }: { position: number }) {
         className="w-full h-full text-slate-950 dark:text-white"
         viewBox="0 0 696 316"
         fill="none"
+        aria-hidden="true"
+        focusable="false"
       >
-        <title>Background Paths</title>
         {paths.map((path) => (
           <path
             key={path.id}
@@ -38,9 +39,9 @@ function FloatingPaths({ position }: { position: number }) {
             d={path.d}
             stroke="currentColor"
             strokeWidth={path.width}
-            // The old ramp (0.1 + i * 0.03) topped out near fully opaque and cut
-            // across the portrait. The paths are a backdrop, not a subject.
-            strokeOpacity={0.04 + path.id * 0.005}
+            // Ramps to ~0.48. The original 0.1 + i * 0.03 topped out opaque and
+            // cut across the portrait; this reads clearly but stays a backdrop.
+            strokeOpacity={0.06 + path.id * 0.012}
             pathLength={1}
             style={{ animationDelay: `${path.id * 12}ms` }}
           />
@@ -89,12 +90,10 @@ export function BackgroundPaths({
               I build AI that works for people.
             </p>
 
-            <p className="hero-item hero-item-2 font-mono text-xs text-foreground/75 mb-9 tracking-[0.14em] uppercase max-w-[46ch]">
-              <span className="whitespace-nowrap">AI Agent Builder</span>
-              <span className="mx-2.5 text-muted-foreground" aria-hidden="true">•</span>
-              <span className="whitespace-nowrap">Automation Expert</span>
-              <span className="mx-2.5 text-muted-foreground" aria-hidden="true">•</span>
-              <span className="whitespace-nowrap">Entrepreneur</span>
+            <p className="hero-item hero-item-2 font-mono text-xs sm:text-[0.8125rem] text-foreground/80 mb-9 tracking-[0.15em] uppercase">
+              <span className="whitespace-nowrap">Agent Automation Builder</span>
+              <span className="mx-3 text-muted-foreground" aria-hidden="true">•</span>
+              <span className="whitespace-nowrap">Growth Expert</span>
             </p>
 
             <div className="hero-item hero-item-3 flex items-center gap-3 flex-wrap">

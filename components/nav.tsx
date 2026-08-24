@@ -131,6 +131,7 @@ export function Nav() {
                       e.preventDefault();
                       handleNavClick(link.href);
                     }}
+                    aria-current={isActive ? "true" : undefined}
                     className={cn(
                       "relative px-3.5 py-2 font-mono text-[0.6875rem] uppercase tracking-[0.12em] transition-colors rounded-sm",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",

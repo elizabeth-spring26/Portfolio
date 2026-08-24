@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Instrument_Serif, Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
@@ -23,7 +23,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Elizabeth Tran — AI Agent Builder & Automation Expert",
+  title: "Elizabeth Tran — Agent Automation Builder & Growth Expert",
   description:
     "Elizabeth Tran builds AI agents, automates workflows with Claude Code and n8n, and leads entrepreneurial initiatives at Babson College. Outreach Lead at The Generator.",
   keywords: [
@@ -38,15 +38,22 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Elizabeth Tran" }],
   openGraph: {
-    title: "Elizabeth Tran — AI Agent Builder & Automation Expert",
+    title: "Elizabeth Tran — Agent Automation Builder & Growth Expert",
     description: "I build AI that works for people.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Elizabeth Tran — AI Agent Builder",
+    title: "Elizabeth Tran — Agent Automation Builder",
     description: "I build AI that works for people.",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0E0E11" },
+    { media: "(prefers-color-scheme: light)", color: "#F6F5F3" },
+  ],
 };
 
 export default function RootLayout({
@@ -69,6 +76,12 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
+        <a
+          href="#main"
+          className="skip-link rounded-lg border border-border bg-card px-4 py-2 font-mono text-xs uppercase tracking-[0.14em] text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          Skip to content
+        </a>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

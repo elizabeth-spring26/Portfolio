@@ -133,6 +133,27 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-display font-normal;
     letter-spacing: -0.02em;
+    /* Headings break across lines evenly instead of stranding one word. */
+    text-wrap: balance;
+  }
+
+  /* Stops a paragraph ending on a single orphan word. */
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.28);
+    color: hsl(var(--foreground));
+  }
+
+  /* Anchor targets clear the 4rem fixed nav instead of hiding beneath it. */
+  :target {
+    scroll-margin-top: 5rem;
+  }
+
+  section[id] {
+    scroll-margin-top: 5rem;
   }
 }
 
@@ -165,6 +186,20 @@
 
   .animating {
     will-change: transform, opacity;
+  }
+
+  /* Visible only once focused, so keyboard users can jump the nav. */
+  .skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 100;
+    transform: translateY(-200%);
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  .skip-link:focus-visible {
+    transform: translateY(0);
   }
 }
 

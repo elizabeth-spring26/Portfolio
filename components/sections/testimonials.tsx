@@ -162,9 +162,17 @@ function Attribution({ src, name, meta }: { src: string; name: string; meta: str
 export function TestimonialsSection() {
   const [origin, setOrigin] = useState<DOMRect | null>(null);
   const [open, setOpen] = useState(false);
-  const close = useCallback(() => setOpen(false), []);
+  // Closing the lightbox must hand focus back to the thumbnail that opened it,
+  // otherwise keyboard users are dropped at the top of the document.
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+
+  const close = useCallback(() => {
+    setOpen(false);
+    triggerRef.current?.focus();
+  }, []);
 
   const expand = (e: React.MouseEvent<HTMLButtonElement>) => {
+    triggerRef.current = e.currentTarget;
     setOrigin(e.currentTarget.getBoundingClientRect());
     setOpen(true);
   };

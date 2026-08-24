@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <>
       <Nav />
-      <main>
+      <main id="main">
         <BackgroundPaths title="Elizabeth Tran" />
         {/* The numbers are core to the pitch, so they land before the prose. */}
         <MetricsSection />

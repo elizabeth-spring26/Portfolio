@@ -19,7 +19,7 @@ export function Footer() {
             <div>
               <p className="font-display text-foreground text-[0.9375rem]">Elizabeth Tran</p>
               <p className="font-mono text-[0.6875rem] text-muted-foreground">
-                AI Agent Builder &amp; Automation Expert
+                Agent Automation Builder &amp; Growth Expert
               </p>
             </div>
           </div>

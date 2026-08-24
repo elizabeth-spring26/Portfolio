@@ -148,12 +148,25 @@ Rules:
   progress bars, marquees, tilt-on-hover, page wipes, anything animating while
   idle.
 
+## Craft details (keep these)
+
+- `section[id]` and `:target` carry `scroll-margin-top: 5rem` so nav anchors
+  clear the fixed 4rem nav. Without it, headings land underneath the bar.
+- `.skip-link` in `layout.tsx` targets `#main`; it is the first focusable
+  element and only appears on `:focus-visible`.
+- `::selection` uses `--primary` at 28%.
+- Headings use `text-wrap: balance`, paragraphs `text-wrap: pretty`.
+- `app/icon.svg` is the favicon (ET monogram). `viewport.themeColor` sets the
+  mobile browser chrome per scheme. `themeColor` belongs on the `viewport`
+  export in Next 14, never on `metadata`.
+- The testimonial lightbox returns focus to the thumbnail that opened it.
+
 ## Content Rules — CRITICAL
 
 - Identity pillars: AI Agent Builder, Claude Code/n8n Automation, Entrepreneurship & Leadership
 - Product Management is in her background but is NOT the headline identity
 - Tagline: "I build AI that works for people."
-- Subtitle: "AI Agent Builder • Automation Expert • Entrepreneur"
+- Hero subtitle: "Agent Automation Builder • Growth Expert" (two items, not three)
 - DrinkDock must be labeled "DrinkDock (Babson FME Venture)" — never just "DrinkDock Startup"
 - Small Business Bootcamp must include "(G1000 Program)"
 - DO NOT include the hostess/server role at Old Street Hotpot anywhere
