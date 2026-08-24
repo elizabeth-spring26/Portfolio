@@ -87,6 +87,12 @@ Do not reintroduce it.
   (eyebrows, labels, tags, numbers). Not Inter, Roboto, or Arial.
 - Section headings are **left-aligned, no trailing period**, set in the display
   serif. Hierarchy comes from the mono eyebrow, not from heading size.
+- Display ink is `--heading`, a violet-tinted ink used for the hero name,
+  tagline, role line, the four metric numbers, and every section `h2`. Light
+  mode is a deep violet (`265 62% 30%`), dark mode a lifted violet
+  (`265 60% 80%`) since a dark purple would vanish on the charcoal ground. Body
+  copy stays `--foreground` / `--muted-foreground` so the contrast between
+  display and prose is what carries the hierarchy.
 - Color: charcoal ground (`#0E0E11`), warm off-white ink (`#F3F0EA`), and three
   distinct lifted surfaces (`--card` / `--secondary` / `--muted` — keep them
   different; they were once all the same value). A static ~2.5% grain sits on

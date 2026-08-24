@@ -35,7 +35,7 @@ export function SectionHeader({
           {label}
         </p>
         <h2
-          className="font-display text-foreground leading-[1.08]"
+          className="font-display text-heading leading-[1.08]"
           style={{ fontSize: "clamp(1.875rem, 3.4vw, 2.625rem)" }}
         >
           {title}

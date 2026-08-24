@@ -91,7 +91,7 @@ function Stat({
       style={{ "--reveal-delay": `${delay}ms` } as React.CSSProperties}
     >
       <p
-        className="font-mono tnum text-foreground leading-none mb-2"
+        className="font-mono tnum text-heading leading-none mb-2"
         style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)" }}
       >
         {formatStat(value, prefix, suffix)}

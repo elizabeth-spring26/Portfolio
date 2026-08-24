@@ -26,6 +26,12 @@
     --ring: 265 85% 68%;
     --radius: 5px;
 
+    /* Display ink. Headings, the hero name, and the metric numbers are set in
+       a violet-tinted ink rather than plain --foreground so they separate from
+       the body copy. Dark mode lifts it; light mode drops it to a deep violet
+       that stays legible on the cream ground. */
+    --heading: 265 60% 80%;
+
     /* Secondary accent. Bounded to two uses: the project "Impact" label and
        the testimonial feedback eyebrows. Never on the same element as
        --primary. See CLAUDE.md. */
@@ -74,6 +80,9 @@
     --border: 40 8% 84%;
     --input: 40 8% 84%;
     --ring: 265 70% 48%;
+
+    /* Deep violet. ~9:1 on the cream ground. */
+    --heading: 265 62% 30%;
 
     /* Darkened so the label still passes AA on the cream ground. */
     --accent-cool: 205 42% 34%;

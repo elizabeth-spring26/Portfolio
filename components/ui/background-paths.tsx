@@ -77,22 +77,22 @@ export function BackgroundPaths({
           {/* Load sequence: name -> tagline -> CTA -> portrait, 660ms end to end. */}
           <div>
             <h1
-              className="hero-item hero-item-1 font-display mb-5 tracking-tight text-foreground leading-[0.95]"
+              className="hero-item hero-item-1 font-display mb-5 tracking-tight text-heading leading-[0.95]"
               style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)" }}
             >
               {title}
             </h1>
 
             <p
-              className="hero-item hero-item-2 text-foreground/80 mb-4"
+              className="hero-item hero-item-2 text-heading mb-4"
               style={{ fontSize: "clamp(1.1rem, 2.2vw, 1.5rem)" }}
             >
               I build AI that works for people.
             </p>
 
-            <p className="hero-item hero-item-2 font-mono text-xs sm:text-[0.8125rem] text-foreground/80 mb-9 tracking-[0.15em] uppercase">
+            <p className="hero-item hero-item-2 font-mono text-xs sm:text-[0.8125rem] text-heading/85 mb-9 tracking-[0.15em] uppercase">
               <span className="whitespace-nowrap">Agent Automation Builder</span>
-              <span className="mx-3 text-muted-foreground" aria-hidden="true">•</span>
+              <span className="mx-3 text-heading/45" aria-hidden="true">•</span>
               <span className="whitespace-nowrap">Growth Expert</span>
             </p>
 
