@@ -172,7 +172,7 @@ export function Nav({ intro = false }: { intro?: boolean }) {
                 <a
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="hover:text-accent transition-colors duration-300"
+                  className="hover:text-cream transition-colors duration-300"
                   {...(l.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 >
                   {l.label}

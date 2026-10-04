@@ -61,7 +61,7 @@ function Row({ project, index }: { project: Project; index: number }) {
 
 export function WorkSection() {
   return (
-    <section id="work" className="bg-forest py-20 md:py-28">
+    <section id="work" className="bg-ink py-20 md:py-28">
       <div className="shell">
         <SectionHeading
           index="01"

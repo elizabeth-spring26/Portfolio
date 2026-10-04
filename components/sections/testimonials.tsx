@@ -90,7 +90,7 @@ export function TestimonialsSection() {
   }, []);
 
   return (
-    <section id="testimonials" className="bg-oxblood py-20 md:py-28">
+    <section id="testimonials" className="bg-ink py-20 md:py-28">
       <div className="shell">
         <SectionHeading
           index="02"

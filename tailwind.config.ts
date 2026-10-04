@@ -12,10 +12,8 @@ const config: Config = {
       colors: {
         ink: "rgb(var(--ink) / <alpha-value>)",
         surface: "rgb(var(--surface) / <alpha-value>)",
-        forest: "rgb(var(--forest) / <alpha-value>)",
-        oxblood: "rgb(var(--oxblood) / <alpha-value>)",
         cream: "rgb(var(--cream) / <alpha-value>)",
-        muted: "rgb(var(--cream) / 0.55)",
+        muted: "rgb(var(--cream) / 0.62)",
         stroke: "rgb(var(--cream) / 0.12)",
         accent: "rgb(var(--accent) / <alpha-value>)",
       },

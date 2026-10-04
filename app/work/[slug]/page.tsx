@@ -68,11 +68,11 @@ export default function CaseStudy({ params }: Params) {
   return (
     <>
       <Nav />
-      <main id="main" className="bg-forest pt-32 md:pt-40">
+      <main id="main" className="bg-ink pt-32 md:pt-40">
         <article className="shell">
           <Link
             href="/#work"
-            className="label text-muted transition-colors duration-300 hover:text-accent"
+            className="label text-muted transition-colors duration-300 hover:text-cream"
           >
             ← All work
           </Link>
@@ -140,7 +140,7 @@ export default function CaseStudy({ params }: Params) {
               </span>
             </span>
             <ArrowRight
-              className="h-6 w-6 shrink-0 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-accent"
+              className="h-6 w-6 shrink-0 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-cream"
               aria-hidden="true"
             />
           </Link>

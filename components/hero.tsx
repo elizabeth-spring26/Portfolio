@@ -17,10 +17,14 @@ const toolkit = [
 
 const d = (ms: number) => ({ "--d": `${ms}ms` }) as React.CSSProperties;
 
+/** Feathers the rectangular photo into the black ground. */
+const FEATHER = "radial-gradient(ellipse 60% 56% at 50% 42%, #000 44%, transparent 86%)";
+
 /**
- * One 100dvh composition built as a column, so nothing overlaps the portrait:
- * nav clearance → portrait (flex-1) → meta grid → cream rule → footer strip.
- * The scrolling name sits behind everything and passes behind the photo.
+ * One 100dvh composition. The name scrolls behind a large, centred portrait
+ * that is feathered into the black. The meta grid, rule, and footer strip sit
+ * at the bottom over a fade, so text only ever crosses the darkened lower body;
+ * her face stays clear above it at every size.
  */
 export function Hero() {
   return (
@@ -43,28 +47,39 @@ export function Hero() {
       >
         <div className="marquee-track flex w-max whitespace-nowrap text-[15vh] leading-none tracking-tight text-cream sm:text-[26vh]">
           {[0, 1].map((i) => (
-            <span key={i} className="pr-[6vw]">
-              Elizabeth&nbsp;—&nbsp;Tran&nbsp;
+            <span key={i} className="pr-[8vw]">
+              Elizabeth Tran
             </span>
           ))}
         </div>
       </div>
 
-      {/* Portrait: its own space, never under text. Muted to sit in the
-          black and cream palette. */}
-      <div className="relative z-20 flex min-h-0 flex-1 justify-center px-6 pb-8 pt-[27vh] sm:px-10 md:justify-end md:pt-28">
-        <div className="anim-rise-in relative h-full" style={{ aspectRatio: "3 / 4" }}>
+      {/* Portrait: large, centred, feathered into the ground */}
+      <div className="pointer-events-none absolute bottom-0 left-1/2 z-20 h-[75vh] -translate-x-1/2 lg:h-[90vh]">
+        <div
+          className="anim-rise-in relative h-full"
+          style={{ aspectRatio: "3 / 4", WebkitMaskImage: FEATHER, maskImage: FEATHER }}
+        >
           <Image
             src="/headshot.jpg"
             alt="Elizabeth Tran"
             fill
             priority
-            sizes="(min-width: 768px) 40vh, 60vw"
-            className="border border-cream/15 object-cover"
-            style={{ objectPosition: "50% 92%", filter: "saturate(0.72) contrast(1.03)" }}
+            sizes="(min-width: 1024px) 68vh, 56vh"
+            className="object-cover"
+            style={{ objectPosition: "50% 92%", filter: "saturate(0.72) brightness(0.95)" }}
           />
         </div>
       </div>
+
+      {/* Fade under the text so it stays readable over the photo */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[25] h-[42%] bg-gradient-to-t from-ink via-ink/85 to-transparent"
+        aria-hidden="true"
+      />
+
+      {/* Pushes the text block to the bottom */}
+      <div className="flex-1" aria-hidden="true" />
 
       {/* Meta grid */}
       <div className="relative z-30 grid grid-cols-2 gap-6 px-6 pb-6 sm:px-10 lg:grid-cols-4 lg:gap-8">
@@ -108,7 +123,7 @@ export function Hero() {
       <div className="relative z-30 flex items-end justify-between gap-6 px-6 pb-5 pt-5 text-xs sm:px-10 sm:pb-8 sm:text-sm">
         <a
           href="#work"
-          className="anim-fade-up text-cream/80 transition-colors duration-300 hover:text-accent"
+          className="anim-fade-up text-cream/80 transition-colors duration-300 hover:text-cream"
           style={d(1500)}
         >
           See my work ↓

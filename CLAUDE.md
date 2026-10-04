@@ -43,12 +43,12 @@ to read case studies that prove it.
 ## Design system
 
 - Colours (`:root` as RGB channels, mapped in Tailwind): `ink` #0c0c0c page,
-  `surface` #141414 panels, `forest` #14261d, `oxblood` #2e1113, `cream` #efeee9 text/rules/buttons, `muted` cream at
-  55%, `stroke` cream at 12%. `accent` #c8553d (burnt red) is used **only** for
-  the primary CTA hover and link hovers. Nothing else. On oxblood, hovers use
-  cream + underline instead (burnt red is too low-contrast there).
-- **Deep colour bands**: Hero, Proof bar, Contact on ink; **Work on forest**
-  (case study pages too); **Testimonials on oxblood**; About on surface.
+  `surface` #141414 panels, `cream` #efeee9 text/rules/buttons, `muted` cream
+  at 62%, `stroke` cream at 12%.
+- **Black and white.** She rejected the green/red colour bands; every section
+  is ink (About on surface). The only colour is `accent` #d4793f (muted
+  orange), used **only** for button hovers and the global `:focus-visible`
+  ring. Link hovers go to full cream, never orange.
 - **No purple**, no gradient text, no glowing cards.
 - Fonts: body/UI is `"Helvetica Neue", Helvetica, Arial` (`font-sans`); Instrument
   Serif italic (`font-display`) for **one word per heading** via `<Emph>`;
@@ -60,14 +60,16 @@ to read case studies that prove it.
   sit in one row from 1100px; below 1100px everything collapses into the drawer.
 - Section eyebrow: `01 / Work` with a `w-8` hairline before it.
 - Width `max-w-content` (1200px), padding `px-6 md:px-10 lg:px-16` (`.shell`).
-- Link hover: `opacity-60` or `text-accent`, `duration-300`.
+- Link hover: `opacity-60` or `text-cream`, `duration-300`.
 
 ## Hero
 
-- One `h-[100dvh]` flex column: header clearance → portrait (`flex-1`, 3:4,
-  thin frame, right-aligned from `md`) → meta grid → cream rule → footer strip.
-  **Nothing may overlap the photo.** The scrolling name (`Elizabeth — Tran`, 40s
-  marquee) sits behind it at a lower z-index, so it never covers her face.
+- One `h-[100dvh]` composition. The scrolling name reads **"Elizabeth Tran"**
+  (no em dash; she dislikes it) and passes behind a **large, centred portrait
+  feathered into the black** with a radial `mask-image` (she prefers this
+  immersed look over a framed photo). Meta grid, rule, and footer strip sit at
+  the bottom over a fade; only her darkened lower body sits behind text, and her
+  face must stay clear above it at every size.
 - Meta grid: Builder & *operator* / What I do / Recently / Toolkit (the last two
   only at `lg`). Recently's three lines were confirmed by her; keep them.
 - Entrance: CSS `anim-*` classes with a `--d` delay variable. All collapse under
@@ -93,6 +95,10 @@ to read case studies that prove it.
 
 ## Content Rules — CRITICAL
 
+- **This portfolio is for getting hired. Do not change content, metrics, quotes,
+  the count-up, or project order/structure unless she asks for that specific
+  change.** Daily Cash is not a "featured" project; all rows are equal. Design
+  requests mean colours and aesthetic only.
 - **Verified facts only.** Do not invent metrics, insights, decisions, results,
   attendance numbers, or case study sections. Empty is better than made up.
   Projects pending her details: Roots AI, the law firm lead-screening workflow,

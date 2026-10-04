@@ -104,7 +104,7 @@ export function ProofBar() {
                     href={src.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 font-mono text-[10px] text-cream/40 transition-colors duration-300 hover:text-accent"
+                    className="inline-flex items-center gap-1 font-mono text-[10px] text-cream/40 transition-colors duration-300 hover:text-cream"
                   >
                     {src.label}
                     <ArrowUpRight className="h-2.5 w-2.5" aria-hidden="true" />

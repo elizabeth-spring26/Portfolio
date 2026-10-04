@@ -8,9 +8,8 @@
     --ink: 12 12 12; /* #0c0c0c page */
     --surface: 20 20 20; /* #141414 panels */
     --cream: 239 238 233; /* #efeee9 text, rules, buttons */
-    --forest: 20 38 29; /* #14261d Work band + case studies */
-    --oxblood: 46 17 19; /* #2e1113 Testimonials band */
-    --accent: 200 85 61; /* #c8553d: primary CTA hover and link hover. Nothing else. */
+    /* Muted orange. Button hovers and focus rings only. Nothing else. */
+    --accent: 212 121 63; /* #d4793f */
 
     --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
     --ease-drawer: cubic-bezier(0.76, 0, 0.24, 1);
@@ -24,8 +23,14 @@
     @apply bg-ink text-cream font-sans antialiased;
   }
 
+  /* One visible focus style everywhere. */
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent)) !important;
+    outline-offset: 3px;
+  }
+
   ::selection {
-    background: rgb(var(--accent) / 0.35);
+    background: rgb(var(--cream) / 0.25);
     color: rgb(var(--cream));
   }
 

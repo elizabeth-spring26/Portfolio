@@ -54,12 +54,12 @@ export function ContactSection() {
               href={site.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-colors duration-300 hover:text-accent"
+              className="transition-colors duration-300 hover:text-cream"
             >
               LinkedIn
             </a>
             {site.resume && (
-              <a href={site.resume} className="transition-colors duration-300 hover:text-accent">
+              <a href={site.resume} className="transition-colors duration-300 hover:text-cream">
                 Resume
               </a>
             )}
