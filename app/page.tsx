@@ -1,30 +1,24 @@
 import { Nav } from "@/components/nav";
-import { Footer } from "@/components/footer";
-import { BackgroundPaths } from "@/components/ui/background-paths";
-import { AboutSection } from "@/components/sections/about";
-import { MetricsSection } from "@/components/sections/metrics";
-import { ProjectsSection } from "@/components/sections/projects";
+import { Hero } from "@/components/hero";
+import { ProofBar } from "@/components/sections/proof";
+import { WorkSection } from "@/components/sections/work";
 import { TestimonialsSection } from "@/components/sections/testimonials";
-import { SkillsSection } from "@/components/sections/skills";
-import { EducationSection } from "@/components/sections/education";
+import { AboutSection } from "@/components/sections/about";
 import { ContactSection } from "@/components/sections/contact";
 
 export default function Home() {
   return (
     <>
-      <Nav />
+      <Nav intro />
       <main id="main">
-        <BackgroundPaths title="Elizabeth Tran" />
-        {/* The numbers are core to the pitch, so they land before the prose. */}
-        <MetricsSection />
-        <AboutSection />
-        <ProjectsSection />
+        <Hero />
+        <ProofBar />
+        <WorkSection />
+        {/* Proof of the work sits directly under it. */}
         <TestimonialsSection />
-        <SkillsSection />
-        <EducationSection />
+        <AboutSection />
         <ContactSection />
       </main>
-      <Footer />
     </>
   );
 }

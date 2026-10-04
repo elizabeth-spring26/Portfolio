@@ -3,100 +3,34 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ArrowUpRight, X } from "lucide-react";
-import { SectionHeader } from "@/components/ui/section-header";
-import { Reveal } from "@/components/ui/reveal";
+import { SectionHeading } from "@/components/ui/editorial";
+import { FadeUp } from "@/components/ui/fade-up";
 
-type TestimonialLink = { label: string; href: string };
-
-const brandonLinks: TestimonialLink[] = [
+const brandonLinks = [
   { label: "Course page", href: "https://student-page-share.lovable.app/" },
   { label: "Brandon's portfolio", href: "https://brandons-website-eight.vercel.app/" },
   { label: "Restaurant agent repo", href: "https://github.com/Brandon455345/Duchess" },
 ];
 
 const SHOT_SRC = "/testimonials/daily-cash-agent.jpeg";
-const SHOT_W = 739;
-const SHOT_H = 1600;
 const SHOT_ALT =
   "Telegram bot delivering a daily cash position report with current balance, pending charges, and net cash for the next day";
 
-const cardClass =
-  "w-full max-w-[460px] h-full flex flex-col rounded-lg border border-border bg-card p-5";
-const quoteClass = "text-[0.875rem] text-foreground/85 leading-[1.55]";
-
-/** Names the work each quote validates, so the card reads as proof of the
- *  case study above rather than as a second description of it. */
-function FeedbackEyebrow({ children }: { children: React.ReactNode }) {
-  return (
-    <p
-      className="font-mono text-[0.625rem] uppercase tracking-[0.16em] mb-2.5"
-      style={{ color: "hsl(var(--accent-cool))" }}
-    >
-      {children}
-    </p>
-  );
-}
-
-function prefersReducedMotion() {
-  return (
-    typeof window !== "undefined" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
-}
-
-/**
- * FLIP: the expanded image starts transformed onto the thumbnail's rect, then
- * transitions to identity. Only transform and opacity are animated.
- */
-function Lightbox({
-  origin,
-  onClose,
-}: {
-  origin: DOMRect | null;
-  onClose: () => void;
-}) {
-  const imgRef = useRef<HTMLDivElement>(null);
-  const [open, setOpen] = useState(false);
+/** Full screenshot. Closes on Escape, backdrop click, or the X; focus returns to the opener. */
+function Lightbox({ onClose }: { onClose: () => void }) {
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", onKey);
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    closeRef.current?.focus();
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = prev;
     };
   }, [onClose]);
-
-  useEffect(() => {
-    const el = imgRef.current;
-    if (!el || !origin || prefersReducedMotion()) {
-      setOpen(true);
-      return;
-    }
-
-    const target = el.getBoundingClientRect();
-    const dx = origin.left + origin.width / 2 - (target.left + target.width / 2);
-    const dy = origin.top + origin.height / 2 - (target.top + target.height / 2);
-    const scale = target.width ? origin.width / target.width : 1;
-
-    el.style.transform = "translate(" + dx + "px, " + dy + "px) scale(" + scale + ")";
-    el.classList.add("animating");
-
-    const raf = requestAnimationFrame(() => {
-      requestAnimationFrame(() => setOpen(true));
-    });
-
-    const cleanup = () => el.classList.remove("animating");
-    el.addEventListener("transitionend", cleanup, { once: true });
-    return () => {
-      cancelAnimationFrame(raf);
-      el.removeEventListener("transitionend", cleanup);
-    };
-  }, [origin]);
 
   return (
     <div
@@ -104,96 +38,112 @@ function Lightbox({
       aria-modal="true"
       aria-label="Daily cash report, full screenshot"
       onClick={onClose}
-      className="fixed inset-0 z-[60] flex items-center justify-center p-6"
-      style={{
-        background: "hsl(var(--background) / 0.94)",
-        opacity: open ? 1 : 0,
-        transition: "opacity var(--dur-base) var(--ease-out)",
-      }}
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-ink/95 p-6"
     >
       <button
+        ref={closeRef}
         type="button"
         onClick={onClose}
         aria-label="Close"
-        className="absolute top-5 right-5 p-2 text-muted-foreground hover:text-foreground transition-colors"
-        style={{ transitionDuration: "var(--dur-fast)" }}
+        className="absolute right-5 top-5 p-2 text-cream/70 transition-colors duration-300 hover:text-accent"
       >
-        <X className="w-5 h-5" />
+        <X className="h-5 w-5" />
       </button>
-      <div
-        ref={imgRef}
+      <Image
+        src={SHOT_SRC}
+        alt={SHOT_ALT}
+        width={739}
+        height={1600}
         onClick={(e) => e.stopPropagation()}
-        style={{
-          transform: open ? "none" : undefined,
-          transformOrigin: "center",
-          transition: "transform var(--dur-base) var(--ease-out)",
-        }}
-      >
-        <Image
-          src={SHOT_SRC}
-          alt={SHOT_ALT}
-          width={SHOT_W}
-          height={SHOT_H}
-          className="max-h-[86vh] w-auto rounded-lg border border-border"
-        />
-      </div>
+        className="max-h-[86vh] w-auto"
+      />
     </div>
   );
 }
 
 function Attribution({ src, name, meta }: { src: string; name: string; meta: string }) {
   return (
-    <figcaption className="flex items-center gap-3 mt-auto pt-4 border-t border-border">
-      <Image
-        src={src}
-        alt={name}
-        width={44}
-        height={44}
-        className="w-9 h-9 rounded-full object-cover shrink-0"
-      />
-      <div className="min-w-0">
-        <cite className="not-italic text-sm font-medium text-foreground block">{name}</cite>
-        <span className="font-mono text-[0.6875rem] text-muted-foreground">{meta}</span>
+    <figcaption className="mt-8 flex items-center gap-3">
+      <Image src={src} alt={name} width={44} height={44} className="h-10 w-10 rounded-full object-cover" />
+      <div>
+        <cite className="block text-sm not-italic">{name}</cite>
+        <span className="label text-[10px] text-muted">{meta}</span>
       </div>
     </figcaption>
   );
 }
 
+const quoteClass = "font-display text-2xl italic leading-snug md:text-[1.75rem]";
+
+/** Quotes are verbatim. Do not edit, shorten, or correct them. */
 export function TestimonialsSection() {
-  const [origin, setOrigin] = useState<DOMRect | null>(null);
   const [open, setOpen] = useState(false);
-  // Closing the lightbox must hand focus back to the thumbnail that opened it,
-  // otherwise keyboard users are dropped at the top of the document.
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   const close = useCallback(() => {
     setOpen(false);
     triggerRef.current?.focus();
   }, []);
 
-  const expand = (e: React.MouseEvent<HTMLButtonElement>) => {
-    triggerRef.current = e.currentTarget;
-    setOrigin(e.currentTarget.getBoundingClientRect());
-    setOpen(true);
-  };
-
   return (
-    <section id="testimonials" className="section-padding relative">
-      <div className="max-w-content mx-auto">
-        <SectionHeader
-          index="03"
+    <section id="testimonials" className="bg-ink py-20 md:py-28">
+      <div className="shell">
+        <SectionHeading
+          index="02"
           label="Testimonials"
-          title="Who I've built for"
-          description="The people these systems were built for, in their own words."
+          title="In their words"
+          italic="words"
+          sub="The people I built for."
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 justify-items-center items-stretch">
-          {/* Brandon */}
-          <Reveal className="w-full flex justify-center">
-            <figure className={cardClass}>
-              <FeedbackEyebrow>Student feedback / AI Agents Course</FeedbackEyebrow>
+        <div className="grid border-t border-stroke md:grid-cols-2">
+          {/* David */}
+          <FadeUp className="border-b border-stroke py-10 md:border-b-0 md:border-r md:pr-10">
+            <figure>
+              <p className="label text-muted">Client · Daily Cash Agent</p>
+              <blockquote className="mt-5">
+                <p className={quoteClass}>
+                  Liz did an outstanding job building an AI-powered Daily Cash Management agent
+                  that has become an incredibly valuable tool for me. She continues to provide
+                  excellent support, proactively maintaining the agent and quickly resolving any
+                  bugs that arise, making the entire solution reliable and hugely helpful to our
+                  daily workflow. I would recommend her without hesitation.
+                </p>
+              </blockquote>
 
-              <blockquote>
+              <button
+                ref={triggerRef}
+                type="button"
+                onClick={() => setOpen(true)}
+                aria-label="Expand the daily cash report screenshot"
+                className="group relative mt-8 block aspect-[739/420] w-[220px] overflow-hidden border border-stroke focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cream"
+              >
+                <Image
+                  src={SHOT_SRC}
+                  alt={SHOT_ALT}
+                  fill
+                  sizes="220px"
+                  className="object-cover"
+                  style={{ objectPosition: "50% 10%" }}
+                />
+                <span className="label absolute bottom-1.5 right-1.5 bg-ink/85 px-1.5 py-0.5 text-[9px] text-cream/80 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
+                  Expand
+                </span>
+              </button>
+
+              <Attribution
+                src="/testimonials/david.png"
+                name="David"
+                meta="Co-founder, Metal Fuels · Boston, MA"
+              />
+            </figure>
+          </FadeUp>
+
+          {/* Brandon */}
+          <FadeUp className="py-10 md:pl-10" delay={0.08}>
+            <figure>
+              <p className="label text-muted">Student · AI Agents Course</p>
+              <blockquote className="mt-5">
                 <p className={quoteClass}>
                   The course was amazing and opened my mind to different paths that I could venture
                   too. Additionally, the lessons were very helpful and straightforward, which is
@@ -201,31 +151,25 @@ export function TestimonialsSection() {
                 </p>
               </blockquote>
 
-              <p className="font-mono text-[0.6875rem] text-foreground/70 mt-4">
-                5 sessions · 10 hours · 1:1
-              </p>
-              <p className="text-[0.8125rem] text-muted-foreground leading-relaxed mt-1.5">
+              <p className="label mt-8 text-cream/70">5 sessions · 10 hours · 1:1</p>
+              <p className="mt-2 text-sm text-muted">
                 Agent fundamentals, Claude Code, and building and selling his first AI agent.
               </p>
-
-              <ul className="mt-2.5 space-y-0.5 mb-4">
-                  {brandonLinks.map(({ label, href }) => (
-                    <li key={href}>
-                      <a
-                        href={href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group inline-flex items-center gap-1.5 font-mono text-[0.6875rem] text-muted-foreground hover:text-primary focus-visible:text-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring rounded-sm transition-colors"
-                        style={{ transitionDuration: "var(--dur-fast)" }}
-                      >
-                        <span className="underline decoration-transparent group-hover:decoration-current underline-offset-4 transition-colors">
-                          {label}
-                        </span>
-                        <ArrowUpRight className="w-3 h-3 shrink-0" aria-hidden="true" />
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+              <ul className="mt-3 space-y-1">
+                {brandonLinks.map((l) => (
+                  <li key={l.href}>
+                    <a
+                      href={l.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 font-mono text-[11px] text-cream/60 transition-colors duration-300 hover:text-accent"
+                    >
+                      {l.label}
+                      <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
 
               <Attribution
                 src="/testimonials/brandon.png"
@@ -233,64 +177,11 @@ export function TestimonialsSection() {
                 meta="High school student · AI Agents Course"
               />
             </figure>
-          </Reveal>
-
-          {/* David — screenshot column beside the text column */}
-          <Reveal delay={60} className="w-full flex justify-center">
-            <figure className={cardClass}>
-              <div className="flex flex-col h-full">
-                <FeedbackEyebrow>Client feedback / Daily Cash Bot</FeedbackEyebrow>
-
-                {/* A controlled landscape crop of the report itself. The full
-                    1600px-tall screenshot lives in the lightbox; here it is
-                    evidence supporting the quote, not the subject of the card. */}
-                <button
-                  type="button"
-                  onClick={expand}
-                  aria-label="Expand the daily cash report screenshot"
-                  className="group relative w-[250px] max-w-full aspect-[739/560] mb-4 rounded-md border border-border overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                  style={{ background: "hsl(var(--background))" }}
-                >
-                  <Image
-                    src={SHOT_SRC}
-                    alt={SHOT_ALT}
-                    fill
-                    sizes="250px"
-                    className="object-cover"
-                    style={{ objectPosition: "50% 13%" }}
-                  />
-                  <span
-                    className="absolute bottom-1.5 right-1.5 font-mono text-[0.625rem] px-1.5 py-0.5 rounded-sm bg-background/85 text-muted-foreground opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity"
-                    style={{ transitionDuration: "var(--dur-base)" }}
-                  >
-                    expand
-                  </span>
-                </button>
-
-                <div className="flex flex-col flex-1 min-w-0">
-                  <blockquote>
-                    <p className={quoteClass}>
-                      Liz did an outstanding job building an AI-powered Daily Cash Management agent
-                      that has become an incredibly valuable tool for me. She continues to provide
-                      excellent support, proactively maintaining the agent and quickly resolving any
-                      bugs that arise, making the entire solution reliable and hugely helpful to our
-                      daily workflow. I would recommend her without hesitation.
-                    </p>
-                  </blockquote>
-
-                  <Attribution
-                    src="/testimonials/david.png"
-                    name="David"
-                    meta="Co-founder, Metal Fuels · Boston, MA"
-                  />
-                </div>
-              </div>
-            </figure>
-          </Reveal>
+          </FadeUp>
         </div>
       </div>
 
-      {open && <Lightbox origin={origin} onClose={close} />}
+      {open && <Lightbox onClose={close} />}
     </section>
   );
 }

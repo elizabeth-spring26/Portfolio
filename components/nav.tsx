@@ -1,219 +1,183 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Sun, Moon, Menu, X } from "lucide-react";
-import { useTheme } from "next-themes";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { navLinks, socialLinks } from "@/content/site";
 
-const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Projects", href: "#projects" },
-  { label: "Testimonials", href: "#testimonials" },
-  { label: "Contact", href: "#contact" },
-];
+const EASE = "cubic-bezier(0.76,0,0.24,1)";
 
-const sectionIds = navLinks.map((l) => l.href.slice(1));
+/**
+ * Fixed, mix-blend-difference so it stays legible over the photo and the
+ * cream rule alike. `intro` runs the hero entrance stagger (home page only).
+ */
+export function Nav({ intro = false }: { intro?: boolean }) {
+  const [open, setOpen] = useState(false);
+  const firstLinkRef = useRef<HTMLAnchorElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
-export function Nav() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState<string | null>(null);
-  const [underline, setUnderline] = useState<{ x: number; w: number } | null>(null);
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  const listRef = useRef<HTMLDivElement>(null);
-  const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
-
-  useEffect(() => setMounted(true), []);
-
-  // The nav ground appears only once the hero is behind you.
+  // A closed drawer is off-canvas; inert keeps its links out of the tab order.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    if (drawerRef.current) drawerRef.current.inert = !open;
+  }, [open]);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Two sections can sit inside the band at once. Take the topmost
-        // intersecting one rather than letting the last entry win by order.
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible.length > 0) setActiveSection(visible[0].target.id);
-      },
-      { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
-    );
-    sectionIds.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
-  }, []);
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    firstLinkRef.current?.focus({ preventScroll: true });
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
 
-  // Measure the active link so one shared bar can slide to it.
-  const measure = useCallback(() => {
-    const list = listRef.current;
-    const el = activeSection ? linkRefs.current[activeSection] : null;
-    if (!list || !el) {
-      setUnderline(null);
-      return;
-    }
-    const l = list.getBoundingClientRect();
-    const r = el.getBoundingClientRect();
-    setUnderline({ x: r.left - l.left, w: r.width });
-  }, [activeSection]);
+  const anim = (delay: number) =>
+    intro ? { className: "anim-fade-up", style: { "--d": `${delay}ms` } as React.CSSProperties } : {};
 
-  useLayoutEffect(() => {
-    measure();
-  }, [measure]);
-
-  useEffect(() => {
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, [measure]);
-
-  const handleNavClick = (href: string) => {
-    setMobileOpen(false);
-    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
-  };
+  const linkClass =
+    "transition-opacity duration-300 hover:opacity-60 focus-visible:outline-none focus-visible:underline underline-offset-4";
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50">
-        {/* Ground is its own layer so only opacity animates. */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-background/90 backdrop-blur-xl border-b border-border"
-          style={{
-            opacity: scrolled ? 1 : 0,
-            transition: "opacity var(--dur-base) var(--ease-out)",
-          }}
-        />
+      <header className="fixed inset-x-0 top-0 z-50 flex items-start justify-between px-6 pt-6 sm:px-10 sm:pt-8 mix-blend-difference text-cream">
+        <Link href="/" style={anim(800).style} className={cn("text-lg tracking-wide", linkClass, intro && "anim-fade-up")}>
+          Elizabeth Tran
+        </Link>
 
-        <div className="relative max-w-content mx-auto px-6 sm:px-8 lg:px-12">
-          <div className="flex items-center justify-between h-16">
-            <a
-              href="#hero"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavClick("#hero");
-              }}
-              className="flex items-center gap-2.5 group rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            >
-              <div
-                className="w-7 h-7 rounded-md border border-border flex items-center justify-center text-foreground font-mono text-[0.625rem] group-hover:border-foreground/30 transition-colors"
-                style={{ transitionDuration: "var(--dur-fast)" }}
-              >
-                ET
-              </div>
-              <span className="font-display text-foreground hidden sm:block text-[0.9375rem] tracking-tight">
-                Elizabeth Tran
-              </span>
-            </a>
-
-            {/* Desktop links plus one shared underline */}
-            <div ref={listRef} className="hidden md:flex items-center gap-0.5 relative">
-              {navLinks.map((link) => {
-                const id = link.href.slice(1);
-                const isActive = activeSection === id;
-                return (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    ref={(el) => {
-                      linkRefs.current[id] = el;
-                    }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavClick(link.href);
-                    }}
-                    aria-current={isActive ? "true" : undefined}
-                    className={cn(
-                      "relative px-3.5 py-2 font-mono text-[0.6875rem] uppercase tracking-[0.12em] transition-colors rounded-sm",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                      isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
-                    )}
-                    style={{ transitionDuration: "var(--dur-fast)" }}
-                  >
-                    {link.label}
-                  </a>
-                );
-              })}
-
-              <span
-                aria-hidden="true"
-                className="absolute bottom-0.5 left-0 h-px w-px bg-primary origin-left"
-                style={{
-                  transform: underline
-                    ? `translateX(${underline.x}px) scaleX(${underline.w})`
-                    : "translateX(0) scaleX(0)",
-                  opacity: underline ? 1 : 0,
-                  transition:
-                    "transform var(--dur-base) var(--ease-in-out), opacity var(--dur-fast) var(--ease-out)",
-                }}
-              />
-            </div>
-
-            <div className="flex items-center gap-2">
-              {mounted && (
-                <button
-                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="p-2 text-muted-foreground hover:text-foreground transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                  style={{ transitionDuration: "var(--dur-fast)" }}
-                  aria-label="Toggle theme"
+        <nav aria-label="Primary" className="hidden sm:flex gap-16 lg:gap-24 text-sm">
+          <ul className="flex flex-col gap-0.5">
+            {navLinks.map((l, i) => (
+              <li key={l.href} {...anim(1000 + i * 80)}>
+                <Link href={l.href} className={linkClass}>
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <ul className="flex flex-col gap-0.5">
+            {socialLinks.map((l, i) => (
+              <li key={l.href} {...anim(1000 + (navLinks.length + i) * 80)}>
+                <a
+                  href={l.href}
+                  className={linkClass}
+                  {...(l.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 >
-                  {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-                </button>
-              )}
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
-              <button
-                onClick={() => setMobileOpen((v) => !v)}
-                className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                style={{ transitionDuration: "var(--dur-fast)" }}
-                aria-label="Toggle menu"
-                aria-expanded={mobileOpen}
-              >
-                {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
+        {/* Three bars morph into an X. */}
+        <button
+          ref={toggleRef}
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          aria-expanded={open}
+          aria-controls="mobile-drawer"
+          aria-label={open ? "Close menu" : "Open menu"}
+          className="relative z-[60] -mr-2 -mt-2 flex h-10 w-10 flex-col items-center justify-center gap-[5px] sm:hidden"
+        >
+          {[0, 1, 2].map((i) => (
+            <span
+              key={i}
+              className="block h-px w-6 bg-cream"
+              style={{
+                transition: `transform 500ms ${EASE}, opacity 500ms ${EASE}`,
+                transform: open
+                  ? i === 0
+                    ? "translateY(6px) rotate(45deg)"
+                    : i === 2
+                      ? "translateY(-6px) rotate(-45deg)"
+                      : "none"
+                  : "none",
+                opacity: open && i === 1 ? 0 : 1,
+              }}
+            />
+          ))}
+        </button>
+      </header>
 
-      {/* Mobile menu opens via grid-template-rows, so no height is animated. */}
+      {/* Mobile drawer */}
       <div
-        className="fixed top-16 left-0 right-0 z-40 grid md:hidden bg-background/95 backdrop-blur-xl"
+        className={cn(
+          "fixed inset-0 z-40 bg-black/40 backdrop-blur-sm sm:hidden",
+          open ? "opacity-100" : "pointer-events-none opacity-0"
+        )}
+        style={{ transition: `opacity 500ms ${EASE}` }}
+        onClick={() => setOpen(false)}
+        aria-hidden="true"
+      />
+      <div
+        id="mobile-drawer"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site menu"
+        ref={drawerRef}
+        className="fixed inset-y-0 right-0 z-[45] flex w-[80%] max-w-sm flex-col justify-between bg-surface px-8 py-10 pt-24 sm:hidden"
         style={{
-          gridTemplateRows: mobileOpen ? "1fr" : "0fr",
-          opacity: mobileOpen ? 1 : 0,
-          pointerEvents: mobileOpen ? "auto" : "none",
-          borderBottom: mobileOpen ? "1px solid hsl(var(--border))" : "1px solid transparent",
-          transition:
-            "grid-template-rows var(--dur-base) var(--ease-in-out), opacity var(--dur-fast) var(--ease-out)",
+          transform: open ? "translateX(0)" : "translateX(100%)",
+          transition: `transform 600ms ${EASE}`,
         }}
       >
-        <div className="overflow-hidden">
-          <div className="max-w-content mx-auto px-6 py-4 space-y-1">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                tabIndex={mobileOpen ? 0 : -1}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavClick(link.href);
-                }}
-                className="block px-3 py-2.5 text-muted-foreground hover:text-foreground transition-colors font-mono text-[0.6875rem] uppercase tracking-[0.12em] rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                style={{ transitionDuration: "var(--dur-fast)" }}
+        <div>
+          <p className="label text-cream/50">Site Index</p>
+          <ul className="mt-6 space-y-3">
+            {navLinks.map((l, i) => (
+              <li
+                key={l.href}
+                className={cn(
+                  "transition-[opacity,transform] duration-500",
+                  open ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+                )}
+                style={{ transitionDelay: open ? `${300 + i * 80}ms` : "0ms", transitionTimingFunction: EASE }}
               >
-                {link.label}
-              </a>
+                <Link
+                  ref={i === 0 ? firstLinkRef : undefined}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="text-4xl tracking-tight focus-visible:outline-none focus-visible:underline"
+                >
+                  {l.label}
+                </Link>
+              </li>
             ))}
-          </div>
+          </ul>
+        </div>
+
+        <div>
+          <p className="label text-cream/50">Find Me</p>
+          <ul className="mt-4 space-y-2 text-sm">
+            {socialLinks.map((l, i) => (
+              <li
+                key={l.href}
+                className={cn(
+                  "transition-[opacity,transform] duration-500",
+                  open ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+                )}
+                style={{ transitionDelay: open ? `${550 + i * 60}ms` : "0ms", transitionTimingFunction: EASE }}
+              >
+                <a
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="hover:text-accent transition-colors duration-300"
+                  {...(l.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </>

@@ -1,6 +1,8 @@
 # Elizabeth Tran — Portfolio Website
 
-Personal portfolio site. Next.js 14+ App Router, TypeScript, Tailwind CSS, shadcn/ui.
+Product manager portfolio. Next.js 14 App Router, TypeScript, Tailwind CSS,
+Framer Motion. Deployed on Vercel from `main`
+(elizabeth-tran-portfolio-one.vercel.app).
 
 ## Commands
 
@@ -8,228 +10,113 @@ Personal portfolio site. Next.js 14+ App Router, TypeScript, Tailwind CSS, shadc
 - `npm run build` — Production build
 - `npm run lint` — ESLint check
 
+## Goal
+
+A PM recruiter should understand in 10 seconds that she defines problems, talks
+to users, makes tradeoffs, and ships, then be able to read case studies that
+prove it.
+
 ## Architecture
 
-- `/app` — Next.js App Router pages and layouts
-- `/app/page.tsx` — Single-page portfolio (all sections)
-- `/app/globals.css` — Design tokens, spacing scale, motion scale, keyframes
-- `/components/ui` — shadcn components + custom UI (background-paths, section-header, reveal)
-- `/components/sections` — Page sections (about, metrics, projects, testimonials, skills, education, contact)
-- `/components/nav.tsx` — Sticky top navigation
-- `/hooks` — `use-reveal` (IntersectionObserver), `use-count-up` (rAF number tween)
-- `/lib/utils.ts` — cn() helper for shadcn
-- `/public/headshot.jpg` — Elizabeth's headshot (tall 9:16 source, cropped to 4:5 in the hero via `object-cover`)
-- `/public/projects/buildathon.png` — Buildathon group photo, shown on the Buildathon card
-- `/public/testimonials/` — Testimonial avatars + the Daily Cash Bot screenshot
+- `/app/page.tsx` — Home. Order: **Hero → Proof bar → Selected work →
+  Testimonials → About → Contact**. Testimonials sit directly under the work on
+  purpose (she asked for them near the top). Do not move them down.
+- `/app/work/[slug]/page.tsx` — Case study pages, statically generated from
+  `content/projects.ts`
+- `/app/template.tsx` — 300ms route fade + `MotionConfig reducedMotion="user"`.
+  The first paint is never faded (server HTML must not ship at opacity 0).
+- `/app/globals.css` — Colour channels, hero keyframes, marquee, reduced motion
+- `/content/projects.ts` — **All project copy lives here.** Case study pages
+  render only the sections that have content
+- `/content/site.ts` — Email, LinkedIn, resume path, availability line, nav links
+- `/components/hero.tsx` — 100dvh hero (scrolling name, portrait, meta grid)
+- `/components/nav.tsx` — Fixed `mix-blend-difference` nav + mobile drawer
+- `/components/sections/` — `proof`, `work`, `testimonials`, `about`, `contact`
+- `/components/ui/editorial.tsx` — `Emph`, `Eyebrow`, `SectionHeading`, `StatusPill`
+- `/components/ui/fade-up.tsx` — Framer Motion scroll reveal (y 30→0, 0.8s, once)
+- `/public/headshot.jpg` — Hero portrait (9:16 source)
+- `/public/projects/buildathon.png` — Hackathon photo
+- `/public/testimonials/` — Avatars + the Daily Cash Agent screenshot
+- `/pic_example/` — Raw source photos
 
-## Page order
+## Design system
 
-Hero → **Metrics strip** → About → Projects → Testimonials → Skills → Education → Contact.
+- Colours (`:root` as RGB channels, mapped in Tailwind): `ink` #0c0c0c page,
+  `surface` #141414 panels, `cream` #efeee9 text/rules/buttons, `muted` cream at
+  55%, `stroke` cream at 12%. `accent` #c8553d (burnt red) is used **only** for
+  the primary CTA hover, the availability dot, and link hovers. Nothing else.
+- **No purple**, no gradient text, no glowing cards.
+- Fonts: body/UI is `"Helvetica Neue", Helvetica, Arial` (`font-sans`); Instrument
+  Serif italic (`font-display`) for **one word per heading** via `<Emph>`;
+  JetBrains Mono (`font-mono`, `.label` = uppercase, `tracking-[0.2em]`, 11px)
+  for eyebrows, labels and metric labels. Never Inter or Roboto.
+- Hairline dividers (`border-stroke`) instead of cards. Status is an outlined
+  pill (`StatusPill`), never filled.
+- Section eyebrow: `01 / Work` with a `w-8` hairline before it.
+- Width `max-w-content` (1200px), padding `px-6 md:px-10 lg:px-16` (`.shell`).
+- Link hover: `opacity-60` or `text-accent`, `duration-300`.
 
-The metrics strip (`metrics.tsx`, `#impact`) is a **band, not a numbered section**:
-no `SectionHeader`, no serif heading, hairline top and bottom. It sits directly
-under the hero because the numbers are a core part of the pitch and must land
-before the prose. Section numbering therefore runs 01 About → 02 Projects →
-03 Testimonials → 04 Skills → 05 Education → 06 Contact.
+## Hero
 
-All four metrics render through one `Stat` component at identical size, weight,
-and colour. **Never emphasise one metric over the others**, and never restate a
-metric as styled inline text elsewhere. **All four** carry a source link, shown
-as quiet mono metadata *below* the label so it never changes the weight of the
-number.
+- One `h-[100dvh]` composition, layered: vignette → scrolling name
+  (`Elizabeth — Tran`, 40s linear marquee) → portrait → bottom scrim → cream rule
+  → meta grid + footer strip.
+- The portrait is a rectangular photo, so it is cropped to 3:4 and feathered
+  into the ground with a radial `mask-image`. On mobile it sits above the rule
+  (`bottom-[9rem]`) so the meta grid never covers her face. When
+  `/public/headshot-cutout.png` exists, swap it in and drop the mask.
+- Meta grid: Product-minded *builder* / What I do / Recently / Toolkit (the last
+  two only at `lg`).
+- Entrance: CSS `anim-*` classes with a `--d` delay variable. All collapse under
+  `prefers-reduced-motion`, and the marquees and pulse dot stop.
 
-Current values and sources:
-- **2M+** TikTok Views → her TikTok
-- **$100K** Solutions Supported → AI Technology Partners (aitp.ai)
-- **3,000+** Students Reached → ProDream site + ProDream TikTok
-- **80+** Businesses Consulted → The Generator AI Innovators Bootcamp
+## Work rows
 
-Two corrections that must not regress: TikTok views is **2M+**, not 5M+. And the
-$100K is **"Solutions Supported"** — she made client training materials while
-interning at AI Technology Partners; she did **not** build those solutions.
-Never relabel this as "Solutions Built".
-
-Other protected numbers: **$3,000+** early revenue (two paying clients, in
-About) and **6 different bank accounts** on the Daily Cash Bot (never "6
-accounts unified"). Do not change or invent numbers.
-
-There is **no Experience section**. It was removed; its two orphaned facts (two
-paying clients / $3,000+ revenue, and the DrinkDock COO run to breakeven) now
-live in the About blurb. Do not reintroduce a resume-style role list.
-
-## Custom UI Components
-
-1. `background-paths.tsx` — Hero. **Two-column editorial composition**: name,
-   tagline, eyebrow, and two CTAs on the left; portrait on the right inside a
-   hairline frame offset by 12px. Not centred, and **not `min-h-screen`** — it is
-   `lg:min-h-[min(86vh,900px)]` so the portrait clears the fold without wasting
-   a viewport. The SVG paths **draw in once on load via CSS and then hold
-   still**; they are a quiet backdrop (`strokeOpacity` ramps to ~0.48, not to
-   opaque). In light mode the whole `<svg>` drops to `opacity-[0.35]`: the
-   near-black strokes ran behind the hero name and fought the violet ink. Dark
-   mode stays at full strength. Do not reintroduce an idle loop. Each `<path>`
-   needs `pathLength={1}` for `.hero-path`'s normalized `stroke-dasharray` to
-   work.
-2. `section-header.tsx` — The single section-header pattern. Every section uses
-   it. Renders a numbered mono eyebrow, a serif heading, and an optional
-   description as one revealing unit.
-3. `reveal.tsx` — Scroll-reveal wrapper around `use-reveal`.
-
-`spotlight-card.tsx` was deleted (unused; its glow conflicted with these rules).
-Do not reintroduce it.
-
-## Code Style
-
-- TypeScript strict, no `any`
-- Use named exports
-- Tailwind utility classes only — no custom CSS files (except globals.css)
-- All components are functional with hooks
-- Use `next/image` for all images
-- Use lucide-react for icons — no other icon libraries
-
-## Design Rules
-
-- Dark mode is DEFAULT. Light mode toggle available. Light mode uses a warm
-  off-white ground (not pure white) with secondary text dark enough to pass AA.
-- **Fonts:** Instrument Serif (display), Instrument Sans (body), JetBrains Mono
-  (eyebrows, labels, tags, numbers). Not Inter, Roboto, or Arial.
-- Section headings are **left-aligned, no trailing period**, set in the display
-  serif. Hierarchy comes from the mono eyebrow, not from heading size.
-- Display ink is `--heading`, a violet-tinted ink used for the hero name,
-  tagline, role line, the four metric numbers, and every display heading
-  (`h2` and `h3` alike: project titles, skill categories, Babson College). Light
-  mode is a deep violet (`265 62% 30%`), dark mode a lifted violet
-  (`265 60% 80%`) since a dark purple would vanish on the charcoal ground. Body
-  copy stays `--foreground` / `--muted-foreground` so the contrast between
-  display and prose is what carries the hierarchy.
-- Color: charcoal ground (`#0E0E11`), warm off-white ink (`#F3F0EA`), and three
-  distinct lifted surfaces (`--card` / `--secondary` / `--muted` — keep them
-  different; they were once all the same value). A static ~2.5% grain sits on
-  `body::before`.
-- **Two accents, tightly scoped.** Violet `--primary` owns links, hover, the nav
-  underline, and live status dots. Muted blue `--accent-cool` (`#8BB8D9`) is
-  bounded to exactly two uses: the `Impact →` label on project cards and the
-  `CLIENT FEEDBACK` / `STUDENT FEEDBACK` eyebrows on testimonial cards — both
-  tie a claim to its proof. **Never put both accents on one element**, and do not
-  widen `--accent-cool` beyond those two uses without asking.
-- Status is a small dot plus lowercase mono text. **No colored pill backgrounds.**
-- One radius token (`--radius`, 5px). One border color (`--border`).
-- Icons appear on the single featured project card only — never on every card.
-- **Five** projects, each a short card: mono kicker, serif title, **one-line
-  summary**, `Impact →` line, then tags. Keep copy short; no Problem/Build
-  paragraphs. Buildathon carries the real event photo as a 2:1 band at the top. Tags are **always visible** —
-  do not hide them behind hover again. ProDream AI Growth and Toyota Research
-  were removed.
-- The projects grid is deliberately asymmetric (uneven 12-column spans).
-- Banned: gradient text, glassmorphism, glow shadows, animated gradient meshes,
-  `hover:scale-*` on cards.
-
-## Spacing scale
-
-Defined in `globals.css` and used everywhere instead of one-off values:
-
-- `--space-section` — 96px desktop / 64px mobile. This is the gap **between**
-  sections; `.section-padding` applies half per side so adjacent sections sum
-  to it. Never stack two full values.
-- `--space-block` — 48px / 40px. Intro block to content grid.
-- `--space-tight` — 8px. Eyebrow to heading; ×2 for heading to subheading.
-
-Content width is `max-w-content` (60rem) with `px-6 sm:px-8 lg:px-12`.
-
-## Motion
-
-**CSS transitions and transforms only. framer-motion has been removed — do not
-reinstall it, GSAP, or any animation library.**
-
-Scale (in `globals.css`):
-`--ease-out`, `--ease-in-out`, `--dur-fast` 150ms, `--dur-base` 250ms,
-`--dur-slow` 400ms. Never `linear`, never the browser default ease.
-
-Rules:
-- Animate **only** `transform` and `opacity`. To expand, use `scale` or
-  `grid-template-rows: 0fr → 1fr`. Never animate height, width, top, left, or
-  box-shadow.
-- Scroll reveal applies to **section-level blocks only** — opacity 0→1 plus
-  `translateY(12px)`, fired once then unobserved. 60ms stagger exists only in
-  the projects grid and the stats row. Nothing above the fold reveals.
-- `.reveal` is scoped under `.js` so content is never invisible without JS.
-- Hero load sequence: name → tagline → CTA → portrait, 660ms total. The
-  backdrop paths run on their own, slower clock: a 420ms hold so the name lands
-  first, then a 22ms per-path step over a 1800ms draw. Keep it slower than the
-  text sequence, or the strokes race across the name while it is still reading.
-- Project cards: one hover state (border → accent). Tags no longer fade in on
-  hover; they are always visible. `:focus-visible` mirrors hover and adds a ring.
-- Nav: one shared underline element slides via `translateX`/`scaleX`. The nav
-  ground is a separate layer whose **opacity** transitions once past the hero.
-- `prefers-reduced-motion: reduce` must resolve every animation to its **final**
-  state, never to a hidden one.
-- Banned: parallax, cursor followers, magnetic buttons, text scramble, scroll
-  progress bars, marquees, tilt-on-hover, page wipes, anything animating while
-  idle.
-
-## Craft details (keep these)
-
-- `section[id]` and `:target` carry `scroll-margin-top: 5rem` so nav anchors
-  clear the fixed 4rem nav. Without it, headings land underneath the bar.
-- `.skip-link` in `layout.tsx` targets `#main`; it is the first focusable
-  element and only appears on `:focus-visible`.
-- `::selection` uses `--primary` at 28%.
-- Headings use `text-wrap: balance`, paragraphs `text-wrap: pretty`.
-- `app/icon.svg` is the favicon (ET monogram). `viewport.themeColor` sets the
-  mobile browser chrome per scheme. `themeColor` belongs on the `viewport`
-  export in Next 14, never on `metadata`.
-- The testimonial lightbox returns focus to the thumbnail that opened it.
+- Full-width hairline rows, not a card grid: index / title + tags + status /
+  labelled lines. The whole row links to `/work/[slug]`.
+- Desktop: a 320×240 preview trails the cursor on rows that have an image
+  (position written in rAF, never React state). Mobile: the image sits under
+  the text.
 
 ## Content Rules — CRITICAL
 
-- Identity pillars: AI Agent Builder, Claude Code/n8n Automation, Entrepreneurship & Leadership
-- Product Management is in her background but is NOT the headline identity
-- Tagline: "I build AI that works for people."
-- Hero subtitle: "Agent Automation Builder • Growth Expert" (two items, not three)
-- DrinkDock must be labeled "DrinkDock (Babson FME Venture)" — never just "DrinkDock Startup"
-- Small Business Bootcamp must include "(G1000 Program)"
-- DO NOT include the hostess/server role at Old Street Hotpot anywhere
-- The Daily Cash Bot aggregates **six bank accounts** for David. It was NOT built
-  for a fuels company — do not reintroduce that attribution.
-- GPA (3.75) appears ONLY in the Education section — never in hero or stats strip
+- **Verified facts only.** Do not invent metrics, insights, decisions, results,
+  attendance numbers, or case study sections. Empty is better than made up.
+  Projects pending her details: Roots AI, the law firm lead-screening workflow,
+  Moonshot, the Lexi healthcare research. Add them only with real content.
+- She studies **Business with a concentration in Technology Entrepreneurship**
+  (Babson '28). Her client work is **not** "a business" and not "a consulting
+  practice". Say she built AI workflows for two paying clients.
+- She is **Partnerships Lead** at The Generator (Babson's AI lab) and Student
+  Lead for the AI & Small Business Bootcamp. That bootcamp must always include
+  "(G1000 Program)".
+- Protected numbers (never change, never drop): **2M+** TikTok views (not 5M+),
+  **$100K Solutions Supported** at AI Technology Partners (she made client
+  training materials; never "Solutions Built"), **3,000+** students reached,
+  **80+** businesses consulted, **$3,000+** revenue from two paying clients,
+  **6 different bank accounts** on the Daily Cash Agent (never "6 accounts
+  unified"), **3 sponsors** (Anthropic, GitHub, Cursor).
+- The Daily Cash Agent was not built for a fuels company. David's own title
+  ("Co-founder, Metal Fuels") stays on his testimonial attribution only.
 - Testimonial quotes are **verbatim**. Do not fix grammar, shorten, or add new
-  testimonials. Brandon's "venture too" and missing terminal period are intentional.
-- Voice: Confident, specific, action-oriented. Use numbers and outcomes. No "passionate about technology."
-- **Avoid em dashes in body copy.** They read as machine-written here. Use
-  commas, parentheses, or a second sentence.
+  ones. Brandon's "venture too" and missing terminal period are intentional.
+- No "Thinking" section until a real article exists. No resume links until
+  `site.resume` points at a real `/public/resume.pdf`.
+- Do not include the hostess/server role at Old Street Hotpot anywhere.
+  DrinkDock is always "DrinkDock (Babson FME Venture)".
+- **Avoid em dashes in body copy.** Use commas, parentheses, or a second
+  sentence. (The hero name marquee and page titles are display, not body copy.)
+- Never copy another person's site content, branding, video, or awards.
 
-## Responsive Behavior
+## Craft details
 
-- Mobile-first
-- Testimonial cards stack to a single column. David's card is a single column at
-  every width: a **cropped landscape band** of the report screenshot
-  (`w-[250px] aspect-[739/560]`, `object-cover`, `objectPosition: 50% 13%`) sits
-  above the quote. The full 739×1600 image stays in the lightbox. Do not let the
-  screenshot dominate the card.
-- In both testimonial cards only `<figcaption>` carries `mt-auto`. Content flows
-  from the top so the slack that equalises the two cards collects in one place
-  above the identity row, rather than opening a hole under the quote.
-- Nav collapses to hamburger on mobile
-- Verify 375px → 1920px; no horizontal scroll
-
-## Reference
-
-- Full project spec: see `Elizabeth_Tran_Portfolio_Megaprompt.md` in project root
-
-## Design Context
-
-### Users
-Recruiters, startup founders, technical leads, and potential collaborators — browsing on desktop or mobile, quickly scanning to decide if Elizabeth is someone they want to work with. They're technically literate enough to notice design quality but their primary question is: can she build things that matter?
-
-### Brand Personality
-**Warm, capable, human.** AI that works for people — felt in the design itself, not just stated in copy. The interface should feel like it was made by someone who thinks carefully and ships things, not someone proving how technical they are.
-
-### Aesthetic Direction
-Clean, minimalist, technical — a well-made developer tool's landing page. Restrained, confident, generous negative space, precise alignment. Motion should read as engineered, not animated: if a visitor consciously notices an animation, it is too much.
-
-### Design Principles
-1. **Motion earns its place** — every animation communicates state or reveals content
-2. **Hierarchy over uniformity** — not every item deserves the same visual weight
-3. **Hairlines over boxes** — thin dividers and whitespace before heavy cards
-4. **Typographic contrast does the work** — one display, one body, one mono
-5. **Accent as rare punctuation** — overuse kills its power
+- `section[id]` and `:target` carry `scroll-margin-top: 6rem` for the fixed nav.
+- `.skip-link` targets `#main`.
+- The mobile drawer sits under the header (`z-[45]` vs `z-50`) so the X stays
+  visible. It locks body scroll, closes on Escape/backdrop/link, and is `inert`
+  when closed.
+- The testimonial lightbox returns focus to the thumbnail that opened it.
+- Proof bar count-up: server HTML ships the real numbers; the client zeroes them
+  while off screen and tweens once on view.
+- `themeColor` belongs on the `viewport` export, never on `metadata`.
+- Verify 375px → 1920px; no horizontal scroll.
