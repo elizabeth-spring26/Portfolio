@@ -3,7 +3,6 @@ export const site = {
   linkedin: "https://www.linkedin.com/in/elizabeth-tran-5807b2244/",
   /** Set to "/resume.pdf" once the file is in /public; every resume link is hidden until then. */
   resume: null as string | null,
-  availability: "Open to Summer 2027 PM internships",
 };
 
 export const navLinks = [

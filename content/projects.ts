@@ -30,6 +30,8 @@ export type Project = {
   /** The labelled lines shown in the Work list (Problem first, Result last). */
   lines: ProjectLine[];
   image?: ProjectImage;
+  /** A built-in HTML visual used instead of a photo. */
+  visual?: "cash-card";
   /** Case study sections beyond the lines above. Leave empty until written. */
   caseStudy?: Partial<
     Record<
@@ -66,13 +68,7 @@ export const projects: Project[] = [
         text: "Runs unattended every morning. The client still uses it and recommends it.",
       },
     ],
-    image: {
-      src: "/testimonials/daily-cash-agent.jpeg",
-      alt: "Telegram bot delivering a daily cash position report with current balance, pending charges, and net cash",
-      width: 739,
-      height: 1600,
-      position: "50% 8%",
-    },
+    visual: "cash-card",
   },
   {
     slug: "babson-ai-hackathon",

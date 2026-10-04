@@ -12,7 +12,7 @@ const principles = [
   },
   {
     title: "Write it down",
-    body: "PRDs and one-pagers, so we disagree on paper instead of in production.",
+    body: "One-pagers and clear plans, so we disagree on paper instead of in production.",
   },
   {
     title: "Stay technical enough to prototype it myself",
@@ -35,8 +35,8 @@ export function AboutSection() {
             </p>
             <p>
               Building custom AI workflows for two paying clients ($3,000+ in revenue) taught me
-              the PM part fast: most clients ask for a tool, but what they need is a clearer
-              problem.
+              the most important lesson fast: most clients ask for a tool, but what they need is
+              a clearer problem.
             </p>
           </div>
         </FadeUp>

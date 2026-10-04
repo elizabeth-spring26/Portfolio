@@ -7,6 +7,7 @@ import { Nav } from "@/components/nav";
 import { ContactSection } from "@/components/sections/contact";
 import { Emph, StatusPill } from "@/components/ui/editorial";
 import { FadeUp } from "@/components/ui/fade-up";
+import { CashCard } from "@/components/ui/cash-card";
 import { getProject, projects, type Project } from "@/content/projects";
 
 type Params = { params: { slug: string } };
@@ -60,14 +61,14 @@ export default function CaseStudy({ params }: Params) {
   const i = projects.indexOf(project);
   const next = projects[(i + 1) % projects.length];
   const sections = sectionsFor(project);
-  const { image } = project;
+  const { image, visual } = project;
   // The image sits after the problem, before the decisions.
   const imageAfter = Math.min(1, sections.length - 1);
 
   return (
     <>
       <Nav />
-      <main id="main" className="bg-ink pt-32 md:pt-40">
+      <main id="main" className="bg-forest pt-32 md:pt-40">
         <article className="shell">
           <Link
             href="/#work"
@@ -97,6 +98,14 @@ export default function CaseStudy({ params }: Params) {
                     <p className="text-xl leading-relaxed md:col-span-8">{s.text}</p>
                   </section>
                 </FadeUp>
+
+                {visual === "cash-card" && idx === imageAfter && (
+                  <FadeUp>
+                    <div className="mb-10 flex justify-center border border-stroke bg-ink/30 py-10">
+                      <CashCard className="aspect-[4/3] w-full max-w-[420px]" />
+                    </div>
+                  </FadeUp>
+                )}
 
                 {image && idx === imageAfter && (
                   <FadeUp>

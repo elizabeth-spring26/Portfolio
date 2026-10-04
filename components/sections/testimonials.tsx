@@ -45,7 +45,7 @@ function Lightbox({ onClose }: { onClose: () => void }) {
         type="button"
         onClick={onClose}
         aria-label="Close"
-        className="absolute right-5 top-5 p-2 text-cream/70 transition-colors duration-300 hover:text-accent"
+        className="absolute right-5 top-5 p-2 text-cream/70 transition-colors duration-300 hover:text-cream"
       >
         <X className="h-5 w-5" />
       </button>
@@ -73,9 +73,13 @@ function Attribution({ src, name, meta }: { src: string; name: string; meta: str
   );
 }
 
-const quoteClass = "font-display text-2xl italic leading-snug md:text-[1.75rem]";
+const pullClass = "font-display text-3xl italic leading-tight md:text-[2.25rem]";
+const fullClass = "mt-5 text-sm leading-relaxed text-cream/80";
 
-/** Quotes are verbatim. Do not edit, shorten, or correct them. */
+/**
+ * Full quotes are verbatim. Do not edit, shorten, or correct them. The pull
+ * quotes above them are exact excerpts, marked with an ellipsis.
+ */
 export function TestimonialsSection() {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -86,7 +90,7 @@ export function TestimonialsSection() {
   }, []);
 
   return (
-    <section id="testimonials" className="bg-ink py-20 md:py-28">
+    <section id="testimonials" className="bg-oxblood py-20 md:py-28">
       <div className="shell">
         <SectionHeading
           index="02"
@@ -101,8 +105,12 @@ export function TestimonialsSection() {
           <FadeUp className="border-b border-stroke py-10 md:border-b-0 md:border-r md:pr-10">
             <figure>
               <p className="label text-muted">Client · Daily Cash Agent</p>
-              <blockquote className="mt-5">
-                <p className={quoteClass}>
+              <p className={`mt-5 ${pullClass}`} aria-hidden="true">
+                &ldquo;an incredibly valuable tool&hellip; I would recommend her without
+                hesitation.&rdquo;
+              </p>
+              <blockquote>
+                <p className={fullClass}>
                   Liz did an outstanding job building an AI-powered Daily Cash Management agent
                   that has become an incredibly valuable tool for me. She continues to provide
                   excellent support, proactively maintaining the agent and quickly resolving any
@@ -143,8 +151,11 @@ export function TestimonialsSection() {
           <FadeUp className="py-10 md:pl-10" delay={0.08}>
             <figure>
               <p className="label text-muted">Student · AI Agents Course</p>
-              <blockquote className="mt-5">
-                <p className={quoteClass}>
+              <p className={`mt-5 ${pullClass}`} aria-hidden="true">
+                &ldquo;The course was amazing and opened my mind to different paths&hellip;&rdquo;
+              </p>
+              <blockquote>
+                <p className={fullClass}>
                   The course was amazing and opened my mind to different paths that I could venture
                   too. Additionally, the lessons were very helpful and straightforward, which is
                   nice for someone who is a slow learner
@@ -162,7 +173,7 @@ export function TestimonialsSection() {
                       href={l.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 font-mono text-[11px] text-cream/60 transition-colors duration-300 hover:text-accent"
+                      className="inline-flex items-center gap-1.5 font-mono text-[11px] text-cream/60 underline-offset-4 transition-colors duration-300 hover:text-cream hover:underline"
                     >
                       {l.label}
                       <ArrowUpRight className="h-3 w-3" aria-hidden="true" />

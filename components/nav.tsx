@@ -8,8 +8,7 @@ import { navLinks, socialLinks } from "@/content/site";
 const EASE = "cubic-bezier(0.76,0,0.24,1)";
 
 /**
- * Fixed, mix-blend-difference so it stays legible over the photo and the
- * cream rule alike. `intro` runs the hero entrance stagger (home page only).
+ * Fixed bar on a blurred ink ground. `intro` runs the hero entrance stagger (home page only).
  */
 export function Nav({ intro = false }: { intro?: boolean }) {
   const [open, setOpen] = useState(false);
@@ -48,13 +47,15 @@ export function Nav({ intro = false }: { intro?: boolean }) {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 flex items-start justify-between px-6 pt-6 sm:px-10 sm:pt-8 mix-blend-difference text-cream">
+      {/* Solid, blurred ground so the bar never sits on top of section content. */}
+      <header className="fixed inset-x-0 top-0 z-50 flex h-[72px] items-center justify-between border-b border-stroke bg-ink/80 px-6 text-cream backdrop-blur-md sm:px-10">
         <Link href="/" style={anim(800).style} className={cn("text-lg tracking-wide", linkClass, intro && "anim-fade-up")}>
           Elizabeth Tran
         </Link>
 
-        <nav aria-label="Primary" className="hidden sm:flex gap-16 lg:gap-24 text-sm">
-          <ul className="flex flex-col gap-0.5">
+        {/* One row from 1100px; below that everything lives in the drawer. */}
+        <nav aria-label="Primary" className="hidden items-center gap-8 text-sm min-[1100px]:flex">
+          <ul className="flex items-center gap-7">
             {navLinks.map((l, i) => (
               <li key={l.href} {...anim(1000 + i * 80)}>
                 <Link href={l.href} className={linkClass}>
@@ -63,7 +64,8 @@ export function Nav({ intro = false }: { intro?: boolean }) {
               </li>
             ))}
           </ul>
-          <ul className="flex flex-col gap-0.5">
+          <span className="h-4 w-px bg-stroke" aria-hidden="true" />
+          <ul className="flex items-center gap-7">
             {socialLinks.map((l, i) => (
               <li key={l.href} {...anim(1000 + (navLinks.length + i) * 80)}>
                 <a
@@ -86,7 +88,7 @@ export function Nav({ intro = false }: { intro?: boolean }) {
           aria-expanded={open}
           aria-controls="mobile-drawer"
           aria-label={open ? "Close menu" : "Open menu"}
-          className="relative z-[60] -mr-2 -mt-2 flex h-10 w-10 flex-col items-center justify-center gap-[5px] sm:hidden"
+          className="relative z-[60] -mr-2 flex h-10 w-10 flex-col items-center justify-center gap-[5px] min-[1100px]:hidden"
         >
           {[0, 1, 2].map((i) => (
             <span
@@ -111,7 +113,7 @@ export function Nav({ intro = false }: { intro?: boolean }) {
       {/* Mobile drawer */}
       <div
         className={cn(
-          "fixed inset-0 z-40 bg-black/40 backdrop-blur-sm sm:hidden",
+          "fixed inset-0 z-40 bg-black/40 backdrop-blur-sm min-[1100px]:hidden",
           open ? "opacity-100" : "pointer-events-none opacity-0"
         )}
         style={{ transition: `opacity 500ms ${EASE}` }}
@@ -124,7 +126,7 @@ export function Nav({ intro = false }: { intro?: boolean }) {
         aria-modal="true"
         aria-label="Site menu"
         ref={drawerRef}
-        className="fixed inset-y-0 right-0 z-[45] flex w-[80%] max-w-sm flex-col justify-between bg-surface px-8 py-10 pt-24 sm:hidden"
+        className="fixed inset-y-0 right-0 z-[45] flex w-[80%] max-w-sm flex-col justify-between bg-surface px-8 py-10 pt-28 min-[1100px]:hidden"
         style={{
           transform: open ? "translateX(0)" : "translateX(100%)",
           transition: `transform 600ms ${EASE}`,

@@ -18,20 +18,20 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 const description =
-  "Elizabeth Tran is a product-minded builder at Babson College who turns messy user problems into shipped AI products.";
+  "Elizabeth Tran is a builder at Babson College who turns messy user problems into shipped AI products.";
 
 export const metadata: Metadata = {
-  title: "Elizabeth Tran — Product Manager",
+  title: "Elizabeth Tran — Builder & Operator",
   description,
   authors: [{ name: "Elizabeth Tran" }],
   openGraph: {
-    title: "Elizabeth Tran — Product Manager",
+    title: "Elizabeth Tran — Builder & Operator",
     description,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Elizabeth Tran — Product Manager",
+    title: "Elizabeth Tran — Builder & Operator",
     description,
   },
 };

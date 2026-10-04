@@ -1,6 +1,5 @@
 import { site } from "@/content/site";
 import { Emph } from "@/components/ui/editorial";
-import { StatusDot } from "@/components/hero";
 
 const strip = "PROBLEM → USERS → DECISION → SHIPPED • ";
 
@@ -65,10 +64,6 @@ export function ContactSection() {
               </a>
             )}
           </div>
-          <p className="flex items-center gap-2.5">
-            <StatusDot />
-            {site.availability}
-          </p>
         </footer>
       </div>
     </section>
