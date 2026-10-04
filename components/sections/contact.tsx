@@ -27,7 +27,7 @@ export function ContactSection() {
           index="06"
           label="Contact"
           title="Let's build something"
-          description="Have an AI workflow that should exist? Building something interesting? Let's talk."
+          description="Have an AI workflow that should exist? Let's talk."
         />
 
         <Reveal>

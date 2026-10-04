@@ -17,17 +17,15 @@ export function AboutSection() {
         <Reveal>
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-8 lg:gap-14 items-start">
             <p className="text-muted-foreground leading-relaxed">
-              As a student at Babson College studying Business with a concentration in Technology Entrepreneurship, I don&apos;t just study
-              how technology can improve businesses, I build and deploy solutions. That work is now
-              a business: custom AI workflows for two paying clients, with $3,000+ in early revenue.
+              I study Technology Entrepreneurship at Babson College, and I build what I study. That
+              work is now a business: custom AI workflows for two paying clients, $3,000+ in early
+              revenue.
             </p>
 
             <p className="text-muted-foreground leading-relaxed">
-              I have spent the past three years helping grow AI startups across partnerships,
-              marketing, and product management. As the Outreach Lead at The Generator,
-              Babson&apos;s AI Lab, I help students build with the best AI tools and have gotten sponsorships with Anthropic, GitHub, and Cursor. As a Student Lead for the AI
-              &amp; Small Business Bootcamp (G1000 Program), I put AI in the hands of 80+ business owners
-              to automate repetitive workflows.
+              As Outreach Lead at The Generator, Babson&apos;s AI Lab, I secured sponsorships from
+              Anthropic, GitHub, and Cursor. As Student Lead for the AI &amp; Small Business Bootcamp
+              (G1000 Program), I helped 80+ business owners automate repetitive work.
             </p>
           </div>
         </Reveal>

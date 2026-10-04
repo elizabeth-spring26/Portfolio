@@ -244,12 +244,15 @@
 .hero-item-3 { animation-delay: 240ms; }
 .hero-item-4 { animation-delay: 360ms; }
 
-/* Paths draw themselves in once on load, then hold. No idle loop. */
+/* Paths draw themselves in once on load, then hold. No idle loop.
+   Deliberately slow: at 900ms the backdrop finished before the eye had
+   settled on the name. The per-path delay in background-paths.tsx also holds
+   the first stroke until the name has finished rising. */
 .hero-path {
   /* Requires pathLength="1" on the <path> itself; see background-paths.tsx. */
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  animation: path-draw 900ms var(--ease-out) forwards;
+  animation: path-draw 1800ms var(--ease-out) forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {

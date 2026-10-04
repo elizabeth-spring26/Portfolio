@@ -18,7 +18,8 @@ Personal portfolio site. Next.js 14+ App Router, TypeScript, Tailwind CSS, shadc
 - `/components/nav.tsx` — Sticky top navigation
 - `/hooks` — `use-reveal` (IntersectionObserver), `use-count-up` (rAF number tween)
 - `/lib/utils.ts` — cn() helper for shadcn
-- `/public/headshot.png` — Elizabeth's headshot photo
+- `/public/headshot.jpg` — Elizabeth's headshot (tall 9:16 source, cropped to 4:5 in the hero via `object-cover`)
+- `/public/projects/buildathon.png` — Buildathon group photo, shown on the Buildathon card
 - `/public/testimonials/` — Testimonial avatars + the Daily Cash Bot screenshot
 
 ## Page order
@@ -47,6 +48,10 @@ Two corrections that must not regress: TikTok views is **2M+**, not 5M+. And the
 $100K is **"Solutions Supported"** — she made client training materials while
 interning at AI Technology Partners; she did **not** build those solutions.
 Never relabel this as "Solutions Built".
+
+Other protected numbers: **$3,000+** early revenue (two paying clients, in
+About) and **6 different bank accounts** on the Daily Cash Bot (never "6
+accounts unified"). Do not change or invent numbers.
 
 There is **no Experience section**. It was removed; its two orphaned facts (two
 paying clients / $3,000+ revenue, and the DrinkDock COO run to breakeven) now
@@ -110,8 +115,9 @@ Do not reintroduce it.
 - Status is a small dot plus lowercase mono text. **No colored pill backgrounds.**
 - One radius token (`--radius`, 5px). One border color (`--border`).
 - Icons appear on the single featured project card only — never on every card.
-- **Five** projects, each a mini case study: mono kicker, serif title, Problem
-  line, Build line, `Impact →` line, then tags. Tags are **always visible** —
+- **Five** projects, each a short card: mono kicker, serif title, **one-line
+  summary**, `Impact →` line, then tags. Keep copy short; no Problem/Build
+  paragraphs. Buildathon carries the real event photo as a 2:1 band at the top. Tags are **always visible** —
   do not hide them behind hover again. ProDream AI Growth and Toyota Research
   were removed.
 - The projects grid is deliberately asymmetric (uneven 12-column spans).
@@ -147,7 +153,10 @@ Rules:
   `translateY(12px)`, fired once then unobserved. 60ms stagger exists only in
   the projects grid and the stats row. Nothing above the fold reveals.
 - `.reveal` is scoped under `.js` so content is never invisible without JS.
-- Hero load sequence: name → tagline → CTA → portrait, 660ms total.
+- Hero load sequence: name → tagline → CTA → portrait, 660ms total. The
+  backdrop paths run on their own, slower clock: a 420ms hold so the name lands
+  first, then a 22ms per-path step over a 1800ms draw. Keep it slower than the
+  text sequence, or the strokes race across the name while it is still reading.
 - Project cards: one hover state (border → accent). Tags no longer fade in on
   hover; they are always visible. `:focus-visible` mirrors hover and adds a ring.
 - Nav: one shared underline element slides via `translateX`/`scaleX`. The nav

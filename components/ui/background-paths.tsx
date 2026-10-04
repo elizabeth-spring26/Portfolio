@@ -46,7 +46,9 @@ function FloatingPaths({ position }: { position: number }) {
             // cut across the portrait; this reads clearly but stays a backdrop.
             strokeOpacity={0.06 + path.id * 0.012}
             pathLength={1}
-            style={{ animationDelay: `${path.id * 12}ms` }}
+            // 420ms base holds the backdrop until the name has landed; the 22ms
+            // step spreads the 36 strokes across a further ~800ms.
+            style={{ animationDelay: `${420 + path.id * 22}ms` }}
           />
         ))}
       </svg>
@@ -96,6 +98,8 @@ export function BackgroundPaths({
             <p className="hero-item hero-item-2 font-mono text-xs sm:text-[0.8125rem] text-heading mb-9 tracking-[0.15em] uppercase">
               <span className="whitespace-nowrap">Agent Automation Builder</span>
               <span className="mx-3 text-heading/50" aria-hidden="true">•</span>
+              {/* Lets the line wrap after the bullet at 375px instead of clipping. */}
+              <wbr />
               <span className="whitespace-nowrap">Growth Expert</span>
             </p>
 
@@ -143,16 +147,18 @@ export function BackgroundPaths({
               className="absolute inset-0 translate-x-3 translate-y-3 rounded-lg border border-primary/25"
               aria-hidden="true"
             />
-            <Image
-              src="/headshot.png"
-              alt="Elizabeth Tran"
-              width={700}
-              height={755}
-              priority
-              sizes="(min-width: 1024px) 460px, (min-width: 640px) 380px, 320px"
-              className="relative w-full h-auto rounded-lg border border-border"
-              style={{ filter: "saturate(0.92)" }}
-            />
+            {/* Source is a tall 9:16 portrait; cropped to 4:5 on her face. */}
+            <div className="relative aspect-[4/5]">
+              <Image
+                src="/headshot.jpg"
+                alt="Elizabeth Tran"
+                fill
+                priority
+                sizes="(min-width: 1024px) 460px, (min-width: 640px) 380px, 320px"
+                className="object-cover rounded-lg border border-border"
+                style={{ filter: "saturate(0.92)", objectPosition: "50% 60%" }}
+              />
+            </div>
           </div>
         </div>
       </div>
