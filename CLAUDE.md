@@ -70,8 +70,9 @@ to read case studies that prove it.
   immersed look over a framed photo). Meta grid, rule, and footer strip sit at
   the bottom over a fade; only her darkened lower body sits behind text, and her
   face must stay clear above it at every size.
-- Meta grid: Builder & *operator* / What I do / Recently / Toolkit (the last two
-  only at `lg`). Recently's three lines were confirmed by her; keep them.
+- Meta grid: Builder & *operator* / What I do / (empty column, keeps her photo
+  clear) / Recently (Recently only at `lg`). Toolkit was removed at her request.
+  Keep this text short. Recently keeps its three original lines.
 - Entrance: CSS `anim-*` classes with a `--d` delay variable. All collapse under
   `prefers-reduced-motion`, and the marquees stop.
 
@@ -114,6 +115,8 @@ to read case studies that prove it.
   **$100K Solutions Supported** at AI Technology Partners (she made client
   training materials; never "Solutions Built"), **3,000+** students reached,
   **80+** businesses consulted, **$3,000+** revenue from two paying clients,
+  **3 sponsors, 500+ students, 50 schools** at the Generator hackathon (sponsors
+  via warm intro outreach, schools via outreach around Boston),
   **6 different bank accounts** on the Daily Cash Agent (never "6 accounts
   unified"), **3 sponsors** (Anthropic, GitHub, Cursor).
 - The Daily Cash Agent was not built for a fuels company. David's own title

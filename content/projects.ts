@@ -77,15 +77,19 @@ export const projects: Project[] = [
     tags: ["Partnerships", "Community"],
     status: "Shipped",
     meta: "2025 · The Generator, Babson's AI Lab",
-    tldr: "Secured Anthropic, GitHub, and Cursor as sponsors for The Generator's flagship build event.",
+    tldr: "Warm intros landed Anthropic, GitHub, and Cursor; school outreach brought 500+ students from 50 schools.",
     lines: [
       {
         label: "Problem",
         text: "The Generator needed industry weight behind its flagship build event.",
       },
       {
+        label: "Approach",
+        text: "Warm intro outreach to land sponsors, plus direct outreach to schools around Boston.",
+      },
+      {
         label: "Result",
-        text: "3 sponsors secured (Anthropic, GitHub, and Cursor) for a full-day AI hackathon at The Generator.",
+        text: "3 sponsors (Anthropic, GitHub, and Cursor) and 500+ students from 50 schools at a full-day AI hackathon.",
       },
     ],
     image: {

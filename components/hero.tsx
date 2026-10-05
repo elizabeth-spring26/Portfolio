@@ -6,15 +6,6 @@ const recently = [
   "Leading user research on healthcare language barriers in Vietnam",
 ];
 
-const toolkit = [
-  "User research & discovery",
-  "Strategy & problem scoping",
-  "Prototyping with Claude Code",
-  "AI agents, APIs, MCPs",
-  "Partnerships & GTM",
-  "Growth & content",
-];
-
 const d = (ms: number) => ({ "--d": `${ms}ms` }) as React.CSSProperties;
 
 /** Feathers the rectangular photo into the black ground. */
@@ -92,12 +83,11 @@ export function Hero() {
         <div className="anim-fade-up" style={d(1400)}>
           <p className="label mb-2 text-muted">What I do</p>
           <p className="max-w-[240px] text-sm text-cream/90">
-            I find the real problem, talk to the people who have it, and ship the smallest thing
-            that fixes it.
+            I talk to people, find the real problem, and build what fixes it, utilizing AI.
           </p>
         </div>
 
-        <div className="anim-fade-up hidden lg:block" style={d(1500)}>
+        <div className="anim-fade-up hidden lg:col-start-4 lg:block" style={d(1500)}>
           <p className="label mb-2 text-muted">Recently</p>
           <ul className="space-y-0.5 text-sm text-cream/90">
             {recently.map((r) => (
@@ -106,14 +96,6 @@ export function Hero() {
           </ul>
         </div>
 
-        <div className="anim-fade-up hidden lg:block" style={d(1600)}>
-          <p className="label mb-2 text-muted">Toolkit</p>
-          <ul className="space-y-0.5 text-sm text-cream/90">
-            {toolkit.map((t) => (
-              <li key={t}>{t}</li>
-            ))}
-          </ul>
-        </div>
       </div>
 
       {/* Cream rule */}

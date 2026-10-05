@@ -27,6 +27,7 @@ const LINE_TO_SECTION: Record<string, string> = {
   Problem: "Users & problem",
   "What I learned": "Research",
   "What I decided": "Decision & tradeoffs",
+  Approach: "Decision & tradeoffs",
   "What I built": "What shipped",
   "What I did": "What shipped",
   Result: "Results",
