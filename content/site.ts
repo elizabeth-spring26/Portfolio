@@ -1,6 +1,6 @@
 export const site = {
   email: "etran2@babson.edu",
-  linkedin: "https://www.linkedin.com/in/elizabeth-tran-5807b2244/",
+  linkedin: "https://www.linkedin.com/in/elizabeth-tran01/",
   /** Set to "/resume.pdf" once the file is in /public; every resume link is hidden until then. */
   resume: null as string | null,
 };

@@ -81,7 +81,7 @@ export const projects: Project[] = [
       sections: [
         {
           heading: "The problem",
-          body: "The firm gets 15–20 inquiries a week through its website and phone, and only about 1 in 10 is worth pursuing. Attorneys were spending time screening them one by one, and some people who contacted the firm never got a reply.",
+          body: "The firm gets 15–20 inquiries a week through its website and phone, and only about 1 in 10 is worth pursuing. Attorneys were spending time screening them one by one, and inquiries could take a while to get answered.",
         },
         {
           heading: "What I did",
@@ -111,11 +111,11 @@ export const projects: Project[] = [
         },
         {
           heading: "What changed after feedback",
-          body: "In two demos with the attorneys, we reworded questions to be plainer, cut questions they said weren't needed, and removed a heading that was only for internal use. They also asked for a way to see which attorney reviewed each inquiry, which I'm adding.",
+          body: "In two demos with the attorneys, we reworded questions to be plainer, cut questions they said weren't needed, and removed a heading that was only for internal use. They also asked for a way to see which attorney reviewed each inquiry, which we're planning to add.",
         },
         {
           heading: "Where it stands",
-          body: "The attorneys are testing the demo before it goes live.",
+          body: "The attorneys are testing the demo before it goes live. Next step is going live and comparing screening time before and after.",
         },
       ],
       builtWith: ["Claude API", "Cloudflare"],
