@@ -74,37 +74,21 @@ export function Hero() {
       <div className="flex-1" aria-hidden="true" />
 
       {/* Meta grid. From xl it is framed on the photo: the middle track is the
-          visible (unfeathered) width of the portrait, 80% of its 67.5vh box, so
-          "What I do" and "Recently" sit at equal widths and equal gaps either
-          side of her. */}
+          visible (unfeathered) width of the portrait, so the heading and
+          "Recently" sit either side of her. */}
       <div className="relative z-30 grid grid-cols-2 gap-6 px-6 pb-6 sm:px-10 lg:grid-cols-4 lg:gap-8 xl:grid-cols-[minmax(0,1fr)_54vh_minmax(0,1fr)] xl:gap-0">
-        {/* Mobile: dissolves into the grid. lg/xl: "What I do" stacks under the
-            heading so nothing crosses the photo. 2xl: side by side in the left frame. */}
-        <div className="contents lg:block xl:pr-8 2xl:flex 2xl:items-start 2xl:justify-between 2xl:gap-8">
-          <div className="anim-fade-up col-span-2 shrink-0 sm:col-span-1" style={d(1300)}>
-            <h1 className="text-xl leading-tight md:text-2xl">
-              Product, growth &amp;
-              <br />
-              <span className="font-display text-3xl italic md:text-4xl">partnerships</span>
-            </h1>
-            <p className="mt-3 max-w-[240px] text-xs leading-relaxed text-cream/70">
-              Partnerships Lead at The Generator · Babson &rsquo;28 · New York, NY
-            </p>
-          </div>
-
-          <div className="anim-fade-up col-span-2 sm:col-span-1 lg:mt-6 2xl:mt-0 2xl:min-w-0 2xl:max-w-[300px] 2xl:flex-1" style={d(1400)}>
-            <p className="label mb-2 text-muted">What I do</p>
-            <p className="max-w-[300px] text-sm text-cream/90">
-              I talk to people, figure out what&rsquo;s actually broken, and fix it. Sometimes
-              that&rsquo;s a product. Sometimes it&rsquo;s a campaign or a partnership.
-            </p>
-            <a
-              href={`mailto:${site.email}`}
-              className="mt-3 inline-block text-sm text-cream underline decoration-cream/40 underline-offset-4 transition-opacity duration-300 hover:opacity-60"
-            >
-              Get in touch →
-            </a>
-          </div>
+        <div className="anim-fade-up col-span-2 sm:col-span-1 xl:pr-8" style={d(1300)}>
+          <h1 className="text-xl leading-tight md:text-2xl">
+            Builder &amp;
+            <br />
+            <span className="font-display text-3xl italic md:text-4xl">marketer</span>
+          </h1>
+          <a
+            href={`mailto:${site.email}`}
+            className="mt-4 inline-block text-sm text-cream underline decoration-cream/40 underline-offset-4 transition-opacity duration-300 hover:opacity-60"
+          >
+            Get in touch →
+          </a>
         </div>
 
         <div className="hidden lg:col-start-4 lg:block xl:col-start-3 xl:flex xl:pl-8">
@@ -132,6 +116,8 @@ export function Hero() {
           See my work ↓
         </a>
         <p className="anim-fade-up text-right text-cream/70" style={d(1600)}>
+          Babson College &rsquo;28
+          <br />
           Business · Technology Entrepreneurship
         </p>
       </div>

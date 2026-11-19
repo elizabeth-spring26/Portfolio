@@ -70,18 +70,14 @@ to read case studies that prove it.
   immersed look over a framed photo). Meta grid, rule, and footer strip sit at
   the bottom over a fade; only her darkened lower body sits behind text, and her
   face must stay clear above it at every size.
-- Meta grid: "Product, growth & *partnerships*" + credentials line
-  ("Partnerships Lead at The Generator · Babson '28 · New York, NY"), What I do
-  (+ "Get in touch →" mailto), Recently (Recently only at `lg`). Toolkit was
-  removed at her request. From `xl` the row is **framed on the photo**: a
-  `1fr / 54vh / 1fr` grid whose middle track is the visible width of the
-  feathered portrait. What I do stacks under the heading at `lg`/`xl` so nothing
-  crosses the photo; only at `2xl` does it sit beside the heading.
+- Meta grid: "Builder & *marketer*" + "Get in touch →" mailto under it, then
+  Recently (Recently only at `lg`). She deleted the credentials line and the
+  What I do block (Nov 2026); don't bring them back. Toolkit was removed too.
+  From `xl` the row is **framed on the photo**: a `1fr / 54vh / 1fr` grid whose
+  middle track is the visible width of the feathered portrait.
   On phones the portrait is shorter and lifted (`h-[62vh] -translate-y-[18vh]`)
   and the bottom fade is taller, so her face stays clear of the text.
   Keep this text short. Recently lines are the ones she wrote (Nov 2026).
-  Footer strip right side: "Business · Technology Entrepreneurship" only (the
-  "Babson College '28" line was dropped as redundant with the credentials line).
 - Entrance: CSS `anim-*` classes with a `--d` delay variable. All collapse under
   `prefers-reduced-motion`, and the marquees stop.
 
