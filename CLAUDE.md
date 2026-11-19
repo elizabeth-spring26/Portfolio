@@ -70,7 +70,8 @@ to read case studies that prove it.
   immersed look over a framed photo). Meta grid, rule, and footer strip sit at
   the bottom over a fade; only her darkened lower body sits behind text, and her
   face must stay clear above it at every size.
-- Meta grid: "Builder & *marketer*" + "Get in touch →" mailto under it, then
+- Meta grid: "Diversity Leadership / *Scholar* at Babson College" (she asked
+  to drop "Builder" and "marketer") + "Get in touch →" mailto under it, then
   Recently (Recently only at `lg`). She deleted the credentials line and the
   What I do block (Nov 2026); don't bring them back. Toolkit was removed too.
   From `xl` the row is **framed on the photo**: a `1fr / 54vh / 1fr` grid whose
@@ -110,7 +111,9 @@ to read case studies that prove it.
   Projects pending her details (add them only with real content): Roots AI,
   Moonshot, the Lexi healthcare research. The law firm project is live at `/work/law-firm-intake` with her
   exact copy (`writeup` in `projects.ts`); never name the firm or any person,
-  and screenshots must use fake sample data only.
+  and screenshots must use fake sample data only. No "Screenshot to come"
+  placeholders: she finds them unprofessional, so screenshots without a `src` are
+  hidden until she supplies real ones.
 - She studies **Business with a concentration in Technology Entrepreneurship**
   (Babson '28). Her client work is **not** "a business" and not "a consulting
   practice". Say she built AI workflows for two paying clients.

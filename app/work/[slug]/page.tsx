@@ -31,29 +31,24 @@ export function generateMetadata({ params }: Params): Metadata {
   };
 }
 
-/** Screenshot, or a clearly marked placeholder until one is added in content/projects.ts. */
-function Screenshot({ shot }: { shot: NonNullable<Writeup["sections"][number]["screenshots"]>[number] }) {
+type Shot = NonNullable<Writeup["sections"][number]["screenshots"]>[number];
+
+/** A screenshot with a `src`. Entries without one render nothing (no placeholders on the live site). */
+function Screenshot({ shot }: { shot: Shot & { src: string } }) {
   return (
     <figure>
-      {shot.src ? (
-        <div
-          className="relative w-full overflow-hidden border border-stroke bg-surface"
-          style={{ aspectRatio: shot.width && shot.height ? `${shot.width} / ${shot.height}` : "16 / 10" }}
-        >
-          <Image
-            src={shot.src}
-            alt={shot.alt ?? shot.label}
-            fill
-            sizes="(min-width: 768px) 560px, 100vw"
-            className="object-contain"
-          />
-        </div>
-      ) : (
-        // TODO: placeholder. Replace by setting `src` on this screenshot in content/projects.ts.
-        <div className="flex aspect-[16/10] w-full items-center justify-center border border-dashed border-stroke bg-surface">
-          <span className="label text-muted">Screenshot to come</span>
-        </div>
-      )}
+      <div
+        className="relative w-full overflow-hidden border border-stroke bg-surface"
+        style={{ aspectRatio: shot.width && shot.height ? `${shot.width} / ${shot.height}` : "16 / 10" }}
+      >
+        <Image
+          src={shot.src}
+          alt={shot.alt ?? shot.label}
+          fill
+          sizes="(min-width: 768px) 560px, 100vw"
+          className="object-contain"
+        />
+      </div>
       <figcaption className="label mt-3 text-muted">{shot.label}</figcaption>
     </figure>
   );
@@ -86,12 +81,14 @@ function WriteupBody({ writeup }: { writeup: Writeup }) {
             </section>
           </FadeUp>
 
-          {s.screenshots && (
+          {s.screenshots?.some((x) => x.src) && (
             <FadeUp>
               <div className="mb-10 grid gap-6 md:grid-cols-2">
-                {s.screenshots.map((shot) => (
-                  <Screenshot key={shot.label} shot={shot} />
-                ))}
+                {s.screenshots
+                  .filter((x): x is Shot & { src: string } => Boolean(x.src))
+                  .map((shot) => (
+                    <Screenshot key={shot.label} shot={shot} />
+                  ))}
               </div>
             </FadeUp>
           )}

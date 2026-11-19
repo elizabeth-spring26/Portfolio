@@ -21,7 +21,7 @@ export type WriteupSection = {
   heading: string;
   body?: string;
   bullets?: { lead?: string; text: string }[];
-  /** Screenshots shown after this section. Without `src` a marked placeholder renders. */
+  /** Screenshots shown after this section. Entries without `src` are hidden. */
   screenshots?: { label: string; src?: string; alt?: string; width?: number; height?: number }[];
 };
 
@@ -101,8 +101,9 @@ export const projects: Project[] = [
             },
           ],
           // TODO: Add screenshots here. Put the files in /public/projects/ and set
-          // src, alt, width and height on each. FAKE SAMPLE DATA ONLY: never show a
-          // real client, inquiry, name, email or phone number.
+          // src, alt, width and height on each. Nothing shows on the page until a
+          // screenshot has a src. FAKE SAMPLE DATA ONLY: never show a real client,
+          // inquiry, name, email or phone number.
           screenshots: [
             { label: "Intake form" }, // TODO: src: "/projects/law-firm-intake-form.png"
             { label: "Attorney dashboard" }, // TODO: src: "/projects/law-firm-intake-dashboard.png"

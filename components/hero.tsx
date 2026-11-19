@@ -79,9 +79,10 @@ export function Hero() {
       <div className="relative z-30 grid grid-cols-2 gap-6 px-6 pb-6 sm:px-10 lg:grid-cols-4 lg:gap-8 xl:grid-cols-[minmax(0,1fr)_54vh_minmax(0,1fr)] xl:gap-0">
         <div className="anim-fade-up col-span-2 sm:col-span-1 xl:pr-8" style={d(1300)}>
           <h1 className="text-xl leading-tight md:text-2xl">
-            Builder &amp;
+            Diversity Leadership
             <br />
-            <span className="font-display text-3xl italic md:text-4xl">marketer</span>
+            <span className="font-display text-3xl italic md:text-4xl">Scholar</span> at Babson
+            College
           </h1>
           <a
             href={`mailto:${site.email}`}
