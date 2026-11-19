@@ -21,6 +21,7 @@ const description =
   "Elizabeth Tran is a builder at Babson College who turns messy user problems into shipped AI products.";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://elizabeth-tran-portfolio-one.vercel.app"),
   title: "Elizabeth Tran — Builder & Operator",
   description,
   authors: [{ name: "Elizabeth Tran" }],

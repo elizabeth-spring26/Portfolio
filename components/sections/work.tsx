@@ -6,7 +6,7 @@ import { FadeUp } from "@/components/ui/fade-up";
 import { CashCard } from "@/components/ui/cash-card";
 
 function Row({ project, index }: { project: Project; index: number }) {
-  const { slug, title, italic, tags, status, lines, image, visual } = project;
+  const { slug, title, italic, tags, status, summary, lines, image, visual } = project;
 
   return (
     <FadeUp>
@@ -46,6 +46,11 @@ function Row({ project, index }: { project: Project; index: number }) {
           )}
         </div>
 
+        {summary && (
+          <p className="text-lg leading-relaxed text-cream/90 md:col-span-6 md:pt-2">{summary}</p>
+        )}
+
+        {lines.length > 0 && (
         <dl className="space-y-4 md:col-span-6">
           {lines.map((l) => (
             <div key={l.label}>
@@ -54,6 +59,7 @@ function Row({ project, index }: { project: Project; index: number }) {
             </div>
           ))}
         </dl>
+        )}
       </article>
     </FadeUp>
   );

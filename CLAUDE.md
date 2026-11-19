@@ -70,9 +70,18 @@ to read case studies that prove it.
   immersed look over a framed photo). Meta grid, rule, and footer strip sit at
   the bottom over a fade; only her darkened lower body sits behind text, and her
   face must stay clear above it at every size.
-- Meta grid: Builder & *operator* / What I do / (empty column, keeps her photo
-  clear) / Recently (Recently only at `lg`). Toolkit was removed at her request.
-  Keep this text short. Recently keeps its three original lines.
+- Meta grid: "Product, growth & *partnerships*" + credentials line
+  ("Partnerships Lead at The Generator · Babson '28 · New York, NY"), What I do
+  (+ "Get in touch →" mailto), Recently (Recently only at `lg`). Toolkit was
+  removed at her request. From `xl` the row is **framed on the photo**: a
+  `1fr / 54vh / 1fr` grid whose middle track is the visible width of the
+  feathered portrait. What I do stacks under the heading at `lg`/`xl` so nothing
+  crosses the photo; only at `2xl` does it sit beside the heading.
+  On phones the portrait is shorter and lifted (`h-[62vh] -translate-y-[18vh]`)
+  and the bottom fade is taller, so her face stays clear of the text.
+  Keep this text short. Recently lines are the ones she wrote (Nov 2026).
+  Footer strip right side: "Business · Technology Entrepreneurship" only (the
+  "Babson College '28" line was dropped as redundant with the credentials line).
 - Entrance: CSS `anim-*` classes with a `--d` delay variable. All collapse under
   `prefers-reduced-motion`, and the marquees stop.
 
@@ -102,8 +111,10 @@ to read case studies that prove it.
   requests mean colours and aesthetic only.
 - **Verified facts only.** Do not invent metrics, insights, decisions, results,
   attendance numbers, or case study sections. Empty is better than made up.
-  Projects pending her details: Roots AI, the law firm lead-screening workflow,
-  Moonshot, the Lexi healthcare research. Add them only with real content.
+  Projects pending her details (add them only with real content): Roots AI,
+  Moonshot, the Lexi healthcare research. The law firm project is live at `/work/law-firm-intake` with her
+  exact copy (`writeup` in `projects.ts`); never name the firm or any person,
+  and screenshots must use fake sample data only.
 - She studies **Business with a concentration in Technology Entrepreneurship**
   (Babson '28). Her client work is **not** "a business" and not "a consulting
   practice". Say she built AI workflows for two paying clients.
@@ -119,6 +130,10 @@ to read case studies that prove it.
   via warm intro outreach, schools via outreach around Boston),
   **6 different bank accounts** on the Daily Cash Agent (never "6 accounts
   unified"), **3 sponsors** (Anthropic, GitHub, Cursor).
+- The hero "Recently" numbers are also correct and not a conflict: **3M+ views**
+  is the total across platforms (2M+ is TikTok alone), and the lab had more
+  than three sponsors, so "(Anthropic, OpenAI, Cursor, GitHub)" is accurate.
+  Don't "fix" either one to match the lines above.
 - The Daily Cash Agent was not built for a fuels company. David's own title
   ("Co-founder, Metal Fuels") stays on his testimonial attribution only.
 - Testimonial quotes are **verbatim**. Do not fix grammar, shorten, or add new

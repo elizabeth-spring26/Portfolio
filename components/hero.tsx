@@ -1,9 +1,10 @@
 import Image from "next/image";
+import { site } from "@/content/site";
 
 const recently = [
-  "Shipped an AI cash agent a client uses every morning",
-  "Designed a lead-screening workflow for a law firm",
-  "Leading user research on healthcare language barriers in Vietnam",
+  "Exploring AI voice restoration in Vietnam",
+  "Helped three startups reach 3,000+ users and 3M+ views on TikTok",
+  "Running partnerships for Babson's AI lab (Anthropic, OpenAI, Cursor, GitHub)",
 ];
 
 const d = (ms: number) => ({ "--d": `${ms}ms` }) as React.CSSProperties;
@@ -46,7 +47,7 @@ export function Hero() {
       </div>
 
       {/* Portrait: large, centred, feathered into the ground */}
-      <div className="pointer-events-none absolute bottom-0 left-1/2 z-20 h-[75vh] -translate-x-1/2 lg:h-[90vh]">
+      <div className="pointer-events-none absolute bottom-0 left-1/2 z-20 h-[62vh] -translate-x-1/2 -translate-y-[18vh] sm:h-[75vh] sm:translate-y-0 lg:h-[90vh]">
         <div
           className="anim-rise-in relative h-full"
           style={{ aspectRatio: "3 / 4", WebkitMaskImage: FEATHER, maskImage: FEATHER }}
@@ -65,37 +66,57 @@ export function Hero() {
 
       {/* Fade under the text so it stays readable over the photo */}
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-[25] h-[42%] bg-gradient-to-t from-ink via-ink/85 to-transparent"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[25] h-[60%] bg-gradient-to-t from-ink from-35% via-ink/90 to-transparent sm:h-[42%] sm:from-0% sm:via-ink/85"
         aria-hidden="true"
       />
 
       {/* Pushes the text block to the bottom */}
       <div className="flex-1" aria-hidden="true" />
 
-      {/* Meta grid */}
-      <div className="relative z-30 grid grid-cols-2 gap-6 px-6 pb-6 sm:px-10 lg:grid-cols-4 lg:gap-8">
-        <h1 className="anim-fade-up text-xl leading-tight md:text-2xl" style={d(1300)}>
-          Builder &amp;
-          <br />
-          <span className="font-display text-3xl italic md:text-4xl">operator</span>
-        </h1>
+      {/* Meta grid. From xl it is framed on the photo: the middle track is the
+          visible (unfeathered) width of the portrait, 80% of its 67.5vh box, so
+          "What I do" and "Recently" sit at equal widths and equal gaps either
+          side of her. */}
+      <div className="relative z-30 grid grid-cols-2 gap-6 px-6 pb-6 sm:px-10 lg:grid-cols-4 lg:gap-8 xl:grid-cols-[minmax(0,1fr)_54vh_minmax(0,1fr)] xl:gap-0">
+        {/* Mobile: dissolves into the grid. lg/xl: "What I do" stacks under the
+            heading so nothing crosses the photo. 2xl: side by side in the left frame. */}
+        <div className="contents lg:block xl:pr-8 2xl:flex 2xl:items-start 2xl:justify-between 2xl:gap-8">
+          <div className="anim-fade-up col-span-2 shrink-0 sm:col-span-1" style={d(1300)}>
+            <h1 className="text-xl leading-tight md:text-2xl">
+              Product, growth &amp;
+              <br />
+              <span className="font-display text-3xl italic md:text-4xl">partnerships</span>
+            </h1>
+            <p className="mt-3 max-w-[240px] text-xs leading-relaxed text-cream/70">
+              Partnerships Lead at The Generator · Babson &rsquo;28 · New York, NY
+            </p>
+          </div>
 
-        <div className="anim-fade-up" style={d(1400)}>
-          <p className="label mb-2 text-muted">What I do</p>
-          <p className="max-w-[240px] text-sm text-cream/90">
-            I talk to people, find the real problem, and build what fixes it, utilizing AI.
-          </p>
+          <div className="anim-fade-up col-span-2 sm:col-span-1 lg:mt-6 2xl:mt-0 2xl:min-w-0 2xl:max-w-[300px] 2xl:flex-1" style={d(1400)}>
+            <p className="label mb-2 text-muted">What I do</p>
+            <p className="max-w-[300px] text-sm text-cream/90">
+              I talk to people, figure out what&rsquo;s actually broken, and fix it. Sometimes
+              that&rsquo;s a product. Sometimes it&rsquo;s a campaign or a partnership.
+            </p>
+            <a
+              href={`mailto:${site.email}`}
+              className="mt-3 inline-block text-sm text-cream underline decoration-cream/40 underline-offset-4 transition-opacity duration-300 hover:opacity-60"
+            >
+              Get in touch →
+            </a>
+          </div>
         </div>
 
-        <div className="anim-fade-up hidden lg:col-start-4 lg:block" style={d(1500)}>
-          <p className="label mb-2 text-muted">Recently</p>
-          <ul className="space-y-0.5 text-sm text-cream/90">
-            {recently.map((r) => (
-              <li key={r}>{r}</li>
-            ))}
-          </ul>
+        <div className="hidden lg:col-start-4 lg:block xl:col-start-3 xl:flex xl:pl-8">
+          <div className="anim-fade-up xl:w-[min(300px,calc(100%-2rem))]" style={d(1500)}>
+            <p className="label mb-2 text-muted">Recently</p>
+            <ul className="space-y-0.5 text-sm text-cream/90">
+              {recently.map((r) => (
+                <li key={r}>{r}</li>
+              ))}
+            </ul>
+          </div>
         </div>
-
       </div>
 
       {/* Cream rule */}
@@ -111,8 +132,6 @@ export function Hero() {
           See my work ↓
         </a>
         <p className="anim-fade-up text-right text-cream/70" style={d(1600)}>
-          Babson College &rsquo;28
-          <br />
           Business · Technology Entrepreneurship
         </p>
       </div>
