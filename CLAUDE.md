@@ -110,12 +110,15 @@ to read case studies that prove it.
   attendance numbers, or case study sections. Empty is better than made up.
   Projects pending her details (add them only with real content): Roots AI,
   Moonshot, the Lexi healthcare research. The law firm project is live at `/work/law-firm-intake` with her
-  exact copy (`writeup` in `projects.ts`); never name the firm or any person,
+  exact copy (`writeup` in `projects.ts`). The firm is named **Greene and Hafer**
+  (Boston, MA), as she asked (Nov 2026); never name any individual person there,
   and screenshots must use fake sample data only. No "Screenshot to come"
   placeholders: she finds them unprofessional, so screenshots without a `src` are
   hidden until she supplies real ones.
-- She studies **Business with a concentration in Technology Entrepreneurship**
-  (Babson '28). Her client work is **not** "a business" and not "a consulting
+- She is earning a **Bachelor of Science in Business Administration with a
+  concentration in Applied AI** (Babson '28). The hero footer says
+  "Business · Applied AI"; About uses the full degree. Never "Technology
+  Entrepreneurship". Her client work is **not** "a business" and not "a consulting
   practice". Say she built AI workflows for two paying clients.
 - No availability line ("Open to Summer 2027 …") anywhere. She removed it.
 - She is **Partnerships Lead** at The Generator (Babson's AI lab) and Student
@@ -132,9 +135,13 @@ to read case studies that prove it.
 - The hero "Recently" numbers are also correct and not a conflict: **3M+ views**
   is the total across platforms (2M+ is TikTok alone), and the lab had more
   than three sponsors, so "(Anthropic, OpenAI, Cursor, GitHub)" is accurate.
+  That line reads "Running partnerships at Babson's AI Lab, The Generator
+  (Anthropic, OpenAI, Cursor, GitHub)" (parentheses, no "with").
   Don't "fix" either one to match the lines above.
 - The Daily Cash Agent was not built for a fuels company. David's own title
-  ("Co-founder, Metal Fuels") stays on his testimonial attribution only.
+  ("Co-founder, Metal Fuels") stays on his testimonial attribution only. He is
+  named in full as **David Reinfeld**: his testimonial name links to his
+  LinkedIn, and the project meta reads "2026 · Client project for David Reinfeld".
 - Testimonial quotes are **verbatim**. Do not fix grammar, shorten, or add new
   ones. Brandon's "venture too" and missing terminal period are intentional.
 - No "Thinking" section until a real article exists. No resume links until

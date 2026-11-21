@@ -29,8 +29,8 @@ export function AboutSection() {
           <h2 className="mt-5 font-display text-5xl italic tracking-tight md:text-6xl">About</h2>
           <div className="mt-8 space-y-5 leading-relaxed text-cream/85">
             <p>
-              I&apos;m a junior at Babson studying Business with a concentration in Technology
-              Entrepreneurship. I&apos;m Partnerships Lead at The Generator, Babson&apos;s AI lab,
+              I&apos;m a junior at Babson earning a Bachelor of Science in Business
+              Administration with a concentration in Applied AI. I&apos;m Partnerships Lead at The Generator, Babson&apos;s AI lab,
               and Student Lead for the AI &amp; Small Business Bootcamp (G1000 Program).
             </p>
             <p>

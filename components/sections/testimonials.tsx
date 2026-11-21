@@ -61,12 +61,37 @@ function Lightbox({ onClose }: { onClose: () => void }) {
   );
 }
 
-function Attribution({ src, name, meta }: { src: string; name: string; meta: string }) {
+function Attribution({
+  src,
+  name,
+  meta,
+  href,
+}: {
+  src: string;
+  name: string;
+  meta: string;
+  href?: string;
+}) {
   return (
     <figcaption className="mt-8 flex items-center gap-3">
       <Image src={src} alt={name} width={44} height={44} className="h-10 w-10 rounded-full object-cover" />
       <div>
-        <cite className="block text-sm not-italic">{name}</cite>
+        <cite className="block text-sm not-italic">
+          {href ? (
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 transition-opacity duration-300 hover:opacity-60"
+            >
+              {name}
+              <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
+              <span className="sr-only">(LinkedIn, opens in a new tab)</span>
+            </a>
+          ) : (
+            name
+          )}
+        </cite>
         <span className="label text-[10px] text-muted">{meta}</span>
       </div>
     </figcaption>
@@ -141,7 +166,8 @@ export function TestimonialsSection() {
 
               <Attribution
                 src="/testimonials/david.png"
-                name="David"
+                name="David Reinfeld"
+                href="https://www.linkedin.com/in/david-reinfeld-ab41064/"
                 meta="Co-founder, Metal Fuels · Boston, MA"
               />
             </figure>

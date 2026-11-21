@@ -4,7 +4,7 @@ import { site } from "@/content/site";
 const recently = [
   "Exploring AI voice restoration in Vietnam",
   "Helped three startups reach 3,000+ users and 3M+ views on TikTok",
-  "Running partnerships for Babson's AI lab (Anthropic, OpenAI, Cursor, GitHub)",
+  "Running partnerships at Babson's AI Lab, The Generator (Anthropic, OpenAI, Cursor, GitHub)",
 ];
 
 const d = (ms: number) => ({ "--d": `${ms}ms` }) as React.CSSProperties;
@@ -119,7 +119,7 @@ export function Hero() {
         <p className="anim-fade-up text-right text-cream/70" style={d(1600)}>
           Babson College &rsquo;28
           <br />
-          Business · Technology Entrepreneurship
+          Business · Applied AI
         </p>
       </div>
     </section>

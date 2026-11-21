@@ -65,18 +65,18 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    // Never name the firm or any person anywhere in this entry.
+    // The firm may be named. Never name any individual person in this entry.
     slug: "law-firm-intake",
-    title: "AI Intake Tool for a Law Firm",
+    title: "AI Intake Tool for Greene and Hafer",
     italic: "Intake",
     tags: ["Process mapping", "Claude API", "Client project"],
     status: "In testing",
-    meta: "",
+    meta: "Client project · Boston, MA",
     tldr: "A screening form and dashboard for a three-attorney employment law firm",
     summary:
       "A screening form and dashboard that sorts 15–20 weekly inquiries for a three-attorney firm",
     lines: [],
-    metaTitle: "AI Intake Tool for a Law Firm | Elizabeth Tran",
+    metaTitle: "AI Intake Tool for Greene and Hafer | Elizabeth Tran",
     writeup: {
       sections: [
         {
@@ -128,7 +128,7 @@ export const projects: Project[] = [
     italic: "Cash",
     tags: ["AI Agent", "Plaid", "Fintech"],
     status: "Shipped",
-    meta: "2026 · Client project",
+    meta: "2026 · Client project for David Reinfeld",
     tldr: "One morning message replaces checking 6 different bank accounts by hand.",
     lines: [
       {
