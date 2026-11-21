@@ -2,7 +2,7 @@ import Image from "next/image";
 import { site } from "@/content/site";
 
 const recently = [
-  "Exploring AI voice restoration in Vietnam",
+  "Exploring voice restoration in Vietnam as a research project",
   "Helped three startups reach 3,000+ users and 3M+ views on TikTok",
   "Running partnerships at Babson's AI Lab, The Generator (Anthropic, OpenAI, Cursor, GitHub)",
 ];
